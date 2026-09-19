@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#1F4A8F">
+<title>دفتر | نظام المحاسبة المحلي</title>
+
+
+<meta name="daftar-standalone" content="1"><style>:root{--green:#17634b;--green-dark:#123e32;--mint:#eaf4ee;--text:#233d35;--muted:#89938f;--line:#e9eeeb;--bg:#f6f8f7;--orange:#c58b4b;--red:#c87765;--radius:13px}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',sans-serif;font-size:14px}button,input,select,textarea{font:inherit}button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}button{cursor:pointer}a{color:inherit;text-decoration:none}button{transition:background .18s,transform .18s}button:hover{filter:brightness(.97)}button:active{transform:translateY(1px)}button:disabled{opacity:.5;cursor:wait}svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;flex-shrink:0}h1,h2,h3,p{margin:0}button:focus-visible,a:focus-visible{outline:3px solid #83bba3;outline-offset:3px}.sidebar{position:fixed;right:0;top:0;bottom:0;width:246px;background:var(--green-dark);color:#dce8e0;padding:34px 20px 0;display:flex;flex-direction:column;z-index:30}.brand{display:flex;align-items:center;gap:12px;padding:0 14px}.brand-symbol{height:47px;width:43px;border:1px solid #80b79a;border-radius:12px 12px 4px 12px;color:#cdf7cc;font-size:37px;line-height:42px;text-align:center;background:#ffffff06}.brand strong{display:block;color:#fff;font-size:31px;line-height:1.25;font-weight:600}.brand small{font-size:10px;color:#a6bdb1}.workspace{margin:31px 0 29px;background:#ffffff06;border:1px solid #ffffff10;border-radius:9px;padding:12px 10px;display:flex;gap:9px;align-items:center}.workspace-avatar{background:#315748;border-radius:7px;width:32px;height:34px;display:grid;place-items:center;color:#d1e8b8}.workspace strong{font-size:11px;font-weight:500;display:block}.workspace small{font-size:10px;display:block;color:#9db8aa;margin-top:4px}.workspace-lock{margin-right:auto;color:#87a595}.workspace-lock svg{width:15px}.status-dot{width:6px;height:6px;display:inline-block;border-radius:50%;background:#79b890;vertical-align:middle;margin-left:5px}.nav-label{font-size:10px;color:#91aa9d;padding:0 13px;margin:10px 0}.sidebar nav>a{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:7px;margin:5px 0;font-size:13px;color:#bad0c4}.sidebar nav>a.active{background:#2a5845;color:#edfadf;box-shadow:inset -3px 0 #bce5a7}.sidebar nav>a:hover{background:#ffffff0b}.sidebar nav>a.active svg{color:#c1e7a9}.nav-pill{margin-right:auto;font-size:9px;background:#365749;color:#c1d3c5;padding:1px 7px;border-radius:4px}.sidebar nav .nav-label{margin-top:29px}.sidebar-bottom{margin-top:auto;padding-top:35px}.backup-card{padding:17px;background:linear-gradient(135deg,#28533f,#214937);border:1px solid #4d705746;border-radius:10px}.backup-card>span{display:block;color:#c7e5af;margin-bottom:10px}.backup-card strong{font-size:12px;font-weight:500;color:#e4f0de}.backup-card p{font-size:10px;line-height:1.9;color:#aac2b3;margin:7px 0 13px}.backup-card button{background:#ffffff09;border:1px solid #ffffff21;border-radius:5px;color:#dcebd4;font-size:10px;padding:7px;width:100%;display:flex;justify-content:space-between;align-items:center}.backup-card button svg{width:14px;height:14px}.sidebar-footer{display:flex;align-items:center;gap:7px;padding:21px 0;color:#83a08f;font-size:9px}.sidebar-footer small{margin-right:auto;font-family:Arial;font-size:9px}.tiny-logo{border:1px solid #658473;border-radius:4px;width:20px;text-align:center;font-size:17px;line-height:20px}.app-shell{margin-right:246px}.topbar{height:77px;background:#fff;border-bottom:1px solid var(--line);padding:0 36px;display:flex;justify-content:space-between;align-items:center}.breadcrumb{display:flex;gap:17px;font-size:11px;align-items:center;color:var(--muted)}.breadcrumb strong{font-weight:500;color:#4c5d54}.breadcrumb-slash{color:#c5ccc7}.topbar-end{display:flex;gap:11px;align-items:center;font-size:11px}.local-badge{font-size:10px;background:#f4f8f4;padding:5px 9px;border-radius:20px;color:#61846b}.topbar-divider{height:23px;border-right:1px solid var(--line);margin:0 6px}.profile-avatar{height:32px;width:32px;border:1px solid #e0e9db;background:#edf3e8;color:#70885a;border-radius:50%;display:grid;place-items:center;font-size:13px}.profile-label{color:#5c6a62}main{max-width:1500px;margin:auto;padding:32px 36px 0}.page-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:0 0 27px}.eyebrow{font-size:10px;color:#829384;letter-spacing:.2px;margin-bottom:5px}h1{font-size:26px;font-weight:600;letter-spacing:-.7px;line-height:1.5}.page-heading p{color:var(--muted);font-size:11px;margin-top:6px}.heading-actions{display:flex;gap:9px}.button{border:1px solid transparent;border-radius:7px;padding:10px 14px;font-weight:500;font-size:11px;display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;min-height:39px}.button svg{width:16px;height:16px}.primary{background:var(--green);color:#fff;box-shadow:0 3px 5px #184e3410}.secondary{background:#fff;border-color:#dde5df;color:#53675c}.filter-toolbar{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 15px;margin-bottom:22px}.period-label{display:flex;align-items:center;gap:10px;font-size:11px}.period-label strong{font-weight:500}.period-label .muted{font-size:10px;border-right:1px solid var(--line);padding-right:11px;margin-right:5px}.period-icon{color:#71887c}.period-icon svg{width:17px}.muted{color:var(--muted)}.month-control{display:flex;align-items:center;gap:4px;background:#f8faf8;border:1px solid var(--line);border-radius:6px;height:34px}.icon-button{background:transparent;border:0;display:inline-flex;align-items:center;justify-content:center;padding:6px;color:#819487;border-radius:5px}.icon-button svg{width:17px;height:17px}.month-control input{border:0!important;background:transparent!important;width:145px;font-size:11px!important;padding:4px!important;color:#485e50;direction:rtl}.mobile-menu{display:none}.currency-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-bottom:22px}.currency-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 19px 15px;position:relative;overflow:hidden}.currency-card:first-child{border-top:3px solid #83a685;padding-top:16px}.currency-heading{display:flex;align-items:center;gap:9px}.currency-mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid #e4ece3;background:#f0f5ed;border-radius:50%;color:#5c7852;font-family:Arial,sans-serif;font-size:18px}.currency-mark.try{color:#a47f54;background:#faf5ec;border-color:#f1e6d7}.currency-mark.syp{color:#758ca0;background:#f0f4f8;border-color:#e6edf3;font-family:inherit;font-size:11px}.currency-heading h2{font-size:12px;font-weight:500}.currency-code{font-size:9px;color:var(--muted);letter-spacing:1px;font-family:Arial;margin-top:4px}.currency-tag{margin-right:auto;border:1px solid var(--line);border-radius:4px;color:#8a978b;font-size:9px;padding:2px 6px}.balance-label{color:#8d978f;font-size:10px;margin-top:20px}.balance-amount{font-family:Arial,sans-serif;font-size:30px;font-weight:600;letter-spacing:-1px;direction:ltr;text-align:right;margin:7px 0 18px;color:#284b3a;white-space:nowrap}.balance-amount small{font-size:12px;font-weight:400;color:#94a197;letter-spacing:0;margin-left:6px}.currency-stats{border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;padding-top:12px;gap:10px}.stat-label{font-size:9px;color:#839086;display:flex;align-items:center;gap:4px}.stat-label svg{width:12px;height:12px}.positive{color:#518568}.negative{color:#c08270}.stat-number{font-size:13px;font-family:Arial;margin-top:7px;color:#415a49;direction:ltr;text-align:right;font-weight:500}.currency-stats>div+div{border-right:1px solid var(--line);padding-right:15px}.analytics-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:20px;margin-bottom:22px}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}.panel-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;gap:10px}.panel-title{font-size:13px;font-weight:600}.panel-subtitle{color:var(--muted);font-size:10px;margin-top:3px}.mini-select{border:1px solid var(--line);padding:5px 8px;border-radius:5px;background:#fff;color:#6e8073;font-size:10px;max-width:145px}.chart-legend{display:flex;gap:17px;font-size:9px;color:#839084;padding:0 21px}.legend-square{display:inline-block;width:7px;height:7px;border-radius:2px;margin-left:4px;background:#52876c}.legend-square.expense{background:#d9bb91}.bar-chart{position:relative;height:172px;margin:18px 20px 0 25px;direction:ltr;padding-left:28px}.chart-grid{position:absolute;inset:0 0 25px 28px;display:flex;flex-direction:column;justify-content:space-between}.chart-grid div{border-top:1px dashed #e9eeea;position:relative}.chart-grid span{position:absolute;right:calc(100% + 7px);top:-6px;font-size:8px;color:#a1aaa3;font-family:Arial}.chart-bars{height:100%;display:flex;justify-content:space-around;align-items:flex-end;position:relative;gap:10px}.bar-group{height:100%;flex:1;display:flex;gap:4px;align-items:flex-end;justify-content:center;padding-bottom:25px;position:relative}.bar{background:#5f8c73;border-radius:3px 3px 0 0;width:16px;min-height:2px;max-width:30%;transition:height .3s}.bar.expense{background:#dcc5a3}.bar-group>span{position:absolute;bottom:2px;font-size:9px;color:#88998e;white-space:nowrap}.chart-caption{font-size:9px;text-align:center;color:#99a69d;padding:12px 10px;border-top:1px solid #f2f5f2;margin-top:10px}.donut-layout{display:flex;align-items:center;gap:22px;padding:9px 20px 24px;min-height:193px}.donut{flex-shrink:0;width:137px;height:137px;border-radius:50%;background:#eff3ed;display:grid;place-items:center;position:relative}.donut:before{content:'';position:absolute;inset:17px;background:white;border-radius:50%}.donut-center{position:relative;text-align:center}.donut-center strong{font-size:23px;font-family:Arial;display:block;font-weight:500}.donut-center small{font-size:9px;color:#9ba598}.donut-legend{flex:1;min-width:0}.donut-legend li{list-style:none;display:flex;align-items:center;font-size:9px;margin:12px 0;gap:6px}.donut-legend li b{font-weight:400;margin-right:auto;color:#99a497;font-family:Arial}.legend-dot{width:6px;height:6px;border-radius:2px;flex-shrink:0}.text-link{color:#65816c;font-size:10px;display:inline-flex;align-items:center;gap:5px}.text-link svg{width:13px;height:13px}.table-scroll{overflow:auto}table{width:100%;border-collapse:collapse;text-align:right;white-space:nowrap}th{background:#fafbf9;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:#8b978d;font-size:10px;font-weight:400;padding:11px 20px}td{padding:14px 20px;border-bottom:1px solid #f0f3ee;font-size:11px}tbody tr:last-child td{border-bottom:0}.record-title{font-weight:500;color:#4e6554;max-width:200px;overflow:hidden;text-overflow:ellipsis}.record-sub{display:block;font-size:9px;color:#96a296;font-weight:400;margin-top:3px}.type-chip{font-size:9px;padding:3px 9px;border-radius:4px;background:#edf6ef;color:#5b8767}.type-chip.expense{background:#fbf0e9;color:#b88865}.money{font-family:Arial;direction:ltr;display:inline-block;font-size:12px}.table-actions{display:flex;gap:3px}.empty-state{padding:26px 20px 31px;text-align:center}.empty-icon{display:grid;place-items:center;width:42px;height:42px;margin:0 auto 9px;background:#f0f5ee;border-radius:11px;color:#839d78}.empty-state h3{font-size:12px;font-weight:500;margin-bottom:4px}.empty-state p{font-size:10px;color:#95a08f}.empty-state .button{margin-top:13px;padding:6px 12px;min-height:32px;font-size:10px}.table-footer{border-top:1px solid var(--line);padding:11px 20px;display:flex;justify-content:space-between;color:#9aa595;font-size:9px}.info-banner{margin:19px 0 0;display:flex;align-items:center;gap:10px;border:1px solid #e2eadd;background:#eff4e9;padding:12px 15px;border-radius:7px;color:#7b896b;font-size:10px}.info-banner svg{width:17px;color:#869872}.info-banner strong{color:#637951;font-weight:500}.info-banner button{margin-right:auto;border:0;background:none;color:#607850;font-size:10px;white-space:nowrap}.page-footer{margin-top:26px;border-top:1px solid #e4ebe2;padding:16px 0;display:flex;justify-content:space-between;font-size:9px;color:#9da798;gap:15px}.search-tools{display:flex;gap:9px;padding:0 20px 17px;flex-wrap:wrap}.search-input{flex:1;min-width:180px;max-width:320px}.search-tools input,.search-tools select{font-size:11px;border:1px solid var(--line);background:#fcfdfb;border-radius:6px;padding:8px 10px;color:#5e7463}.totals-caption{font-size:10px;color:#a0a995;margin-bottom:15px}.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.settings-panel{padding:22px}.settings-panel h2{font-size:15px;margin-bottom:7px}.settings-panel>p{font-size:11px;color:var(--muted);line-height:1.8;margin-bottom:20px}.settings-panel label{margin-bottom:14px}.settings-panel .button{margin-top:6px}.category-list{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 20px}.category-chip{border:1px solid var(--line);background:#f6f8f4;padding:5px 9px;border-radius:5px;font-size:10px;color:#668066;cursor:pointer}.settings-panel h3{font-size:12px;margin-top:15px}.inline-form{display:flex;gap:8px}.inline-form input{min-width:0}.inline-form button{margin:0!important}.backup-notice{padding:13px;border-radius:6px;background:#faf5ea;font-size:11px;color:#9f865d;line-height:1.9;margin-bottom:17px}.settings-full{grid-column:1/-1}.history-list{padding:0 20px}.history-item{padding:16px 0;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}.history-item>span{background:#f1f5ed;padding:8px;border-radius:8px;color:#719060}.history-item h3{font-size:12px;font-weight:500}.history-item p{font-size:10px;color:var(--muted);margin-top:4px}.history-item time{font-size:9px;color:#95a18e;margin-right:auto;white-space:nowrap}.history-item details{font-size:10px;color:#60795e;margin-top:8px}.history-item pre{white-space:pre-wrap;word-break:break-word;direction:rtl;font-family:inherit;max-width:500px;font-size:10px}.loading-panel{background:#fff;border-radius:12px;text-align:center;padding:70px;color:#8b9c83}.error-panel{padding:25px;border:1px solid #e6c7b5;background:#fff8f2;line-height:2;color:#995f46;border-radius:10px}dialog{border:1px solid var(--line);border-radius:16px;padding:0;color:var(--text);width:min(640px,calc(100% - 30px));max-height:90vh;box-shadow:0 30px 120px #112d3033}dialog::backdrop{background:#102b275e;backdrop-filter:blur(3px)}.dialog-header{display:flex;align-items:center;justify-content:space-between;padding:21px 25px;border-bottom:1px solid var(--line)}.dialog-header h2{font-size:20px;font-weight:600}.dialog-body{padding:23px 25px}.dialog-footer{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);padding:17px 25px;background:#fafcf9}.dialog-footer>span{margin-left:auto;color:#899b80;font-size:9px}.dialog-footer>span svg{width:13px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}.full-width{grid-column:1/-1}label{font-size:11px;font-weight:500;display:block}label input,label select,label textarea,.settings-panel input{display:block;width:100%;border:1px solid #dfe7dc;border-radius:7px;background:#fcfdfb;padding:10px 12px;outline:0;font-size:12px;color:#3b5640;margin-top:6px}input:focus,select:focus,textarea:focus{border-color:#83a57b;box-shadow:0 0 0 3px #83a57b15}textarea{resize:vertical}input[type=date]{min-height:40px}.optional{font-size:10px;color:#96a18c;font-weight:400}.upload-area{border:1px dashed #bbcdb1;background:#f9fbf6;border-radius:8px;padding:19px;display:flex;flex-direction:column;align-items:center;gap:7px;margin-top:21px;color:#92a47d;cursor:pointer;text-align:center}.upload-area strong{font-size:11px;color:#728562;font-weight:500}.upload-area span{font-size:9px}.upload-area input{font-size:10px;width:auto;max-width:100%;border:0;background:transparent;padding:0}.photo-preview{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.photo-preview img{width:66px;height:66px;object-fit:cover;border-radius:6px;border:1px solid var(--line)}#photo-section>small{font-size:9px}.form-error{font-size:11px;color:#b56a51;line-height:1.8;margin-top:10px}.toast{position:fixed;bottom:25px;left:25px;max-width:calc(100% - 50px);padding:13px 22px;border-radius:9px;background:#1c513d;color:#fff;font-size:12px;z-index:100;box-shadow:0 5px 30px #183c3422;opacity:0;transform:translateY(20px);transition:.25s;pointer-events:none}.toast.visible{opacity:1;transform:translateY(0)}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.detail-grid dt{font-size:10px;color:var(--muted)}.detail-grid dd{margin:5px 0;font-size:14px;overflow-wrap:anywhere}.attachment-gallery{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.attachment-gallery a{width:110px;height:110px}.attachment-gallery img{width:100%;height:100%;object-fit:cover;border-radius:7px}.notes-display{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9}.report-summary{padding:18px 20px;background:#f9fbf7;color:#7a8e71;font-size:11px;line-height:1.9}.sidebar-overlay{display:none}@media(min-width:1450px){.donut-layout{justify-content:center;gap:35px}.donut{width:156px;height:156px}.donut-legend{max-width:160px}.bar-chart{height:193px}.donut-layout{min-height:214px}}@media(max-width:1150px){.sidebar{width:218px;padding-right:15px;padding-left:15px}.app-shell{margin-right:218px}main{padding:25px 23px 0}.topbar{padding:0 23px}.page-heading{align-items:flex-start}h1{font-size:23px}.heading-actions{padding-top:8px}.button{padding:9px 11px}.desktop-only{display:none}.currency-card{padding:16px 14px 14px}.balance-amount{font-size:26px}.analytics-grid{grid-template-columns:1.4fr 1fr}.donut-layout{flex-direction:column;gap:4px;padding:5px 15px 12px}.donut{width:115px;height:115px}.donut:before{inset:14px}.donut-legend{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:0 15px}.donut-legend li{margin:5px 0}.bar-chart{height:196px}.currency-tag{display:none}.page-footer{font-size:8px}.sidebar-footer{font-size:8px}}@media(max-width:850px){.sidebar{transform:translateX(100%);transition:transform .25s;width:246px}.sidebar.open{transform:translateX(0)}.sidebar-overlay.visible{display:block;position:fixed;inset:0;background:#16342766;z-index:29}.app-shell{margin-right:0}.mobile-menu{display:flex}.topbar{height:65px}.page-heading{align-items:center}.settings-grid{gap:14px}.profile-label{display:none}}@media(max-width:600px){main{padding:22px 17px 0}.topbar{padding:0 17px}.breadcrumb{gap:10px;font-size:10px}.topbar-end{gap:7px}.topbar-divider{display:none}.profile-avatar{width:28px;height:28px}.local-badge{font-size:8px;padding:4px 7px}.page-heading{display:block;margin-bottom:19px}h1{font-size:25px}.page-heading p{font-size:11px;line-height:1.8}.heading-actions{margin-top:14px;display:grid;grid-template-columns:1fr 1fr}.heading-actions .primary{grid-column:1;grid-row:1}.button{font-size:11px}.filter-toolbar{padding:9px 10px;margin-bottom:15px}.period-label{gap:6px;font-size:10px}.month-control input{width:121px}.month-control{gap:0}.period-icon svg{width:15px}.icon-button{padding:5px}.currency-cards{gap:10px;grid-template-columns:1fr;margin-bottom:16px}.currency-card{padding:15px 16px;display:grid;grid-template-columns:1fr 1fr;gap:0 10px}.currency-card:first-child{padding-top:13px}.currency-heading{grid-column:1;grid-row:1}.currency-mark{width:30px;height:30px;font-size:16px}.currency-heading h2{font-size:12px}.currency-code{font-size:8px}.balance-label{grid-column:2;grid-row:1;text-align:left;margin:1px 0 0;font-size:9px}.balance-amount{grid-column:2;grid-row:1;text-align:left;margin:19px 0 0;font-size:25px;line-height:1.3}.balance-amount small{font-size:10px}.currency-stats{grid-column:1/-1;margin-top:14px;padding-top:10px;display:flex;gap:0}.currency-stats>div{flex:1;display:flex;gap:10px;align-items:center}.currency-stats>div+div{padding-right:14px}.stat-number{margin:0;font-size:12px;margin-right:auto}.stat-label{font-size:9px;white-space:nowrap}.currency-stats>div:first-child{padding-left:14px}.analytics-grid{grid-template-columns:1fr;gap:15px;margin-bottom:15px}.panel-header{padding:16px}.panel-title{font-size:12px}.bar-chart{height:172px;margin-left:24px;margin-right:17px}.chart-caption{font-size:9px}.donut-layout{flex-direction:row;gap:23px;padding:7px 22px 20px;min-height:154px}.donut{width:122px;height:122px}.donut-legend{display:block}.donut-legend li{margin:13px 0;font-size:10px}.info-banner{align-items:flex-start;line-height:1.9;font-size:9px;gap:8px;padding:11px}.info-banner>span{padding-top:2px}.info-banner button{font-size:9px;align-self:center}.page-footer{flex-direction:column;gap:6px;margin-top:20px;font-size:8px}.settings-grid{grid-template-columns:1fr}.settings-panel{padding:19px}.settings-full{grid-column:auto}.dialog-header{padding:18px}.dialog-body{padding:18px}.dialog-header h2{font-size:19px}.form-grid{gap:14px}.dialog-footer{padding:14px 18px;flex-wrap:wrap}.dialog-footer>span{width:100%;margin-bottom:5px}.dialog-footer>.button{flex:1}.history-item{gap:8px;flex-wrap:wrap}.history-item time{margin-right:46px}.history-item pre{max-width:230px}.search-tools{padding:0 16px 15px}.search-input{max-width:none;width:100%}.search-tools select{flex:1;max-width:100%}.entry-dialog{max-height:94vh}th,td{padding:11px 15px}.detail-grid{gap:15px}}
+
+/* Targeted additions: night mode, clock, multi-currency entry, recoverable deletion. */
+[hidden]{display:none!important}
+.header-datetime{font-family:Arial,sans-serif;font-size:11px;font-variant-numeric:tabular-nums;color:#6e8275;white-space:nowrap;padding:6px 8px;border:1px solid var(--line);border-radius:6px}
+.theme-toggle{font-size:23px;width:33px;height:33px;border:1px solid var(--line);color:var(--green)}
+.income-amounts{border:1px solid var(--line);border-radius:9px;margin:0;padding:15px;background:#f8fbf6;min-width:0}
+.income-amounts legend{font-size:12px;font-weight:500;padding:0 5px}
+.income-currency-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.income-currency-fields label{min-width:0;font-size:10px}
+.income-currency-fields input{padding:10px 8px;font-size:14px}
+.field-help{font-size:10px;color:var(--muted);margin-top:10px;line-height:1.8}
+.danger{background:#fcf0ed;border-color:#ebc8bf;color:#ad5747}.icon-button.danger{background:transparent;border:0;color:#b36d5d}
+.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.deleted-section{padding:18px 20px;border-bottom:1px solid var(--line);background:#fcfaf7}.deleted-section h3{font-size:13px;margin-bottom:8px}.deleted-section p{font-size:10px;color:var(--muted)}
+.deleted-item{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:11px}.deleted-item:last-child{border:0}.deleted-item small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.deleted-item .button{min-height:32px;padding:6px 10px;font-size:10px}
+.record-batch{font-size:9px;color:var(--muted);display:block}
+:root[data-theme="dark"]{color-scheme:dark;--green:#3d9874;--green-dark:#10251d;--mint:#223d2f;--text:#deebe2;--muted:#a1b5a9;--line:#30483b;--bg:#111e1a;--orange:#d4ab78;--red:#e9a18e}
+[data-theme="dark"] :is(.topbar,.filter-toolbar,.currency-card,.panel,dialog,.secondary,.mini-select,.loading-panel){background:#1b2c24;color:var(--text);border-color:var(--line)}
+[data-theme="dark"] :is(.breadcrumb strong,.profile-label,.period-label,.panel-title,.record-title,.stat-number,.balance-amount,.settings-panel h2,.settings-panel h3){color:#d8e9da}
+[data-theme="dark"] :is(.muted,.page-heading p,.panel-subtitle,.balance-label,.stat-label,.currency-code,.chart-legend,.chart-caption,.donut-center small,.donut-legend li b,.table-footer,.page-footer,.text-link,.field-help,.header-datetime,.eyebrow,.record-sub,.optional,.settings-panel>p,.history-item p,.history-item time,.deleted-item small){color:#a1b5a9}
+[data-theme="dark"] :is(.month-control,.local-badge,.profile-avatar,.category-chip,.empty-icon,.history-item>span,.income-amounts,.report-summary,.dialog-footer,.deleted-section,th){background:#21382a;border-color:var(--line);color:#c2d5bf}
+[data-theme="dark"] .month-control input{color:#c2d5bf}
+[data-theme="dark"] :is(label input,label select,label textarea,.settings-panel input,.search-tools input,.search-tools select){background:#14261d;color:#e0ede0;border-color:#3b5946}
+[data-theme="dark"] :is(input,textarea)::placeholder{color:#92a48e}
+[data-theme="dark"] .currency-mark{background:#294432;border-color:#3e5b44;color:#bbd6a7}
+[data-theme="dark"] .currency-mark.try{background:#3c3426;border-color:#574833;color:#e2c18b}
+[data-theme="dark"] .currency-mark.syp{background:#283942;border-color:#3d5360;color:#b5cddf}
+[data-theme="dark"] .donut{background:#304337}[data-theme="dark"] .donut:before{background:#1b2c24}
+[data-theme="dark"] :is(td,.currency-stats,.currency-stats>div+div,.chart-grid div,.chart-caption,.page-footer,.panel,.table-footer,.history-item){border-color:var(--line)}
+[data-theme="dark"] .positive{color:#9bceaa}[data-theme="dark"] .negative{color:#e2a695}
+[data-theme="dark"] .type-chip{background:#2b4833;color:#b4d6ae}[data-theme="dark"] .type-chip.expense{background:#46372b;color:#e4bc95}
+[data-theme="dark"] .info-banner{background:#253b27;border-color:#3d563a;color:#bcccad}[data-theme="dark"] .info-banner :is(strong,button,svg){color:#c3d8ab}
+[data-theme="dark"] .upload-area{background:#1e3222;border-color:#526e47;color:#b3cba3}[data-theme="dark"] .upload-area strong{color:#c2d8b0}
+[data-theme="dark"] .backup-notice{background:#3b3324;color:#dec39c}[data-theme="dark"] .error-panel{background:#3d2923;border-color:#7a4d3b;color:#f0b69c}
+[data-theme="dark"] .danger{background:#442b27;border-color:#74473e;color:#f0b2a1}[data-theme="dark"] .icon-button.danger{background:transparent;color:#f0b2a1}
+[data-theme="dark"] .theme-toggle{color:#e0c78f}[data-theme="dark"] .form-error{color:#f0ac97}[data-theme="dark"] .toast{background:#327151}
+@media(max-width:1150px){.topbar-end{gap:7px}.topbar .profile-label{display:none}.topbar-divider{display:none}}
+@media(max-width:600px){.topbar{height:auto;min-height:92px;flex-wrap:wrap;gap:7px;padding-top:10px;padding-bottom:10px}.topbar .breadcrumb{width:100%;order:0}.topbar-end{width:100%;justify-content:flex-start;gap:8px}.header-datetime{font-size:11px;padding:5px 7px}.topbar-end .profile-avatar{margin-right:auto}.theme-toggle{height:29px;width:29px;font-size:21px}.income-currency-fields{grid-template-columns:1fr;gap:10px}.income-currency-fields label{font-size:11px}.income-amounts{padding:12px}.dialog-footer>.danger{flex-basis:100%}.detail-actions>.button{flex:1}.deleted-item{gap:7px}.deleted-item>div{min-width:0;overflow-wrap:anywhere}}
+
+.maintenance-icon{display:grid;place-items:center;width:39px;height:39px;background:var(--mint);color:var(--green);border-radius:10px;margin-bottom:12px}.maintenance-link{margin:12px 0;display:flex}.maintenance-panel .button{margin-left:5px}.reset-summary{border:1px solid var(--line);border-radius:8px;margin-top:20px;overflow:hidden}.reset-summary h3{font-size:12px;padding:13px 14px 0}.reset-summary>p{padding:5px 14px 12px;font-size:10px;color:var(--muted)}.reset-summary td,.reset-summary th{padding:9px 13px;font-size:11px}.reset-notice{font-size:11px;line-height:1.9;padding:13px;background:#faf5ea;color:#967448;border:1px solid #eee1c8;border-radius:7px;margin:15px 0}.reset-confirm-label{margin-top:19px}.reset-confirm-label input{max-width:260px}[data-theme=dark] .reset-notice{background:#3b3324;color:#dec39c;border-color:#5a4d34}.download-page{max-width:760px;padding:55px 20px;margin:0 auto}.download-page .brand{color:var(--text);display:inline-flex;padding:0;margin-bottom:30px}.download-page .brand strong{color:var(--text)}.download-page .brand-symbol{background:var(--green-dark)}.download-card{padding:30px}.download-card h1{margin-bottom:12px}.download-card p{font-size:13px;line-height:2;color:var(--muted)}.download-features{display:flex;gap:8px;flex-wrap:wrap;margin:21px 0}.download-features span{background:var(--mint);color:var(--green);padding:5px 11px;border-radius:5px;font-size:11px}.download-instructions{padding:0 20px 0 0;font-size:12px;line-height:2.2;color:var(--muted)}.download-actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.download-status{min-height:30px;margin-top:10px}.download-footer{margin-top:20px;font-size:11px;color:var(--muted)}@media(max-width:600px){.download-page{padding:28px 17px}.download-card{padding:21px}.download-card h1{font-size:23px}.download-actions{flex-direction:column}.download-actions .button{width:100%}.maintenance-panel .button{white-space:normal}.reset-summary td,.reset-summary th{padding:9px 10px}.reset-summary h3{line-height:1.8}}
+
+/* Debt register: reuses the existing light/dark accounting components. */
+.debt-summary-card .balance-amount{font-size:27px;overflow:hidden;text-overflow:ellipsis}
+.debt-currency-caption{border-top:1px solid var(--line);padding-top:11px;color:var(--muted);font-size:10px}
+.debts-table .debt-name-cell{white-space:normal;min-width:150px;max-width:260px;overflow-wrap:anywhere}
+.debt-name-cell strong{font-weight:500;font-size:12px}
+.debt-note-preview{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:240px;color:var(--muted);font-size:10px;line-height:1.8;margin-top:3px}
+.debt-row-button{font-size:10px;min-height:31px;padding:6px 8px;gap:4px}
+.debt-row-button svg{width:13px;height:13px}
+#debts-register .search-input{max-width:400px}
+#debt-dialog .income-amounts{margin-top:4px}
+#debt-dialog .dialog-footer{flex-wrap:wrap}
+@media(max-width:600px){.debt-summary-card .balance-amount{font-size:24px}.debt-summary-card .debt-currency-caption{grid-column:1/-1;margin-top:12px;padding-top:9px}.debt-summary-cards{gap:11px}#add-debt{grid-column:1/-1;grid-row:1}#debts-register .panel-header{align-items:flex-start}.debt-name-cell strong{font-size:11px}.debt-row-button{font-size:10px}.debt-summary-card .balance-label{font-size:9px}}
+@media(max-height:850px) and (min-width:851px){.sidebar{overflow-y:auto}}
+
+/* Color-only adaptation of maarefmarket/maarefmarket2.
+   Reference: css/style.css at cead415e1c8c9a8d857f0d739594c45fec49bcdc.
+   No layout, typography, content, storage or accounting behavior is changed. */
+:root, :root[data-theme="light"] {
+  --brand: #2B5FB3;
+  --brand-deep: #1F4A8F;
+  --brand-soft: #E3ECFA;
+  --accent: #F39C1F;
+  --accent-soft: #FDE7C4;
+  --accent-deep: #9A5C06;
+  --surface: #FFFFFF;
+  --elevated: #EAF0FA;
+  --bg: #F4F7FC;
+  --line: #DCE4F2;
+  --text: #1B2333;
+  --muted: #66738A;
+  --on-brand: #FFFFFF;
+  --green: var(--brand);
+  --green-dark: #1F4A8F;
+  --mint: var(--brand-soft);
+  --orange: var(--accent);
+  --red: #DC2626;
+  --paint-negative: #C52222;
+  --paint-positive: #187341;
+  --paint-positive-bg: #EAF6EF;
+  --paint-danger-bg: #FDECEC;
+  --paint-danger-line: #EBC7C7;
+  --sidebar-bg: #1F4A8F;
+  --sidebar-surface: #28579C;
+  --sidebar-active: #3266B8;
+  --sidebar-text: #DBE8FC;
+  --sidebar-muted: #B9CDEE;
+  --paint-shadow: rgba(43,95,179,.12);
+}
+:root[data-theme="dark"] {
+  --brand: #6A9BE8;
+  --brand-deep: #8AB2F0;
+  --brand-soft: #1F2E4D;
+  --accent: #F7AE45;
+  --accent-soft: #3A2C12;
+  --accent-deep: #F7AE45;
+  --surface: #161F32;
+  --elevated: #1C2740;
+  --bg: #0E1523;
+  --line: #2A3752;
+  --text: #E8EEF8;
+  --muted: #97A5BF;
+  --on-brand: #0E1523;
+  --green: var(--brand);
+  --green-dark: #131F36;
+  --mint: var(--brand-soft);
+  --orange: var(--accent);
+  --red: #FCA5A5;
+  --paint-negative: #FCA5A5;
+  --paint-positive: #8BDBA7;
+  --paint-positive-bg: #19372C;
+  --paint-danger-bg: #3D242C;
+  --paint-danger-line: #63404A;
+  --sidebar-bg: #131F36;
+  --sidebar-surface: #1C2D4B;
+  --sidebar-active: #253D65;
+  --sidebar-text: #E1EAFB;
+  --sidebar-muted: #A4B8D9;
+  --paint-shadow: rgba(0,0,0,.35);
+}
+:root body { background-color:var(--bg);color:var(--text) }
+:root ::selection { background:var(--accent);color:#1B2333 }
+:root :is(button,a,input,select,textarea):focus-visible { outline-color:var(--accent) }
+:root .sidebar { background:var(--sidebar-bg);color:var(--sidebar-text) }
+:root .sidebar .brand strong { color:#FFFFFF }
+:root .brand-symbol { border-color:var(--accent);color:var(--accent);background:rgba(255,255,255,.04) }
+:root .sidebar :is(.brand small,.workspace small,.workspace-lock,.nav-label,.sidebar-footer) { color:var(--sidebar-muted) }
+:root .workspace { background:var(--sidebar-surface);border-color:rgba(255,255,255,.12) }
+:root .workspace-avatar { background:var(--sidebar-active);color:#FFE0AC }
+:root .sidebar nav>a { color:var(--sidebar-text) }
+:root .sidebar nav>a:hover { background:var(--sidebar-surface) }
+:root .sidebar nav>a.active { background:var(--sidebar-active);color:#FFFFFF;box-shadow:inset -3px 0 var(--accent) }
+:root .sidebar nav>a.active svg { color:var(--accent) }
+:root .nav-pill { background:var(--sidebar-surface);color:var(--sidebar-text) }
+:root .backup-card { background:linear-gradient(135deg,var(--sidebar-active),var(--sidebar-surface));border-color:rgba(255,255,255,.13) }
+:root .backup-card>span { color:var(--accent) }
+:root .backup-card strong { color:#FFFFFF }
+:root .backup-card p { color:var(--sidebar-muted) }
+:root .backup-card button { background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.22);color:#FFFFFF }
+:root .tiny-logo { border-color:var(--sidebar-muted);color:var(--sidebar-muted) }
+:root .status-dot { background:var(--paint-positive) }
+:root .sidebar .status-dot { background:#88D9AB }
+:root :is(.topbar,.filter-toolbar,.currency-card,.panel,dialog,.secondary,.mini-select,.loading-panel) { background:var(--surface);color:var(--text);border-color:var(--line) }
+:root :is(.breadcrumb strong,.profile-label,.period-label,.panel-title,.record-title,.stat-number,.balance-amount,.settings-panel h2,.settings-panel h3) { color:var(--text) }
+:root :is(.breadcrumb,.muted,.page-heading p,.panel-subtitle,.balance-label,.stat-label,.currency-code,.chart-legend,.chart-caption,.donut-center small,.donut-legend li b,.table-footer,.page-footer,.field-help,.header-datetime,.eyebrow,.record-sub,.optional,.settings-panel>p,.history-item p,.history-item time,.deleted-item small,.chart-grid span,.bar-group>span,.empty-state p,.dialog-footer>span,.download-footer) { color:var(--muted) }
+:root :is(.breadcrumb-slash,.topbar-divider) { color:var(--muted);border-color:var(--line) }
+:root :is(.period-icon,.icon-button,.text-link) { color:var(--brand) }
+:root .header-datetime { border-color:var(--line) }
+:root :is(.month-control,.local-badge,.profile-avatar,.category-chip,.empty-icon,.history-item>span,.income-amounts,.report-summary,.dialog-footer,.deleted-section,th) { background:var(--elevated);border-color:var(--line);color:var(--text) }
+:root .month-control input { color:var(--text) }
+:root :is(.local-badge,.profile-avatar,.empty-icon,.history-item>span,.category-chip) { color:var(--brand) }
+:root :is(label input,label select,label textarea,.settings-panel input,.search-tools input,.search-tools select) { background:var(--bg);color:var(--text);border-color:var(--line) }
+:root :is(input,textarea)::placeholder { color:var(--muted) }
+:root :is(input,select,textarea):focus { border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft) }
+:root .primary { background:var(--brand);border-color:transparent;color:var(--on-brand);box-shadow:0 3px 5px var(--paint-shadow) }
+:root .primary:hover { background:var(--brand-deep) }
+:root .secondary { border-color:var(--line);color:var(--brand) }
+:root .currency-card:first-child { border-top-color:var(--brand) }
+:root .currency-tag { border-color:var(--line);color:var(--muted) }
+:root .currency-mark { background:var(--brand-soft);border-color:var(--line);color:var(--brand) }
+:root .currency-mark.try { background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent-deep) }
+:root .currency-mark.syp { background:var(--elevated);border-color:var(--line);color:var(--brand-deep) }
+:root .balance-amount small { color:var(--muted) }
+:root :is(td,.currency-stats,.currency-stats>div+div,.chart-grid div,.chart-caption,.page-footer,.table-footer,.history-item,.dialog-header,.dialog-footer,.deleted-item,.debt-currency-caption) { border-color:var(--line) }
+:root .positive { color:var(--paint-positive) }
+:root .negative { color:var(--paint-negative) }
+:root .type-chip { background:var(--paint-positive-bg);color:var(--paint-positive) }
+:root .type-chip.expense { background:var(--accent-soft);color:var(--accent-deep) }
+:root :is(.bar,.legend-square) { background:var(--brand) }
+:root :is(.bar.expense,.legend-square.expense) { background:var(--accent) }
+:root .donut { background:var(--elevated) }
+:root .donut:before { background:var(--surface) }
+:root .info-banner { background:var(--brand-soft);border-color:var(--line);color:var(--text) }
+:root .info-banner :is(strong,button,svg) { color:var(--brand) }
+:root .upload-area { background:var(--bg);border-color:var(--brand);color:var(--brand) }
+:root .upload-area strong { color:var(--brand) }
+:root :is(.backup-notice,.reset-notice) { background:var(--accent-soft);border-color:var(--accent);color:var(--accent-deep) }
+:root .error-panel { background:var(--paint-danger-bg);border-color:var(--paint-danger-line);color:var(--paint-negative) }
+:root .danger { background:var(--paint-danger-bg);border-color:var(--paint-danger-line);color:var(--paint-negative) }
+:root .icon-button.danger { background:transparent;color:var(--paint-negative) }
+:root .form-error { color:var(--paint-negative) }
+:root .theme-toggle { color:var(--accent-deep);border-color:var(--line) }
+:root .toast { background:var(--brand);color:var(--on-brand);box-shadow:0 5px 30px var(--paint-shadow) }
+:root dialog { box-shadow:0 30px 120px var(--paint-shadow) }
+:root dialog::backdrop { background:rgba(14,21,35,.62) }
+:root .sidebar-overlay.visible { background:rgba(14,21,35,.62) }
+:root .download-page .brand strong { color:var(--brand) }
+:root .download-page .brand small { color:var(--muted) }
+:root .download-page .brand-symbol { background:var(--sidebar-bg) }
+:root .download-features span { background:var(--brand-soft);color:var(--brand) }
+</style><script>'use strict';
+// UI preference only. Financial records remain in IndexedDB.
+(function () {
+    let theme = 'light';
+    try { theme = localStorage.getItem('daftar-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch (_) {}
+    document.documentElement.dataset.theme = theme === 'dark' ? 'dark' : 'light';
+})();
+function applyTheme(theme) {
+    const dark = theme === 'dark';
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    try { localStorage.setItem('daftar-theme', dark ? 'dark' : 'light'); } catch (_) {}
+    const button = document.getElementById('theme-toggle');
+    if (button) {
+        button.textContent = dark ? '☀' : '☾';
+        button.setAttribute('aria-pressed', String(dark));
+        button.setAttribute('aria-label', dark ? 'تفعيل الوضع النهاري' : 'تفعيل الوضع الليلي');
+        button.title = button.getAttribute('aria-label');
+    }
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = dark ? '#0E1523' : '#1F4A8F';
+}
+function updateHeaderClock(now = new Date()) {
+    const el = document.getElementById('header-datetime');
+    if (!el) return;
+    const pad = n => String(n).padStart(2, '0');
+    el.textContent = `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} · ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    el.dateTime = now.toISOString();
+    el.title = 'التاريخ والوقت المحلي للجهاز · يوم/شهر/سنة';
+}
+document.addEventListener('DOMContentLoaded', () => {
+    applyTheme(document.documentElement.dataset.theme);
+    document.getElementById('theme-toggle').addEventListener('click', () => applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+    updateHeaderClock();
+    setInterval(updateHeaderClock, 1000);
+});
+</script></head>
+<body>
+<aside class="sidebar" id="sidebar">
+<a href="#dashboard" class="brand"><span class="brand-symbol">د</span><span><strong id="brand-name">دفتر</strong><small>كل حساباتك، في مكان واحد</small></span></a>
+<div class="workspace"><span class="workspace-avatar">م</span><div><strong>مساحة العمل المحلية</strong><small><i class="status-dot"></i> بياناتك على جهازك</small></div><span class="workspace-lock" data-icon="shield"></span></div>
+<p class="nav-label">مساحة العمل</p>
+<nav aria-label="القائمة الرئيسية">
+<a href="#dashboard" data-route="dashboard"><span data-icon="dashboard"></span>نظرة عامة</a>
+<a href="#income" data-route="income"><span data-icon="income"></span>المدخلات <span class="nav-pill">وارد</span></a>
+<a href="#expenses" data-route="expenses"><span data-icon="expense"></span>المصروفات</a>
+<a href="#debts" data-route="debts"><span data-icon="ledger"></span>الديون</a>
+<a href="#reports" data-route="reports"><span data-icon="chart"></span>التقارير الشهرية</a>
+<p class="nav-label">الإدارة</p>
+<a href="#history" data-route="history"><span data-icon="history"></span>سجل التعديلات</a>
+<a href="#settings" data-route="settings"><span data-icon="settings"></span>لوحة التحكم</a>
+</nav>
+<div class="sidebar-bottom"><div class="backup-card"><span data-icon="shield"></span><strong>حساباتك تستحق الأمان</strong><p>احفظ نسخة احتياطية بانتظام، واحتفظ بسجلاتك خارج المتصفح.</p><button class="backup-trigger">تصدير نسخة احتياطية <span data-icon="download"></span></button></div><div class="sidebar-footer"><span class="tiny-logo">د</span><span>دفتر للمحاسبة المحلية</span><small>V 1.0</small></div></div>
+</aside>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app-shell">
+<header class="topbar"><div class="breadcrumb"><button class="icon-button mobile-menu" id="mobile-menu" aria-label="فتح القائمة"><span data-icon="menu"></span></button><span>مساحة العمل</span><span class="breadcrumb-slash">/</span><strong id="breadcrumb-title">نظرة عامة</strong></div><div class="topbar-end"><span class="local-badge"><i class="status-dot"></i> تخزين محلي</span><time id="header-datetime" class="header-datetime" dir="ltr" aria-label="التاريخ والوقت المحلي"></time><button id="theme-toggle" class="icon-button theme-toggle" aria-label="تفعيل الوضع الليلي" title="تفعيل الوضع الليلي" aria-pressed="false"><span>☾</span></button><span class="topbar-divider"></span><span class="profile-avatar">م</span><span class="profile-label">مدير الحسابات</span></div></header>
+<main id="main-content">
+<section class="page-heading"><div><div class="eyebrow">وضوح أكثر. إدارة أفضل.</div><h1 id="page-title">نظرة عامة على حساباتك</h1><p id="page-description">كل ما تحتاج معرفته عن حركة أموالك، في لمحة واحدة.</p></div><div class="heading-actions"><button class="button primary" id="add-debt" data-debt-add="" hidden=""><span data-icon="plus"></span> إضافة دين</button><button class="button secondary" id="add-expense"><span data-icon="minus"></span> إضافة مصروف</button><button class="button primary" id="add-income"><span data-icon="plus"></span> إضافة مدخل</button></div></section>
+<section class="filter-toolbar" id="filter-toolbar"><div class="period-label"><span class="period-icon" data-icon="calendar"></span><strong>الفترة المحاسبية</strong><span class="muted desktop-only">اعرض ملخص حساباتك حسب الشهر</span></div><div class="month-control"><button id="previous-month" class="icon-button" aria-label="الشهر السابق"><span data-icon="chevron-right"></span></button><input id="month-filter" type="month" aria-label="الشهر المحاسبي"><button id="next-month" class="icon-button" aria-label="الشهر التالي"><span data-icon="chevron-left"></span></button></div></section>
+<div id="view-content" aria-live="polite"><div class="loading-panel">جارٍ فتح دفتر حساباتك…</div></div>
+<footer class="page-footer"><span><i class="status-dot"></i> <span id="storage-status">بياناتك محفوظة محليًا في هذا المتصفح</span></span><span>صُنع لتنظيم يومك، وحفظ حساباتك.</span></footer>
+</main>
+</div>
+<dialog id="entry-dialog" class="entry-dialog"><form id="entry-form"><header class="dialog-header"><div><span class="eyebrow">سجّل اليوم، وراجع في أي وقت</span><h2 id="entry-dialog-title">إضافة مدخل جديد</h2></div><button type="button" class="icon-button close-dialog" aria-label="إغلاق"><span data-icon="x"></span></button></header><div class="dialog-body"><input id="entry-id" type="hidden"><input id="entry-type" type="hidden"><div class="form-grid"><label class="full-width">الاسم / البيان <span class="optional">(اختياري)</span><input id="entry-title" maxlength="120" placeholder="يمكنك ترك الاسم فارغًا"></label><fieldset id="income-amounts" class="full-width income-amounts" hidden=""><legend>المبالغ حسب العملة <span class="optional">(اختيارية)</span></legend><div id="income-currency-fields" class="income-currency-fields"></div><p class="field-help">أدخل مبلغًا في عملة واحدة أو أكثر. اترك العملات غير المطلوبة فارغة أو صفرًا؛ لا يتم تحويل العملات.</p><p id="income-edit-hint" class="field-help" hidden="">إفراغ مبلغ سابق أو جعله صفرًا يحذفه من الحسابات بعد التأكيد، مع إمكانية استعادته من سجل التعديلات.</p></fieldset><label id="single-amount-label">المبلغ <input id="entry-amount" type="number" min="0.01" max="9999999999" step="0.01" required="" placeholder="0.00" dir="ltr"></label><label id="single-currency-label">العملة <select id="entry-currency" required=""></select></label><label>التاريخ <input id="entry-date" type="date" required=""></label><label>التصنيف <select id="entry-category" required=""></select></label><label class="full-width">ملاحظات <span class="optional">(اختياري)</span><textarea id="entry-notes" maxlength="2000" rows="3" placeholder="أي تفاصيل ترغب بالاحتفاظ بها…"></textarea></label></div><section id="photo-section"><label class="upload-area" for="entry-photos"><span data-icon="image"></span><strong>إرفاق صور الفواتير والمستندات</strong><span>اختر حتى 5 صور جديدة · PNG / JPG / WebP · 4 MB للصورة</span><input id="entry-photos" type="file" accept="image/jpeg,image/png,image/webp" multiple=""></label><div id="photo-preview" class="photo-preview"></div><small class="muted">المرفقات السابقة محفوظة ولا تُحذف عند التعديل.</small></section><p id="form-error" class="form-error" role="alert"></p></div><footer class="dialog-footer"><span><span data-icon="shield"></span> تُحفظ التعديلات في سجل مستقل</span><button type="button" class="button danger" id="delete-entry" hidden="">حذف العملية</button><button type="button" class="button secondary close-dialog">إلغاء</button><button type="submit" class="button primary" id="save-entry">حفظ العملية <span data-icon="check"></span></button></footer></form></dialog>
+<dialog id="detail-dialog"><header class="dialog-header"><h2>تفاصيل العملية</h2><button class="icon-button close-dialog" aria-label="إغلاق"><span data-icon="x"></span></button></header><div id="detail-content" class="dialog-body"></div></dialog>
+<dialog id="debt-dialog" aria-labelledby="debt-dialog-title"><form id="debt-form"><header class="dialog-header"><div><span class="eyebrow">سجّل المبالغ المستحقة، وراجعها في أي وقت</span><h2 id="debt-dialog-title">إضافة دين جديد</h2></div><button type="button" class="icon-button close-dialog" aria-label="إغلاق"><span data-icon="x"></span></button></header><div class="dialog-body"><input type="hidden" id="debt-id"><div class="form-grid"><label class="full-width">اسم المدين<input id="debt-name" required="" maxlength="120" placeholder="اسم الشخص المدين" autocomplete="off"></label><fieldset class="full-width income-amounts"><legend>قيمة الدين بالعملات الثلاث</legend><div id="debt-currency-fields" class="income-currency-fields"></div><p class="field-help">أدخل مبلغًا في عملة واحدة أو أكثر؛ العملات الأخرى اختيارية. لا نجمع العملات أو نحوّل بينها.</p></fieldset><label class="full-width">تاريخ الدين<input type="date" id="debt-date" min="1900-01-01" max="9998-12-31" required=""></label><label class="full-width">ملاحظات <span class="optional">(اختياري)</span><textarea id="debt-notes" rows="3" maxlength="2000" placeholder="تفاصيل الدين أو أي ملاحظة…"></textarea></label></div><p class="field-help">الديون مستقلة عن الدخل والمصروفات ولا تغيّر أرصدتها تلقائيًا.</p><p id="debt-error" class="form-error" role="alert"></p></div><footer class="dialog-footer"><button type="button" class="button danger" id="delete-debt" hidden="">حذف الدين</button><button type="button" class="button secondary close-dialog">إلغاء</button><button type="submit" class="button primary" id="save-debt">حفظ الدين</button></footer></form></dialog>
+<dialog id="reset-dialog" aria-labelledby="reset-title"><form id="reset-form"><header class="dialog-header"><div><span class="eyebrow">بداية جديدة، مع الاحتفاظ بالسجلات</span><h2 id="reset-title">تصفير الحسابات</h2></div><button type="button" class="icon-button close-dialog" aria-label="إغلاق"><span data-icon="x"></span></button></header><div class="dialog-body"><div class="form-grid"><label>ما الذي تريد تصفيره؟<select id="reset-kind"><option value="all">الدخل والمصروفات والحسابات</option><option value="income">الدخل فقط</option><option value="expense">المصروفات فقط</option></select></label><label>الفترة<select id="reset-scope"><option value="month">شهر محدد</option><option value="all">كل الفترات</option></select></label><label id="reset-month-label" class="full-width">الشهر<input id="reset-month" type="month" min="1900-01" max="9998-12" required=""></label></div><div id="reset-summary" class="reset-summary" aria-live="polite"></div><p class="reset-notice">التصفير يستبعد العمليات المحددة من الحسابات والتقارير بالعملات الثلاث؛ لا يمس الديون أو الإعدادات أو التصنيفات أو الصور. تبقى العمليات محفوظة ويمكن استعادتها من سجل التعديلات. ننصح بتنزيل نسخة احتياطية أولًا.</p><button type="button" class="button secondary backup-trigger">تنزيل نسخة احتياطية قبل التصفير</button><label class="reset-confirm-label">للتأكيد، اكتب كلمة «تصفير»<input id="reset-confirmation" autocomplete="off" required="" placeholder="تصفير"></label><p id="reset-error" class="form-error" role="alert"></p></div><footer class="dialog-footer"><button type="button" class="button secondary close-dialog">إلغاء</button><button type="submit" id="reset-submit" class="button danger">تأكيد التصفير</button></footer></form></dialog>
+<div id="toast" class="toast" role="status"></div>
+<input type="file" id="backup-file" accept="application/json,.json" hidden="">
+<script>'use strict';
+// Package clean project sources in-browser. No accounting data is read here.
+window.DaftarPackage = {
+    cssFiles:['css/style.css','css/enhancements.css','css/maintenance.css','css/debts.css','css/brand-colors.css'],
+    jsFiles:['js/theme.js','js/package.js','js/maintenance.js','js/debts.js','js/app.js'],
+    get projectFiles(){
+        return ['index.html','download.html','README.md','GITHUB-PAGES.md',...this.cssFiles,...this.jsFiles,
+            'js/download-page.js','js/vendor/fflate.min.js','js/vendor/fflate-LICENSE.txt',
+            'tests/accounting.html','tests/accounting.js','tests/download.html','tests/download.js'];
+    },
+    assertHostedSource(){
+        if(document.querySelector('meta[name="daftar-standalone"]'))throw new Error('أنت تستخدم الملف المستقل. لتنزيل ملفات المشروع، افتح صفحة التنزيل في نسخة الموقع أو انسخ الأرشيف الأصلي.');
+        if(location.protocol==='file:')throw new Error('لتجميع ملفات المشروع افتح صفحة التنزيل عبر رابط الموقع أو خادم محلي، وليس مباشرة عبر file://.');
+    },
+    async readSources(paths){
+        const entries=await Promise.all(paths.map(async path=>{
+            const response=await fetch(new URL(path,document.baseURI),{cache:'no-store'});
+            if(!response.ok)throw new Error('تعذر تحميل '+path+'؛ تأكد من اتصالك وأعد المحاولة.');
+            const source=await response.text();
+            if(!path.endsWith('.html')&&/^\s*(?:<!doctype|<html)/i.test(source))throw new Error('محتوى غير صالح للملف '+path);
+            return [path,source];
+        }));
+        return Object.fromEntries(entries);
+    },
+    async build(sources){
+        this.assertHostedSource();
+        const source=sources||await this.readSources(['index.html',...this.cssFiles,...this.jsFiles]);
+        const doc=new DOMParser().parseFromString(source['index.html'],'text/html');
+        if(!doc.querySelector('#entry-form')||!doc.querySelector('#reset-form')||!doc.querySelector('#debt-form'))throw new Error('لم يتم العثور على النسخة الكاملة من النظام.');
+        doc.querySelectorAll('script,link,base,style,meta[http-equiv]').forEach(node=>node.remove());
+        const marker=doc.createElement('meta');marker.name='daftar-standalone';marker.content='1';doc.head.append(marker);
+        const style=doc.createElement('style');style.textContent=this.cssFiles.map(path=>source[path]).join('\n');doc.head.append(style);
+        const forbidden=new RegExp('<'+'/?script|<'+'!--','i');
+        for(const path of this.jsFiles){
+            const code=source[path];
+            if(forbidden.test(code))throw new Error('تعذر تضمين '+path+' بأمان؛ استخدم نسخة الموقع الحالية.');
+            const script=doc.createElement('script');script.textContent=code;
+            if(path==='js/theme.js')doc.head.append(script);else doc.body.append(script);
+        }
+        return '<!DOCTYPE html>\n'+doc.documentElement.outerHTML;
+    },
+    saveFile(content,filename,type){
+        const blob=new Blob([content],{type});
+        const url=URL.createObjectURL(blob),link=document.createElement('a');
+        link.href=url;link.download=filename;document.body.append(link);link.click();link.remove();
+        setTimeout(()=>URL.revokeObjectURL(url),60000);
+        return {filename,bytes:blob.size};
+    },
+    async download(){return this.saveFile(await this.build(),'daftar-system.html','text/html;charset=utf-8');},
+    async loadZipLibrary(){
+        if(window.fflate?.zipSync)return window.fflate;
+        if(!this.zipLibraryPromise){
+            this.zipLibraryPromise=new Promise((resolve,reject)=>{
+                const script=document.createElement('script');
+                const timer=setTimeout(()=>{script.remove();reject(new Error('انتهت مهلة تحميل أداة الضغط. أعد المحاولة.'));},20000);
+                script.src=new URL('js/vendor/fflate.min.js',document.baseURI).href;
+                script.onload=()=>{clearTimeout(timer);window.fflate?.zipSync?resolve(window.fflate):reject(new Error('تعذر تشغيل أداة الضغط.'));};
+                script.onerror=()=>{clearTimeout(timer);script.remove();reject(new Error('تعذر تحميل أداة الضغط. تحقق من الاتصال.'));};
+                document.head.append(script);
+            }).catch(error=>{this.zipLibraryPromise=null;throw error;});
+        }
+        return this.zipLibraryPromise;
+    },
+    async buildZip(){
+        this.assertHostedSource();
+        const [source,zip]=await Promise.all([this.readSources(this.projectFiles),this.loadZipLibrary()]);
+        const root='daftar-project/';
+        const files=Object.fromEntries(Object.entries(source).map(([path,text])=>[root+path,zip.strToU8(text)]));
+        files[root+'daftar-system.html']=zip.strToU8(await this.build(source));
+        files[root+'START-HERE.txt']=zip.strToU8('دفتر — ملفات المشروع الكاملة\n\n1. فك ضغط الأرشيف كاملًا.\n2. افتح daftar-system.html لتجربة النسخة المستقلة في متصفح يدعم IndexedDB.\n3. للتطوير والنشر استخدم index.html ومجلدي css وjs؛ لا ترفع ملف index.html وحده.\n4. افتح README.md لمعرفة الوظائف وطريقة التخزين والاختبارات.\n5. البيانات المالية ليست داخل هذا الأرشيف. صدّر نسخة JSON من لوحة التحكم واستوردها على العنوان أو الجهاز الجديد.\n6. ظهور الألوان للجميع يتطلب نشر الملفات المحدثة على نفس الرابط. ملفات HTML المنزلة والتبويبات المفتوحة لا تتحدث تلقائيًا.\n7. التعديلات الإدارية والبيانات ما زالت محلية، وليست مشتركة أو لحظية بين الزوار.\n8. لا توجد كلمة مرور آمنة أو صلاحيات مستخدمين في هذه النسخة المحلية.\n');
+        files[root+'.nojekyll']=new Uint8Array(0);
+        const bytes=zip.zipSync(files,{level:6});
+        return {bytes,fileCount:Object.keys(files).length};
+    },
+    async prepareDownload(kind='zip'){
+        const result=kind==='zip'?await this.buildZip():{html:await this.build()};
+        const filename=kind==='zip'?'daftar-project.zip':'daftar-system.html';
+        const blob=new Blob([kind==='zip'?result.bytes:result.html],{type:kind==='zip'?'application/zip':'text/html;charset=utf-8'});
+        return {url:URL.createObjectURL(blob),filename,bytes:blob.size,fileCount:result.fileCount||1};
+    },
+    async downloadZip(){
+        const result=await this.buildZip();
+        return {...this.saveFile(result.bytes,'daftar-project.zip','application/zip'),fileCount:result.fileCount};
+    }
+};
+</script><script>'use strict';
+let resetPreview = null;
+let resetBusy = false;
+function maintenanceHTML(){
+    const standalone=Boolean(document.querySelector('meta[name="daftar-standalone"]'));
+    return `<section class="panel settings-panel maintenance-panel"><span class="maintenance-icon">${icon('history')}</span><h2>تصفير الدخل والخرج والحسابات</h2><p>صفّر الدخل فقط أو المصروفات فقط أو الحسابات بالكامل، لشهر محدد أو لكل الفترات. لن تُمحى السجلات نهائيًا، والديون لا تتأثر بهذا التصفير.</p><button class="button danger" data-reset-open>اختيار نطاق التصفير</button><a class="text-link maintenance-link" href="#history">عرض المحذوفات واستعادتها ${icon('arrow-left')}</a></section><section class="panel settings-panel maintenance-panel"><span class="maintenance-icon">${icon('download')}</span><h2>ملف النظام على جهازك</h2><p>نزّل ملفات المشروع كاملة في ZIP مضغوط، أو البرنامج كملف HTML واحد، مع الوضع الليلي والحسابات بالعملات الثلاث. ملف البرنامج لا يحتوي على بياناتك الشخصية.</p>${standalone?'<p class="reset-notice">أنت تستخدم النسخة المستقلة بالفعل. احتفظ بملف HTML الأصلي وانسخه لنقل البرنامج؛ بياناتك تُنقل بملف النسخة الاحتياطية.</p>':'<a class="button primary" data-download-zip href="download.html">تنزيل المشروع كاملًا ZIP</a><a class="button secondary" data-download-system href="download.html#html">تنزيل ملف النظام HTML</a><a class="text-link maintenance-link" href="download.html">صفحة التنزيل والتعليمات</a>'}<button class="button secondary backup-trigger">تنزيل نسخة من بياناتي</button><p class="field-help" data-package-status aria-live="polite">البيانات محفوظة في المتصفح، وليست داخل ملف البرنامج. بعد نقله إلى جهاز أو عنوان آخر، استورد نسخة بياناتك.</p></section>`;
+}
+function selectedResetOptions(){
+    return {kind:$('#reset-kind').value,scope:$('#reset-scope').value,month:$('#reset-month').value};
+}
+function resetTargets(options){
+    if(!['all','income','expense'].includes(options.kind)||!['all','month'].includes(options.scope)||(options.scope==='month'&&!validDate(options.month+'-01')))throw new Error('حدد نوع التصفير والفترة بشكل صحيح.');
+    return records.filter(r=>!r.deletedAt&&(options.kind==='all'||r.type===options.kind)&&(options.scope==='all'||r.date.startsWith(options.month)));
+}
+function resetSignature(rows){return rows.map(r=>r.id+'|'+r.updatedAt).sort().join('\n');}
+function resetSummary(options,rows){
+    const label=options.kind==='income'?'الدخل فقط':options.kind==='expense'?'المصروفات فقط':'الدخل والمصروفات والحسابات';
+    return `<h3>${label} · ${options.scope==='all'?'كل الفترات':esc(monthLabel(options.month))}</h3><p>${rows.length} مبلغ سيتوقف احتسابه؛ كل عملة مستقلة.</p><div class="table-scroll"><table><thead><tr><th>العملة</th><th>الدخل المستبعد</th><th>المصروفات المستبعدة</th></tr></thead><tbody>${settings.currencies.map(c=>{const t=totals(rows,c.code);return `<tr><td>${c.code}</td><td><bdi>${money(t.income)}</bdi></td><td><bdi>${money(t.expense)}</bdi></td></tr>`;}).join('')}</tbody></table></div>${!rows.length?'<p class="field-help">لا توجد مبالغ نشطة في هذا النطاق لتصفيرها.</p>':''}`;
+}
+function updateResetPreview(){
+    $('#reset-confirmation').value='';$('#reset-error').textContent='';
+    const options=selectedResetOptions();
+    $('#reset-month-label').hidden=options.scope==='all';$('#reset-month').disabled=options.scope==='all';
+    try{
+        const rows=resetTargets(options);
+        resetPreview={options,signature:resetSignature(rows)};
+        $('#reset-summary').innerHTML=resetSummary(options,rows);
+        $('#reset-submit').disabled=!rows.length||resetBusy;
+    }catch(error){resetPreview=null;$('#reset-summary').textContent='';$('#reset-error').textContent=error.message;$('#reset-submit').disabled=true;}
+}
+async function openResetDialog(){
+    await refreshData();
+    $('#reset-form').reset();$('#reset-month').value=currentMonth;resetBusy=false;
+    updateResetPreview();$('#reset-dialog').showModal();
+}
+async function submitReset(event){
+    event.preventDefault();
+    if(resetBusy)return;
+    $('#reset-error').textContent='';
+    if($('#reset-confirmation').value.trim()!=='تصفير'){$('#reset-error').textContent='اكتب كلمة «تصفير» لتأكيد اختيارك.';return;}
+    resetBusy=true;$('#reset-submit').disabled=true;
+    try{
+        const options=selectedResetOptions();
+        await refreshData();const targets=resetTargets(options);
+        if(!resetPreview||JSON.stringify(options)!==JSON.stringify(resetPreview.options)||resetSignature(targets)!==resetPreview.signature){
+            updateResetPreview();throw new Error('تغيرت العمليات أو الفترة. راجع الملخص الجديد واكتب كلمة التأكيد مرة أخرى.');
+        }
+        if(!targets.length)throw new Error('لا توجد عمليات تحتاج إلى تصفير.');
+        const typeLabel=options.kind==='income'?'الدخل':options.kind==='expense'?'المصروفات':'الدخل والمصروفات والحسابات';
+        const periodLabel=options.scope==='all'?'كل الفترات':monthLabel(options.month);
+        if(!confirm(`تأكيد تصفير ${typeLabel} — ${periodLabel}؟\nسيتم استبعاد ${targets.length} مبلغ من الحسابات مع حفظ نسخة قابلة للاستعادة.`))return;
+        const at=new Date().toISOString(),resetId=uid();
+        const updated=targets.map(r=>({...r,deletedAt:at,updatedAt:at,resetId}));
+        const changes=targets.map((r,i)=>({id:uid(),action:'delete',at,recordId:r.id,resetId,label:'تصفير '+typeLabel+' — '+periodLabel+' · '+r.currency,before:r,after:updated[i]}));
+        await commit({records:updated,history:changes});
+        await refreshData();$('#reset-dialog').close();render();toast('تم التصفير. يمكنك استعادة المجموعة من سجل التعديلات.');
+    }catch(error){$('#reset-error').textContent=error.name==='QuotaExceededError'?'لم يتم التصفير: مساحة التخزين غير كافية لحفظ السجل.':error.message;}
+    finally{resetBusy=false;$('#reset-submit').disabled=!resetPreview||!resetTargets(resetPreview.options).length;}
+}
+function resetHistoryHTML(){
+    const groups=new Map();
+    for(const r of records.filter(r=>r.deletedAt&&r.resetId)){if(!groups.has(r.resetId))groups.set(r.resetId,[]);groups.get(r.resetId).push(r);}
+    if(!groups.size)return '';
+    return `<section class="deleted-section"><h3>مجموعات التصفير القابلة للاستعادة</h3><p>استعد كل المبالغ المتبقية من عملية تصفير واحدة دفعة واحدة.</p>${[...groups].map(([id,rows])=>`<article class="deleted-item"><div>تصفير ${timeLabel(rows[0].deletedAt)}<small>${rows.length} مبلغ محفوظ بالعملات الأصلية</small></div><button class="button secondary" data-restore-reset="${esc(id)}">استعادة المجموعة</button></article>`).join('')}</section>`;
+}
+async function restoreResetGroup(id){
+    await refreshData();const targets=records.filter(r=>r.deletedAt&&r.resetId===id);
+    if(!targets.length)return;
+    const next=targets.map(r=>{const item={...r,updatedAt:new Date().toISOString()};delete item.deletedAt;delete item.resetId;return item;});
+    const merged=new Map(records.map(r=>[r.id,r]));next.forEach(r=>merged.set(r.id,r));
+    validateBackup({format:'daftar-backup',version:2,settings,records:[...merged.values()],history:[]});
+    if(!confirm(`استعادة ${targets.length} مبلغ من مجموعة التصفير إلى تواريخها وعملاتها الأصلية؟`))return;
+    await commit({records:next,history:targets.map((r,i)=>({id:uid(),action:'restore',at:next[i].updatedAt,recordId:r.id,label:'استعادة مجموعة تصفير · '+r.currency,before:r,after:next[i]}))});
+    await refreshData();render();toast('تمت استعادة مجموعة التصفير.');
+}
+document.addEventListener('DOMContentLoaded',()=>{
+    $('#reset-form').addEventListener('submit',submitReset);
+    ['#reset-kind','#reset-scope','#reset-month'].forEach(selector=>$(selector).addEventListener('change',updateResetPreview));
+    document.addEventListener('click',async event=>{
+        const button=event.target.closest('button');if(!button)return;
+        try{
+            if(button.hasAttribute('data-reset-open'))await openResetDialog();
+            if(button.dataset.restoreReset)await restoreResetGroup(button.dataset.restoreReset);
+            if(button.hasAttribute('data-download-system')||button.hasAttribute('data-download-zip')){
+                button.disabled=true;const status=$('[data-package-status]');
+                if(status)status.textContent='جارٍ تجهيز ملف النظام…';
+                try{const result=button.hasAttribute('data-download-zip')?await DaftarPackage.downloadZip():await DaftarPackage.download();if(status)status.textContent='بدأ تنزيل '+result.filename+'. احتفظ بالملف وصدّر بياناتك في نسخة منفصلة.';}
+                finally{button.disabled=false;}
+            }
+        }catch(error){toast(error.message||'تعذر إتمام العملية.');const status=$('[data-package-status]');if((button.hasAttribute('data-download-system')||button.hasAttribute('data-download-zip'))&&status)status.textContent='لم يتم تجهيز الملف. '+error.message;}
+    });
+});
+</script><script>'use strict';
+let debtSearch='';
+let debtSaving=false;
+let debtEditStamp=null;
+const debtCodes=['USD','TRY','SYP'];
+function validDebtAmount(value){return typeof value==='number'&&Number.isFinite(value)&&value>=0&&value<=9999999999&&Math.abs(value*100-Math.round(value*100))<.0001;}
+function validateDebt(d){
+    return Boolean(d&&typeof d.id==='string'&&d.id.length>0&&d.id.length<100&&d.type==='debt'&&typeof d.name==='string'&&d.name.trim()&&d.name.length<=120&&validDate(d.date)&&typeof d.notes==='string'&&d.notes.length<=2000&&d.amounts&&debtCodes.every(code=>validDebtAmount(d.amounts[code]))&&debtCodes.some(code=>d.amounts[code]>0)&&typeof d.createdAt==='string'&&Number.isFinite(Date.parse(d.createdAt))&&typeof d.updatedAt==='string'&&Number.isFinite(Date.parse(d.updatedAt))&&(d.deletedAt===undefined||(typeof d.deletedAt==='string'&&Number.isFinite(Date.parse(d.deletedAt)))));
+}
+function debtTotal(code){return debts.filter(d=>!d.deletedAt).reduce((sum,d)=>sum+Math.round(d.amounts[code]*100),0)/100;}
+function debtHistorySummary(d){return `دين على: ${d.name}\nالتاريخ: ${d.date}\n${debtCodes.map(code=>money(d.amounts[code])+' '+code).join('\n')}\n${d.notes||'لا توجد ملاحظات'}${d.deletedAt?'\nالحالة: محذوف قابل للاستعادة':''}`;}
+function debtCardsHTML(){
+    return `<section class="currency-cards debt-summary-cards" aria-label="إجمالي الديون بكل العملات">${settings.currencies.map(c=>`<article class="currency-card debt-summary-card"><div class="currency-heading"><span class="currency-mark ${c.className}">${esc(c.symbol)}</span><div><h2>${esc(c.name)}</h2><div class="currency-code">${c.code}</div></div><span class="currency-tag">كل الفترات</span></div><div class="balance-label">إجمالي الديون المسجلة</div><div class="balance-amount" title="${money(debtTotal(c.code))} ${c.code}">${money(debtTotal(c.code))}<small>${c.code}</small></div><p class="debt-currency-caption">${debts.filter(d=>!d.deletedAt&&d.amounts[c.code]>0).length} دين بهذه العملة</p></article>`).join('')}</section>`;
+}
+function debtRowsHTML(){
+    const query=debtSearch.trim().toLocaleLowerCase();
+    const rows=sortedRows(debts.filter(d=>!d.deletedAt&&(!query||(d.name+' '+d.notes).toLocaleLowerCase().includes(query))));
+    return `<div class="table-scroll" tabindex="0" aria-label="جدول الديون، يمكن التمرير أفقيًا عند الحاجة"><table class="debts-table"><thead><tr><th>اسم المدين</th><th>تاريخ الدين</th>${settings.currencies.map(c=>`<th>${esc(c.name)} <span class="record-sub">${c.code}</span></th>`).join('')}<th>الإجراءات</th></tr></thead><tbody>${rows.map(d=>`<tr><td class="debt-name-cell"><strong>${esc(d.name)}</strong>${d.notes?`<span class="debt-note-preview" title="${esc(d.notes)}">${esc(d.notes)}</span>`:''}</td><td><bdi>${esc(d.date)}</bdi></td>${settings.currencies.map(c=>`<td><bdi class="money">${d.amounts[c.code]>0?money(d.amounts[c.code]):'—'}</bdi></td>`).join('')}<td><div class="table-actions"><button type="button" class="button secondary debt-row-button" data-debt-edit="${esc(d.id)}" aria-label="تعديل دين ${esc(d.name)}">${icon('edit')} تعديل</button><button type="button" class="button danger debt-row-button" data-debt-delete="${esc(d.id)}" aria-label="حذف دين ${esc(d.name)}">${icon('trash')} حذف</button></div></td></tr>`).join('')}</tbody></table></div>${!rows.length?`<div class="empty-state"><div class="empty-icon">${icon('ledger')}</div><h3>${query?'لا توجد ديون مطابقة':'كل دين مسجل، وكل مبلغ واضح'}</h3><p>${query?'جرّب البحث باسم آخر أو امسح البحث.':'أضف اسم المدين والمبالغ المستحقة عليه، بعملة واحدة أو أكثر.'}</p>${!query?`<button class="button secondary" data-debt-add>${icon('plus')} إضافة أول دين</button>`:''}</div>`:''}<footer class="table-footer"><span>${rows.length} دين ظاهر من ${debts.filter(d=>!d.deletedAt).length}</span><span>المحذوفات متاحة في سجل التعديلات</span></footer>`;
+}
+function debtsHTML(){
+    return `${debtCardsHTML()}<section class="panel" id="debts-register"><header class="panel-header"><div><h2 class="panel-title">سجل الديون</h2><p class="panel-subtitle">كل الفترات · قيمة كل دين في سطر واحد، دون تحويل بين العملات</p></div><span class="type-chip">${debts.filter(d=>!d.deletedAt).length} دين</span></header><div class="search-tools"><input type="search" id="debt-search" class="search-input" value="${esc(debtSearch)}" placeholder="ابحث باسم المدين أو الملاحظات…" aria-label="البحث في الديون"></div><div id="debt-table-content">${debtRowsHTML()}</div></section><aside class="info-banner"><span>${icon('info')}</span><p><strong>سجل مستقل للديون.</strong> الإجماليات تشمل كل الديون غير المحذوفة في جميع الفترات، بغض النظر عن البحث. لا تؤثر الديون على الدخل أو المصروفات، ولا يشملها تصفير الحسابات.</p></aside>`;
+}
+function openDebt(id){
+    if(!db)return toast('التخزين غير متاح. أعد تحميل الصفحة.');
+    const old=id?debts.find(d=>d.id===id&&!d.deletedAt):null;
+    if(id&&!old)return toast('الدين غير متاح. راجع المحذوفات في سجل التعديلات.');
+    $('#debt-form').reset();debtEditStamp=old?.updatedAt||null;
+    $('#debt-id').value=old?.id||'';$('#debt-name').value=old?.name||'';
+    $('#debt-date').value=old?.date||localDate();$('#debt-notes').value=old?.notes||'';
+    $('#debt-dialog-title').textContent=old?'تعديل الدين':'إضافة دين جديد';
+    $('#debt-currency-fields').innerHTML=settings.currencies.map(c=>`<label>${esc(c.name)} · ${c.code}<input id="debt-amount-${c.code}" data-debt-currency="${c.code}" type="number" min="0" max="9999999999" step="0.01" inputmode="decimal" placeholder="0.00" dir="ltr" value="${old?.amounts[c.code]||''}"></label>`).join('');
+    $('#delete-debt').hidden=!old;$('#debt-error').textContent='';$('#save-debt').disabled=false;
+    $('#debt-dialog').showModal();
+}
+async function saveDebt(event){
+    event.preventDefault();if(debtSaving)return;
+    debtSaving=true;$('#save-debt').disabled=true;$('#debt-error').textContent='';
+    try{
+        const id=$('#debt-id').value;await refreshData();
+        const old=debts.find(d=>d.id===id&&!d.deletedAt);
+        if(id&&(!old||old.updatedAt!==debtEditStamp))throw new Error('هذا الدين تغير أو حُذف في نافذة أخرى. أغلق النموذج وأعد فتحه للمراجعة.');
+        const name=$('#debt-name').value.trim(),date=$('#debt-date').value,notes=$('#debt-notes').value.trim();
+        const amounts=Object.fromEntries(debtCodes.map(code=>[code,Number($('#debt-amount-'+code).value)]));
+        if(!name||name.length>120)throw new Error('أدخل اسم المدين (حتى 120 حرفًا).');
+        if(!validDate(date))throw new Error('أدخل تاريخًا صالحًا.');
+        if(!debtCodes.every(code=>validDebtAmount(amounts[code])))throw new Error('أدخل مبالغ غير سالبة وبمنزلتين عشريتين كحد أقصى.');
+        if(!debtCodes.some(code=>amounts[code]>0))throw new Error('أدخل مبلغًا في عملة واحدة على الأقل. لحذف الدين استخدم زر الحذف.');
+        for(const code of debtCodes)amounts[code]=Math.round(amounts[code]*100)/100;
+        const now=new Date().toISOString();
+        const item={id:id||uid(),type:'debt',name,date,notes,amounts,createdAt:old?.createdAt||now,updatedAt:now};
+        if(!validateDebt(item))throw new Error('راجع بيانات الدين وحاول مرة أخرى.');
+        await commit({debts:[item],history:[{id:uid(),action:old?'edit':'create',at:now,recordId:item.id,label:(old?'تعديل دين: ':'إضافة دين: ')+name,before:old||null,after:item}]});
+        await refreshData();$('#debt-dialog').close();debtSearch='';render();toast(old?'تم تعديل الدين وحفظ نسخته السابقة.':'تم حفظ الدين بالعملات المحددة.');
+    }catch(error){$('#debt-error').textContent=error.name==='QuotaExceededError'?'تعذر الحفظ: مساحة التخزين غير كافية. لم يتم تعديل الدين.':error.message;}
+    finally{debtSaving=false;$('#save-debt').disabled=false;}
+}
+async function deleteDebt(id){
+    await refreshData();const old=debts.find(d=>d.id===id&&!d.deletedAt);if(!old)return;
+    const amounts=debtCodes.filter(c=>old.amounts[c]>0).map(c=>money(old.amounts[c])+' '+c).join('، ');
+    if(!confirm(`حذف دين ${old.name}؟\n${amounts}\nسيُستبعد من إجمالي الديون، مع إمكانية استعادته من سجل التعديلات.`))return;
+    const now=new Date().toISOString(),item={...old,deletedAt:now,updatedAt:now};
+    await commit({debts:[item],history:[{id:uid(),action:'delete',at:now,recordId:id,label:'حذف دين: '+old.name,before:old,after:item}]});
+    await refreshData();$('#debt-dialog').close();render();toast('تم حذف الدين من الإجماليات. يمكنك استعادته من سجل التعديلات.');
+}
+async function restoreDebt(id){
+    await refreshData();const old=debts.find(d=>d.id===id&&d.deletedAt);if(!old)return;
+    if(!confirm('استعادة دين '+old.name+' بمبالغه الأصلية؟'))return;
+    const now=new Date().toISOString(),item={...old,updatedAt:now};delete item.deletedAt;
+    await commit({debts:[item],history:[{id:uid(),action:'restore',at:now,recordId:id,label:'استعادة دين: '+old.name,before:old,after:item}]});
+    await refreshData();render();toast('تمت استعادة الدين.');
+}
+function deletedDebtsHTML(){
+    const rows=sortedRows(debts.filter(d=>d.deletedAt));if(!rows.length)return '';
+    return `<section class="deleted-section"><h3>الديون المحذوفة القابلة للاستعادة · ${rows.length}</h3>${rows.map(d=>`<article class="deleted-item"><div>${esc(d.name)}<small>${debtCodes.filter(c=>d.amounts[c]>0).map(c=>`<bdi>${money(d.amounts[c])} ${c}</bdi>`).join(' · ')}</small></div><button class="button secondary" data-debt-restore="${esc(d.id)}">${icon('history')} استعادة الدين</button></article>`).join('')}</section>`;
+}
+document.addEventListener('DOMContentLoaded',()=>{
+    $('#debt-form').addEventListener('submit',saveDebt);
+    document.addEventListener('input',event=>{if(event.target.id==='debt-search'){debtSearch=event.target.value;$('#debt-table-content').innerHTML=debtRowsHTML();}});
+    document.addEventListener('click',async event=>{
+        const button=event.target.closest('button');if(!button)return;
+        try{
+            if(button.hasAttribute('data-debt-add'))openDebt();
+            else if(button.dataset.debtEdit)openDebt(button.dataset.debtEdit);
+            else if(button.dataset.debtDelete)await deleteDebt(button.dataset.debtDelete);
+            else if(button.dataset.debtRestore)await restoreDebt(button.dataset.debtRestore);
+            else if(button.id==='delete-debt')await deleteDebt($('#debt-id').value);
+        }catch(error){toast('تعذر إتمام العملية: '+error.message);}
+    });
+});
+</script><script>'use strict';
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+const paths = {
+ trash:'<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/>',
+ dashboard:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+ income:'<path d="M7 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2M21 3l-10 10m0-7v7h7"/>',
+ expense:'<path d="M7 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2M11 13 21 3m-7 0h7v7"/>',
+ chart:'<path d="M4 3v18h17M9 16v-5m5 5V6m5 10V9"/>',
+ history:'<path d="M3 11a9 9 0 1 1 2 7M3 4v7h7M12 7v5l3 2"/>',
+ settings:'<path d="m9 3-1 3-3 1-2 4 2 2v4l4 3 3-1 3 1 4-3v-4l2-2-2-4-3-1-1-3z"/><circle cx="12" cy="12" r="3"/>',
+ shield:'<path d="M12 3 3 6v6c0 5 9 9 9 9s9-4 9-9V6zM8 12l3 3 5-6"/>',
+ download:'<path d="M12 3v12m-4-4 4 4 4-4M4 15v5h16v-5"/>',
+ upload:'<path d="M12 16V4m-4 4 4-4 4 4M4 15v5h16v-5"/>',
+ calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18m-13 4h2m4 0h2m-8 3h2"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',
+ 'chevron-left':'<path d="m14 6-6 6 6 6"/>','chevron-right':'<path d="m10 6 6 6-6 6"/>',
+ 'arrow-left':'<path d="M20 12H4m6-6-6 6 6 6"/>',
+ x:'<path d="m6 6 12 12M6 18 18 6"/>',check:'<path d="m5 12 4 4L19 6"/>',
+ image:'<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.5"/><path d="m21 15-6-6L3 21"/>',
+ menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+ edit:'<path d="m15 4 5 5M4 20l5-1L21 7a2 2 0 0 0-4-4L5 15z"/>',
+ eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
+ ledger:'<rect x="5" y="3" width="15" height="18" rx="2"/><path d="M3 7h4m-4 5h4m-4 5h4m4-10h5m-5 5h5m-5 5h3"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/>'
+};
+function icon(name){return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.ledger}</svg>`;}
+function paintIcons(){ $$('[data-icon]').forEach(el => {el.innerHTML = icon(el.dataset.icon);el.removeAttribute('data-icon');}); }
+function esc(value){return String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));}
+const defaultSettings = {id:'main',name:'دفتر',description:'كل ما تحتاج معرفته عن حركة أموالك، في لمحة واحدة.',currencies:[{code:'USD',name:'الدولار الأمريكي',symbol:'$',className:'usd'},{code:'TRY',name:'الليرة التركية',symbol:'₺',className:'try'},{code:'SYP',name:'الليرة السورية',symbol:'ل.س',className:'syp'}],categories:{income:[{id:'daily-income',name:'إيرادات يومية'},{id:'other-income',name:'مدخلات أخرى'}],expense:[{id:'abdulrahman',name:'مصروف عبد الرحمن'},{id:'reda',name:'مصروف رضا'},{id:'seminar',name:'مصاريف الندوة'},{id:'worker',name:'أجار عامل'}]},lastBackup:null};
+let db, records=[], debts=[], history=[], settings=structuredClone(defaultSettings), currentRoute='dashboard', currentMonth=localDate().slice(0,7), chartCurrency='USD', listSearch='', listCurrency='', listCategory='', pendingPhotos=[], toastTimer;
+const palette=['#2B5FB3','#F39C1F','#6A9BE8','#C67C0E','#8AB2F0','#EAC084'];
+function localDate(date=new Date()){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;}
+function uid(){return crypto.randomUUID ? crypto.randomUUID() : 'r-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);}
+function money(n){return new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);}
+function currency(code){return settings.currencies.find(c=>c.code===code)||defaultSettings.currencies[0];}
+function categoryName(type,id){return settings.categories[type]?.find(c=>c.id===id)?.name || 'تصنيف سابق';}
+function monthLabel(month){return new Intl.DateTimeFormat('ar',{month:'long',year:'numeric'}).format(new Date(month+'-15T12:00:00'));}
+function dateLabel(date){return new Intl.DateTimeFormat('ar',{day:'numeric',month:'short',year:'numeric'}).format(new Date(date+'T12:00:00'));}
+function timeLabel(date){return new Intl.DateTimeFormat('ar',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}).format(new Date(date));}
+function toast(message){clearTimeout(toastTimer);$('#toast').textContent=message;$('#toast').classList.add('visible');toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),4500);}
+function openDatabase(){return new Promise((resolve,reject)=>{const req=indexedDB.open('daftar-local-accounting',2);req.onupgradeneeded=()=>{const database=req.result;['records','history','settings','debts'].forEach(name=>{if(!database.objectStoreNames.contains(name))database.createObjectStore(name,{keyPath:'id'});});};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);req.onblocked=()=>reject(new Error('أغلق علامات التبويب الأخرى ثم أعد المحاولة.'));});}
+function getAll(store){return new Promise((resolve,reject)=>{const req=db.transaction(store).objectStore(store).getAll();req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+// Every record change and its history are committed in the same transaction.
+function commit(changes){return new Promise((resolve,reject)=>{const tx=db.transaction(Object.keys(changes),'readwrite');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error || new Error('تعذر حفظ البيانات'));for(const [store,items] of Object.entries(changes)){for(const item of items)tx.objectStore(store).put(item);}});}
+async function refreshData(){const [r,h,s,d]=await Promise.all([getAll('records'),getAll('history'),getAll('settings'),getAll('debts')]);records=r;history=h;debts=d;settings=s.find(v=>v.id==='main')||structuredClone(defaultSettings);$('#brand-name').textContent=settings.name;document.title=`${settings.name} | المحاسبة المحلية`;}
+function monthlyRecords(month=currentMonth){return records.filter(r=>!r.deletedAt&&r.date.startsWith(month));}
+function totals(rows,code){const total={income:0,expense:0};rows.filter(r=>!r.deletedAt&&r.currency===code).forEach(r=>total[r.type]+=Math.round(r.amount*100));return {income:total.income/100,expense:total.expense/100,balance:(total.income-total.expense)/100};}
+function currencyOptions(selected,all=false){return (all?'<option value="">كل العملات</option>':'')+settings.currencies.map(c=>`<option value="${c.code}" ${c.code===selected?'selected':''}>${esc(c.name)} · ${c.code}</option>`).join('');}
+function currencyCards(rows=monthlyRecords()){return `<section class="currency-cards" aria-label="ملخص العملات">${settings.currencies.map(c=>{const t=totals(rows,c.code);return `<article class="currency-card"><div class="currency-heading"><span class="currency-mark ${c.className}">${esc(c.symbol)}</span><div><h2>${esc(c.name)}</h2><div class="currency-code">${c.code}</div></div><span class="currency-tag">هذا الشهر</span></div><div class="balance-label">صافي الرصيد الشهري</div><div class="balance-amount" ${t.balance<0?'style="color:var(--paint-negative)"':''}>${money(t.balance)}<small>${c.code}</small></div><div class="currency-stats"><div><span class="stat-label">${icon('income')}<span>المدخلات</span></span><strong class="stat-number positive">${money(t.income)}</strong></div><div><span class="stat-label">${icon('expense')}<span>المصروفات</span></span><strong class="stat-number negative">${money(t.expense)}</strong></div></div></article>`;}).join('')}</section>`;}
+function chartHTML(){const months=[];const end=new Date(currentMonth+'-15T12:00:00');for(let i=5;i>=0;i--){const d=new Date(end.getFullYear(),end.getMonth()-i,15);const key=localDate(d).slice(0,7);months.push({key,label:new Intl.DateTimeFormat('ar',{month:'short'}).format(d),...totals(monthlyRecords(key),chartCurrency)});}const max=Math.max(100,...months.flatMap(m=>[m.income,m.expense]));return `<article class="panel"><header class="panel-header"><div><h2 class="panel-title">حركة الأموال</h2><p class="panel-subtitle">مقارنة المدخلات والمصروفات خلال 6 أشهر</p></div><select id="chart-currency" class="mini-select" aria-label="عملة الرسوم البيانية">${currencyOptions(chartCurrency)}</select></header><div class="chart-legend"><span><i class="legend-square"></i>المدخلات</span><span><i class="legend-square expense"></i>المصروفات</span></div><div class="bar-chart" role="img" aria-label="رسم حركة الأموال، ${chartCurrency}"><div class="chart-grid">${[1,.75,.5,.25,0].map(v=>`<div><span>${new Intl.NumberFormat('en',{notation:'compact',maximumFractionDigits:1}).format(max*v)}</span></div>`).join('')}</div><div class="chart-bars">${months.map(m=>`<div class="bar-group" title="${esc(monthLabel(m.key))}: المدخلات ${money(m.income)}، المصروفات ${money(m.expense)} ${chartCurrency}"><div class="bar" style="height:calc((100% - 25px) * ${m.income/max})"></div><div class="bar expense" style="height:calc((100% - 25px) * ${m.expense/max})"></div><span>${esc(m.label)}</span></div>`).join('')}</div></div><p class="chart-caption">${months.every(m=>!m.income&&!m.expense)?'ستظهر حركة أموالك هنا عند إضافة أول عملية':'تُحسب القيم تلقائيًا من العمليات المسجلة'} · ${chartCurrency}</p></article>`;}
+function donutHTML(){const rows=monthlyRecords().filter(r=>r.currency===chartCurrency && r.type==='expense');const cats=settings.categories.expense.map((c,i)=>({...c,value:rows.filter(r=>r.category===c.id).reduce((s,r)=>s+Math.round(r.amount*100),0),color:palette[i%palette.length]}));const total=cats.reduce((s,c)=>s+c.value,0);let start=0;const segments=cats.map(c=>{const end=start+(total?c.value/total*100:0);const out=`${c.color} ${start}% ${end}%`;start=end;return out;});return `<article class="panel"><header class="panel-header"><div><h2 class="panel-title">توزيع المصروفات</h2><p class="panel-subtitle">حسب التصنيف · ${chartCurrency}</p></div><span class="muted">${icon('chart')}</span></header><div class="donut-layout"><div class="donut" style="${total?'background:conic-gradient('+segments.join(',')+')':''}" aria-label="إجمالي المصروفات ${money(total/100)} ${chartCurrency}"><div class="donut-center"><strong style="${total>999999?'font-size:16px':''}">${new Intl.NumberFormat('en-US',{maximumFractionDigits:2,notation:total>99999999?'compact':'standard'}).format(total/100)}</strong><small>إجمالي المصروفات</small></div></div><div class="donut-legend">${cats.map(c=>`<li><i class="legend-dot" style="background:${c.color}"></i><span>${esc(c.name)}</span><b>${total?Math.round(c.value/total*100):0}%</b></li>`).join('')}</div></div><p class="chart-caption">${rows.length} عملية مصروف خلال ${esc(monthLabel(currentMonth))}</p></article>`;}
+function displayTitle(r){return r.title || (r.type==='income'?'مدخل بدون اسم':'مصروف بدون اسم');}
+function entryGroup(record,includeDeleted=false){return records.filter(r=>(includeDeleted||!r.deletedAt)&&(record.type==='income'&&record.batchId ? r.type==='income'&&r.batchId===record.batchId : r.id===record.id));}
+function sortedRows(rows){return [...rows].sort((a,b)=>b.date.localeCompare(a.date)||b.updatedAt.localeCompare(a.updatedAt));}
+function tableHTML(rows,kind='all',recent=false){const sorted=sortedRows(rows), shown=recent?sorted.slice(0,5):sorted;return `<div class="table-scroll"><table><thead><tr><th>البيان / التصنيف</th><th>التاريخ</th><th>النوع</th><th>المبلغ</th><th>العملة</th><th>المرفقات</th><th>الإجراءات</th></tr></thead><tbody>${shown.map(r=>`<tr><td class="record-title">${esc(displayTitle(r))}<span class="record-sub">${esc(categoryName(r.type,r.category))}</span></td><td class="muted">${dateLabel(r.date)}</td><td><span class="type-chip ${r.type}">${r.type==='income'?'مدخل':'مصروف'}</span></td><td><span class="money ${r.type==='income'?'positive':'negative'}">${r.type==='income'?'+':'−'} ${money(r.amount)}</span></td><td class="muted">${r.currency}</td><td class="muted">${r.photos?.length?`${icon('image')} ${r.photos.length}`:'—'}</td><td><div class="table-actions"><button class="icon-button" data-detail="${esc(r.id)}" aria-label="عرض ${esc(displayTitle(r))}">${icon('eye')}</button><button class="icon-button" data-edit="${esc(r.id)}" aria-label="تعديل ${esc(displayTitle(r))}">${icon('edit')}</button><button class="icon-button danger" data-delete="${esc(r.id)}" aria-label="حذف مبلغ ${esc(displayTitle(r))} ${r.currency}" title="حذف هذا المبلغ فقط">${icon('trash')}</button></div></td></tr>`).join('')}</tbody></table></div>${!shown.length?`<div class="empty-state"><div class="empty-icon">${icon('ledger')}</div><h3>${listSearch||listCurrency||listCategory?'لا توجد عمليات مطابقة':'بداية مرتّبة لحساباتك'}</h3><p>${listSearch||listCurrency||listCategory?'جرّب تغيير البحث أو عوامل التصفية.':'لا توجد عمليات في هذا الشهر. أضف أول عملية وسنتولى الحسابات.'}</p><button class="button secondary" data-add="${kind==='expense'?'expense':'income'}">${icon('plus')} ${kind==='expense'?'إضافة أول مصروف':'إضافة أول مدخل'}</button></div>`:''}<footer class="table-footer"><span>${recent?`عرض ${shown.length} من ${rows.length} عملية`:`${rows.length} عملية مسجلة`}</span><span>كل عملة مستقلة · دون تحويل تلقائي</span></footer>`;}
+function dashboardHTML(){return `${currencyCards()}<section class="analytics-grid">${chartHTML()}${donutHTML()}</section><section class="panel"><header class="panel-header"><div><h2 class="panel-title">أحدث العمليات</h2><p class="panel-subtitle">آخر الحركات المالية خلال الشهر المحدد</p></div><a class="text-link" href="#reports">عرض جميع العمليات ${icon('arrow-left')}</a></header>${tableHTML(monthlyRecords(),'all',true)}</section><aside class="info-banner"><span>${icon('shield')}</span><p><strong>دفترك محفوظ على جهازك.</strong> لا تحتاج إلى حساب أو اتصال لإدارة بياناتك بعد تحميل الصفحة. احتفظ بنسخة احتياطية لتجنب فقدانها.</p><button class="backup-trigger">نسخ احتياطي ${icon('arrow-left')}</button></aside>`;}
+function filteredRows(kind){return monthlyRecords().filter(r=>(!kind||r.type===kind)&&(!listCurrency||r.currency===listCurrency)&&(!listCategory||r.category===listCategory)&&(!listSearch||(r.title+' '+r.notes+' '+categoryName(r.type,r.category)).toLocaleLowerCase().includes(listSearch.toLocaleLowerCase())));}
+function ledgerHTML(kind){const categoryOptions=kind?settings.categories[kind]:[...settings.categories.income,...settings.categories.expense];return `${currencyCards()}<section class="panel"><header class="panel-header"><div><h2 class="panel-title">${kind==='income'?'سجل المدخلات':kind==='expense'?'سجل المصروفات':'جميع العمليات الشهرية'}</h2><p class="panel-subtitle">${esc(monthLabel(currentMonth))} · عرض وتعديل كل عملية</p></div>${!kind?`<button class="button secondary" id="export-csv">${icon('download')} تصدير CSV</button>`:''}</header><div class="search-tools"><input type="search" class="search-input" id="record-search" placeholder="ابحث بالبيان أو الملاحظات…" value="${esc(listSearch)}" aria-label="البحث في العمليات"><select id="list-currency" aria-label="تصفية بالعملة">${currencyOptions(listCurrency,true)}</select><select id="list-category" aria-label="تصفية بالتصنيف"><option value="">كل التصنيفات</option>${categoryOptions.map(c=>`<option value="${esc(c.id)}" ${listCategory===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div><div id="ledger-table">${tableHTML(filteredRows(kind),kind)}</div>${!kind?'<div class="report-summary">صافي الرصيد = المدخلات − المصروفات للشهر المحدد فقط. لا تُجمع العملات معًا ولا تُحوّل بينها. ملف CSV يشمل العمليات الظاهرة بعد التصفية، ويثبت التاريخ كنص بصيغة YYYY-MM-DD في Excel لتجنب تبديل اليوم والشهر. المحذوفات والصور غير مشمولة؛ استخدم النسخة الاحتياطية لحفظ كل البيانات.</div>':''}</section>`;}
+function historyHTML(){return `<section class="panel"><header class="panel-header"><div><h2 class="panel-title">ذاكرة دفتر حساباتك</h2><p class="panel-subtitle">كل إضافة وتعديل محفوظان. يمكنك مراجعة القيم السابقة دون حذف أي سجل.</p></div><span class="currency-tag">${history.length} تغيير</span></header>${resetHistoryHTML()}${deletedHTML()}${deletedDebtsHTML()}${history.length?`<div class="history-list">${[...history].sort((a,b)=>b.at.localeCompare(a.at)).map(h=>`<article class="history-item"><span>${icon(h.action==='create'?'plus':h.action==='backup'?'download':'history')}</span><div><h3>${esc(h.label)}</h3><p>${h.recordId?'رقم العملية: '+esc(h.recordId.slice(0,8)):'إدارة مساحة العمل'}</p>${h.before?`<details><summary>عرض البيانات قبل التعديل</summary><pre>${esc(historySummary(h.before))}</pre></details>`:''}</div><time datetime="${esc(h.at)}">${timeLabel(h.at)}</time></article>`).join('')}</div>`:'<div class="empty-state"><div class="empty-icon">'+icon('history')+'</div><h3>كل تعديل له أثر محفوظ</h3><p>ستظهر هنا العمليات والتغييرات عند البدء باستخدام دفتر.</p></div>'}</section>`;}
+function historySummary(obj){if(obj.type==='debt')return debtHistorySummary(obj);if(obj.type)return `${displayTitle(obj)}\n${dateLabel(obj.date)} · ${obj.type==='income'?'مدخل':'مصروف'}\n${money(obj.amount)} ${obj.currency}\n${categoryName(obj.type,obj.category)}\n${obj.notes||'لا توجد ملاحظات'}\n${obj.photos?.length||0} مرفق (محفوظ في النسخة الاحتياطية)`;return JSON.stringify(obj,null,2);}
+function settingsHTML(){return `<div class="settings-grid">${maintenanceHTML()}<section class="panel settings-panel"><h2>هوية مساحة العمل</h2><p>عدّل اسم دفتر الحسابات والوصف الذي يظهر في الصفحة الرئيسية.</p><form id="identity-form"><label>اسم دفتر الحسابات<input name="name" maxlength="35" required value="${esc(settings.name)}"></label><label>وصف الصفحة الرئيسية<input name="description" maxlength="160" value="${esc(settings.description)}"></label><button class="button primary" type="submit">${icon('check')} حفظ التغييرات</button></form></section><section class="panel settings-panel"><h2>العملات</h2><p>ثلاثة أرصدة مستقلة. يمكنك تعديل أسماء العملات ورموز عرضها دون تغيير العمليات.</p><form id="currencies-form">${settings.currencies.map(c=>`<label>${c.code}<div class="inline-form"><input name="${c.code}-name" aria-label="اسم ${c.code}" maxlength="40" required value="${esc(c.name)}"><input name="${c.code}-symbol" aria-label="رمز ${c.code}" maxlength="5" style="max-width:65px" required value="${esc(c.symbol)}"></div></label>`).join('')}<button class="button primary" type="submit">حفظ العملات</button></form></section><section class="panel settings-panel"><h2>إدارة التصنيفات</h2><p>أضف تصنيفًا جديدًا أو اضغط على تصنيف لتعديل اسمه. تتحدث جميع العمليات المرتبطة به تلقائيًا.</p>${['income','expense'].map(type=>`<h3>${type==='income'?'تصنيفات المدخلات':'تصنيفات المصروفات'}</h3><div class="category-list">${settings.categories[type].map(c=>`<button class="category-chip" data-category-edit="${esc(c.id)}" data-type="${type}">${esc(c.name)} ${icon('edit')}</button>`).join('')}</div><form class="inline-form category-form" data-type="${type}"><input name="categoryName" aria-label="تصنيف جديد ${type==='income'?'للمدخلات':'للمصروفات'}" maxlength="50" required placeholder="اسم التصنيف الجديد"><button class="button secondary" type="submit">${icon('plus')} إضافة</button></form>`).join('')}</section><section class="panel settings-panel"><h2>النسخ الاحتياطي والاستعادة</h2><p>نسخة كاملة تشمل العمليات والصور والتصنيفات والإعدادات وسجل التعديلات، في ملف JSON واحد.</p><div class="backup-notice">التخزين محلي لهذا المتصفح والجهاز فقط، وليس سحابيًا. مسح بيانات المتصفح أو استخدام التصفح الخاص قد يؤدي إلى فقدانها. احتفظ بنسخة على قرص خارجي أو مكان آمن.</div><p>آخر نسخة تم تنزيلها: <strong>${settings.lastBackup?timeLabel(settings.lastBackup):'لم تُنشأ نسخة بعد'}</strong></p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="button primary backup-trigger">${icon('download')} تصدير نسخة كاملة</button><button class="button secondary" id="import-backup">${icon('upload')} استيراد نسخة</button></div><p style="margin-top:15px">الاستيراد يدمج السجلات ولا يحذف أي عملية. في حال تطابق رقم العملية، تُحفظ النسخة الحالية في سجل التعديلات قبل استبدالها.</p><button class="button secondary" id="persistent-storage">${icon('shield')} طلب الاحتفاظ بالتخزين</button><p id="persistence-status" style="margin-top:10px"></p></section><section class="panel settings-panel settings-full"><h2>حول النظام المحلي</h2><p style="margin:0">يمكن تعديل جميع بيانات العمليات: البيان، المبلغ، العملة، التاريخ، التصنيف، الملاحظات، وإضافة المرفقات. يمكن حذف مبلغ منفرد أو عملية إدخال كاملة بعد التأكيد؛ تبقى نسخة في سجل التعديلات للاستعادة، ولا تُحسب المحذوفات في الأرصدة والتقارير. لوحة التحكم محلية وليست محمية بكلمة مرور؛ كل من يستخدم هذا المتصفح يستطيع الوصول للبيانات. لا توجد مزامنة بين الأجهزة أو ضمان حفظ دائم. تعديل تصميم البرنامج أو إضافة خصائص جديدة يحتاج إلى تعديل ملفات الموقع.</p></section></div>`;}
+function render(){const routes={dashboard:['نظرة عامة','نظرة عامة على حساباتك',settings.description],income:['المدخلات','المدخلات اليومية','سجّل إيراداتك، وتابع مجموع مدخلاتك بكل عملة.'],expenses:['المصروفات','المصروفات اليومية','كل مصروف في مكانه. تابع المصاريف وأرفق فواتيرك.'],debts:['الديون','الديون والمبالغ المستحقة','تابع اسم المدين وقيمة كل دين بالعملات الثلاث، مع إمكانية التعديل والحذف.'],reports:['التقارير الشهرية','الصورة الكاملة لشهرك','راجع كل العمليات، والأرصدة، والتفاصيل المالية.'],history:['سجل التعديلات','لا يضيع أي تعديل','تاريخ واضح لكل إضافة أو تغيير في دفتر حساباتك.'],settings:['لوحة التحكم','مساحة عمل على طريقتك','إدارة الأسماء والتصنيفات والعملات والنسخ الاحتياطية.']};const meta=routes[currentRoute]||routes.dashboard;$('#breadcrumb-title').textContent=meta[0];$('#page-title').textContent=meta[1];$('#page-description').textContent=meta[2];$('#filter-toolbar').hidden=['settings','history','debts'].includes(currentRoute);$('#filter-toolbar').style.display=['settings','history','debts'].includes(currentRoute)?'none':'';$$('[data-route]').forEach(a=>{a.classList.toggle('active',a.dataset.route===currentRoute);if(a.dataset.route===currentRoute)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});$('#add-debt').hidden=currentRoute!=='debts';$('#add-income').hidden=currentRoute==='debts';$('#add-expense').hidden=currentRoute==='debts';$('#view-content').innerHTML=currentRoute==='debts'?debtsHTML():currentRoute==='dashboard'?dashboardHTML():currentRoute==='settings'?settingsHTML():currentRoute==='history'?historyHTML():ledgerHTML(currentRoute==='income'?'income':currentRoute==='expenses'?'expense':null);paintIcons();}
+function route(){const requested=location.hash.slice(1);currentRoute=['income','expenses','debts','reports','settings','history'].includes(requested)?requested:'dashboard';listSearch='';listCurrency='';listCategory='';debtSearch='';render();closeMenu();}
+function closeMenu(){$('#sidebar').classList.remove('open');$('#sidebar-overlay').classList.remove('visible');$('#mobile-menu').setAttribute('aria-expanded','false');}
+function fillCategories(type,selected){$('#entry-category').innerHTML=settings.categories[type].map(c=>`<option value="${esc(c.id)}" ${selected===c.id?'selected':''}>${esc(c.name)}</option>`).join('');}
+function openEntry(type,id){
+    if(!db)return toast('التخزين غير متاح. أعد تحميل الصفحة.');
+    const record=id?records.find(r=>r.id===id&&!r.deletedAt):null;
+    if(id&&!record)return toast('العملية غير متاحة؛ راجع المحذوفات في سجل التعديلات.');
+    type=record?.type||type;
+    const income=type==='income', group=record?entryGroup(record):[];
+    $('#entry-form').reset();
+    $('#entry-id').value=record?.id||'';
+    $('#entry-type').value=type;
+    $('#entry-title').value=record?.title||'';
+    $('#entry-amount').value=record?.amount||'';
+    $('#entry-amount').required=!income;
+    $('#entry-amount').disabled=income;
+    $('#entry-currency').disabled=income;
+    $('#single-amount-label').hidden=income;
+    $('#single-currency-label').hidden=income;
+    $('#income-amounts').hidden=!income;
+    $('#income-currency-fields').innerHTML=income?settings.currencies.map(c=>{
+        const saved=group.find(r=>r.currency===c.code);
+        return `<label>${esc(c.name)} · ${c.code}<input id="income-amount-${c.code}" data-income-currency="${c.code}" type="number" inputmode="decimal" min="0" max="9999999999" step="0.01" placeholder="0.00" dir="ltr" value="${saved?saved.amount:''}"></label>`;
+    }).join(''):'';
+    $('#income-edit-hint').hidden=!record||!income;
+    $('#entry-date').value=record?.date||(currentMonth===localDate().slice(0,7)?localDate():currentMonth+'-01');
+    $('#entry-notes').value=record?.notes||'';
+    $('#entry-currency').innerHTML=currencyOptions(record?.currency||'USD');
+    fillCategories(type,record?.category);
+    $('#entry-dialog-title').textContent=record?(income?'تعديل المدخل بكل العملات':'تعديل المصروف'):(income?'إضافة مدخل بثلاث عملات':'إضافة مصروف جديد');
+    $('#photo-section').hidden=income;
+    $('#delete-entry').hidden=!record;
+    $('#delete-entry').textContent=income?'حذف عملية الإدخال كاملة':'حذف المصروف';
+    pendingPhotos=[];
+    $('#form-error').textContent='';
+    $('#photo-preview').innerHTML=(record?.photos||[]).map(p=>`<img src="${esc(p.data)}" alt="${esc(p.name)}">`).join('');
+    $('#entry-dialog').showModal();
+}
+function detail(id){const r=records.find(x=>x.id===id);if(!r)return;$('#detail-content').innerHTML=`<dl class="detail-grid"><div><dt>البيان</dt><dd>${esc(displayTitle(r))}</dd></div><div><dt>المبلغ</dt><dd class="money">${money(r.amount)} ${r.currency}</dd></div><div><dt>التاريخ</dt><dd>${dateLabel(r.date)}</dd></div><div><dt>النوع والتصنيف</dt><dd>${r.type==='income'?'مدخل':'مصروف'} · ${esc(categoryName(r.type,r.category))}</dd></div><div class="full-width"><dt>ملاحظات</dt><dd class="notes-display">${esc(r.notes)||'لا توجد ملاحظات'}</dd></div></dl><p class="muted" style="font-size:10px">أُضيفت ${timeLabel(r.createdAt)} · آخر تعديل ${timeLabel(r.updatedAt)}</p><div class="attachment-gallery">${(r.photos||[]).map((p,i)=>`<a href="#" data-photo-record="${esc(r.id)}" data-photo-index="${i}" aria-label="فتح ${esc(p.name)}"><img src="${esc(p.data)}" alt="${esc(p.name)}"></a>`).join('')}</div><button class="button primary" style="margin-top:22px" data-edit="${esc(r.id)}">${icon('edit')} تعديل العملية</button><div class="detail-actions"><button class="button danger" data-delete="${esc(r.id)}">${icon('trash')} حذف هذا المبلغ</button>${r.type==='income'&&r.batchId?`<button class="button danger" data-delete-group="${esc(r.id)}">حذف عملية الإدخال كاملة (${entryGroup(r).length} مبالغ)</button>`:''}</div>`;$('#detail-dialog').showModal();}
+function readPhoto(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve({name:file.name,data:reader.result,type:file.type});reader.onerror=()=>reject(new Error('تعذر قراءة الصورة'));reader.readAsDataURL(file);});}
+function validDate(date){return typeof date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(date)&&Number.isFinite(Date.parse(date))&&new Date(date+'T12:00:00Z').toISOString().slice(0,10)===date&&Number(date.slice(0,4))>=1900&&Number(date.slice(0,4))<=9998;}
+async function saveEntry(event){
+    event.preventDefault();
+    const button=$('#save-entry');
+    button.disabled=true;$('#form-error').textContent='';
+    try{
+        const id=$('#entry-id').value;
+        await refreshData();
+        const old=records.find(r=>r.id===id&&!r.deletedAt);
+        if(id&&!old)throw new Error('هذه العملية حُذفت في نافذة أخرى. أغلق النموذج وراجع السجل.');
+        const date=$('#entry-date').value,title=$('#entry-title').value.trim(),type=$('#entry-type').value;
+        if(!validDate(date)||title.length>120)throw new Error('أدخل تاريخًا صالحًا (1900–9998). الاسم اختياري.');
+        const notes=$('#entry-notes').value.trim(),category=$('#entry-category').value;
+        if(!settings.categories[type]?.some(c=>c.id===category)||notes.length>2000)throw new Error('راجع التصنيف والملاحظات.');
+        const inputs=type==='income'?$$('[data-income-currency]').map(el=>({currency:el.dataset.incomeCurrency,amount:Number(el.value)})):[{currency:$('#entry-currency').value,amount:Number($('#entry-amount').value)}];
+        if(inputs.some(v=>!Number.isFinite(v.amount)||v.amount<0||v.amount>9999999999||Math.abs(v.amount*100-Math.round(v.amount*100))>.0001))throw new Error('المبالغ يجب أن تكون موجبة وبمنزلتين عشريتين كحد أقصى.');
+        const populated=inputs.filter(v=>v.amount>0);
+        if(!populated.length)throw new Error('أدخل مبلغًا واحدًا على الأقل. لحذف العملية استخدم زر «حذف العملية».');
+        const group=old?entryGroup(old):[];
+        const removed=type==='income'?group.filter(r=>!populated.some(v=>v.currency===r.currency)):[];
+        if(removed.length&&!confirm(`سيتم حذف ${removed.length} مبلغ من الحسابات: ${removed.map(r=>r.currency).join('، ')}. يمكن استعادتها من سجل التعديلات. هل تتابع؟`))return;
+        const now=new Date().toISOString(),batchId=type==='income'?(old?.batchId||uid()):undefined;
+        const updated=[],changes=[];
+        for(const value of populated){
+            const prior=type==='income'?group.find(r=>r.currency===value.currency):old;
+            const record={...(prior||{}),id:prior?.id||uid(),type,title,amount:Math.round(value.amount*100)/100,currency:value.currency,date,category,notes,photos:type==='expense'?[...(prior?.photos||[]),...pendingPhotos]:(prior?.photos||[]),createdAt:prior?.createdAt||now,updatedAt:now};
+            if(batchId)record.batchId=batchId;
+            updated.push(record);
+            changes.push({id:uid(),action:prior?'edit':'create',at:now,recordId:record.id,label:(prior?'تعديل: ':'إضافة: ')+displayTitle(record)+' · '+record.currency,before:prior||null,after:record});
+        }
+        for(const prior of removed){
+            const record={...prior,deletedAt:now,updatedAt:now};updated.push(record);
+            changes.push({id:uid(),action:'delete',at:now,recordId:record.id,label:'حذف مبلغ: '+displayTitle(record)+' · '+record.currency,before:prior,after:record});
+        }
+        await commit({records:updated,history:changes});
+        await refreshData();currentMonth=date.slice(0,7);$('#month-filter').value=currentMonth;
+        $('#entry-dialog').close();render();toast('تم حفظ '+populated.length+' مبلغ بنجاح'+(removed.length?' وحفظ المحذوفات للاستعادة':''));
+    }catch(error){$('#form-error').textContent=error.name==='QuotaExceededError'?'مساحة التخزين غير كافية. لم تُحفظ العملية. صدّر نسخة احتياطية وحاول دون صور جديدة.':error.message||'تعذر الحفظ. أعد المحاولة.';}
+    finally{button.disabled=false;}
+}
+async function deleteRecord(id,wholeGroup=false){
+    await refreshData();
+    const record=records.find(r=>r.id===id&&!r.deletedAt);
+    if(!record)return;
+    const targets=wholeGroup?entryGroup(record):[record];
+    const label=wholeGroup?'عملية الإدخال كاملة':'هذا المبلغ فقط';
+    const summary=targets.map(r=>`${money(r.amount)} ${r.currency}`).join('، ');
+    if(!confirm(`هل تريد حذف ${label}؟\n${summary}\nستُستبعد من الحسابات والتقارير، مع الاحتفاظ بنسخة قابلة للاستعادة في سجل التعديلات.`))return;
+    const now=new Date().toISOString();
+    const updated=targets.map(r=>({...r,deletedAt:now,updatedAt:now}));
+    await commit({records:updated,history:targets.map((r,i)=>({id:uid(),action:'delete',at:now,recordId:r.id,label:'حذف: '+displayTitle(r)+' · '+r.currency,before:r,after:updated[i]}))});
+    await refreshData();$('#entry-dialog').close();$('#detail-dialog').close();render();toast('تم الحذف من الحسابات. يمكنك الاستعادة من سجل التعديلات.');
+}
+async function restoreRecord(id){
+    await refreshData();
+    const old=records.find(r=>r.id===id&&r.deletedAt);
+    if(!old)return;
+    if(old.batchId&&records.some(r=>!r.deletedAt&&r.batchId===old.batchId&&r.currency===old.currency))return toast('يوجد مبلغ نشط لهذه العملة في نفس الإدخال. عدّله أو احذفه قبل الاستعادة.');
+    if(!confirm(`استعادة ${money(old.amount)} ${old.currency} إلى الحسابات في تاريخ ${old.date}؟`))return;
+    const now=new Date().toISOString(),record={...old,updatedAt:now};delete record.deletedAt;delete record.resetId;
+    await commit({records:[record],history:[{id:uid(),action:'restore',at:now,recordId:id,label:'استعادة: '+displayTitle(record)+' · '+record.currency,before:old,after:record}]});
+    await refreshData();render();toast('تمت استعادة المبلغ إلى شهره الأصلي.');
+}
+function deletedHTML(){
+    const deleted=sortedRows(records.filter(r=>r.deletedAt));
+    if(!deleted.length)return '';
+    return `<section class="deleted-section"><h3>المحذوفات القابلة للاستعادة · ${deleted.length}</h3><p>هذه المبالغ غير مشمولة في الأرصدة أو التقارير. استعد كل مبلغ عند الحاجة.</p>${deleted.map(r=>`<article class="deleted-item"><div>${esc(displayTitle(r))}<small><bdi>${money(r.amount)} ${r.currency}</bdi> · <bdi>${esc(r.date)}</bdi></small></div><button class="button secondary" data-restore="${esc(r.id)}">${icon('history')} استعادة المبلغ</button></article>`).join('')}</section>`;
+}
+async function updateSettings(next,label){const old=structuredClone(settings);await commit({settings:[next],history:[{id:uid(),action:'settings',at:new Date().toISOString(),label,before:old}]});await refreshData();render();toast('تم حفظ الإعدادات');}
+function download(content,name,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
+async function exportBackup(){try{await refreshData();const now=new Date().toISOString();const backup={format:'daftar-backup',version:3,exportedAt:now,settings,records,debts,history};download(JSON.stringify(backup),`daftar-backup-${localDate()}-${Date.now()}.json`,'application/json');await commit({settings:[{...settings,lastBackup:now}]});await refreshData();if(currentRoute==='settings')render();toast('تم بدء تنزيل النسخة. تأكد من حفظ الملف في مكان آمن.');}catch(error){toast('تعذر تصدير النسخة: '+error.message);}}
+function validatePhoto(p){return p&&typeof p.name==='string'&&typeof p.data==='string'&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=\r\n]+$/.test(p.data)&&p.data.length<5700000;}
+function validateRecord(r){return r&&typeof r.id==='string'&&r.id.length<100&&['income','expense'].includes(r.type)&&typeof r.title==='string'&&r.title.length<=120&&(r.batchId===undefined||(typeof r.batchId==='string'&&r.batchId.length>0&&r.batchId.length<100&&r.type==='income'))&&(r.deletedAt===undefined||(typeof r.deletedAt==='string'&&Number.isFinite(Date.parse(r.deletedAt))))&&(r.resetId===undefined||(typeof r.resetId==='string'&&r.resetId.length>0&&r.resetId.length<100))&&typeof r.amount==='number'&&r.amount>0&&r.amount<=9999999999&&Math.abs(r.amount*100-Math.round(r.amount*100))<.0001&&['USD','TRY','SYP'].includes(r.currency)&&validDate(r.date)&&typeof r.category==='string'&&typeof r.notes==='string'&&r.notes.length<=2000&&Array.isArray(r.photos)&&r.photos.every(validatePhoto)&&typeof r.createdAt==='string'&&Number.isFinite(Date.parse(r.createdAt))&&typeof r.updatedAt==='string'&&Number.isFinite(Date.parse(r.updatedAt));}
+function validateSettings(s){return s&&s.id==='main'&&typeof s.name==='string'&&s.name.trim()&&s.name.length<=35&&typeof s.description==='string'&&s.description.length<=160&&(!s.lastBackup||Number.isFinite(Date.parse(s.lastBackup)))&&Array.isArray(s.currencies)&&s.currencies.length===3&&['USD','TRY','SYP'].every(code=>s.currencies.filter(c=>c.code===code).length===1)&&s.currencies.every(c=>typeof c.name==='string'&&c.name.trim()&&c.name.length<=40&&typeof c.symbol==='string'&&c.symbol.length<=5&&c.className===c.code.toLowerCase())&&s.categories&&['income','expense'].every(type=>Array.isArray(s.categories[type])&&s.categories[type].length&&new Set(s.categories[type].map(c=>c.id)).size===s.categories[type].length&&s.categories[type].every(c=>typeof c.id==='string'&&c.id.length<100&&typeof c.name==='string'&&c.name.trim()&&c.name.length<=50));}
+function validateBackup(data){if(data?.format!=='daftar-backup'||![1,2,3].includes(data.version)||!validateSettings(data.settings)||!Array.isArray(data.records)||!data.records.every(validateRecord)||new Set(data.records.map(r=>r.id)).size!==data.records.length||!Array.isArray(data.history)||new Set(data.history.map(h=>h?.id)).size!==data.history.length)throw new Error('ملف النسخة غير صالح أو ليس من هذا النظام.');if((data.version===3||data.debts!==undefined)&&(!Array.isArray(data.debts)||!data.debts.every(validateDebt)||new Set(data.debts.map(d=>d.id)).size!==data.debts.length))throw new Error('بيانات الديون في النسخة غير صالحة.');for(const h of data.history){if(!h||typeof h.id!=='string'||h.id.length>100||typeof h.at!=='string'||!Number.isFinite(Date.parse(h.at))||typeof h.label!=='string'||(h.recordId!==undefined&&typeof h.recordId!=='string')||!['create','edit','settings','import','backup','delete','restore'].includes(h.action)||(h.before&&!(h.before.type==='debt'?validateDebt(h.before):h.before.type?validateRecord(h.before):validateSettings(h.before)))||(h.after&&!(h.after.type==='debt'?validateDebt(h.after):validateRecord(h.after))))throw new Error('سجل التعديلات في النسخة غير صالح.');}const activeGroups=new Set();for(const r of data.records){if(!data.settings.categories[r.type].some(c=>c.id===r.category))throw new Error('تصنيف مفقود في النسخة.');if(r.batchId&&!r.deletedAt){const key=r.batchId+'|'+r.currency;if(activeGroups.has(key))throw new Error('مبلغ مكرر لنفس العملة في عملية إدخال واحدة.');activeGroups.add(key);}}}
+async function importBackup(file){
+    if(!file)return;
+    try{
+        if(file.size>100*1024*1024)throw new Error('الملف كبير جدًا. الحد الأقصى للاستيراد 100 MB.');
+        const data=JSON.parse(await file.text());validateBackup(data);await refreshData();
+        const importedDebts=data.debts||[];
+        const conflicts=data.records.filter(r=>records.some(old=>old.id===r.id));
+        const debtConflicts=importedDebts.filter(d=>debts.some(old=>old.id===d.id));
+        if(!confirm(`استيراد ${data.records.length} عملية و${importedDebts.length} دين؟\nسيتم تحديث ${conflicts.length} عملية و${debtConflicts.length} دين بأرقام متطابقة وحفظ النسخ الحالية في سجل التعديلات. السجلات غير الموجودة في الملف تبقى كما هي.\nتُستعاد حالة الحذف كما هي في الملف. ستُدمج التصنيفات وتُستعاد الإعدادات.`))return;
+        const now=new Date().toISOString(),next=structuredClone(data.settings);
+        for(const type of ['income','expense'])for(const c of settings.categories[type])if(!next.categories[type].some(n=>n.id===c.id))next.categories[type].push(c);
+        const oldHistIds=new Set(history.map(h=>h.id));
+        const newHistory=data.history.map(h=>oldHistIds.has(h.id)?{...h,id:uid()}:h);
+        for(const r of conflicts)newHistory.push({id:uid(),action:'import',at:now,recordId:r.id,label:'استعادة نسخة: '+displayTitle(r),before:records.find(o=>o.id===r.id),after:r});
+        for(const d of debtConflicts)newHistory.push({id:uid(),action:'import',at:now,recordId:d.id,label:'استعادة نسخة دين: '+d.name,before:debts.find(o=>o.id===d.id),after:d});
+        newHistory.push({id:uid(),action:'import',at:now,label:'استيراد نسخة احتياطية — '+data.records.length+' عملية و'+importedDebts.length+' دين',before:settings});
+        const merged=new Map(records.map(r=>[r.id,r]));for(const r of data.records)merged.set(r.id,r);
+        const mergedDebts=new Map(debts.map(d=>[d.id,d]));for(const d of importedDebts)mergedDebts.set(d.id,d);
+        validateBackup({format:'daftar-backup',version:3,settings:next,records:[...merged.values()],debts:[...mergedDebts.values()],history:[]});
+        await commit({records:data.records,debts:importedDebts,settings:[next],history:newHistory});
+        await refreshData();render();toast('تم دمج النسخة الاحتياطية، بما فيها الديون، دون محو السجلات الأخرى.');
+    }catch(error){toast('لم تُستورد البيانات: '+(error.message||'تعذر قراءة الملف'));}
+    finally{$('#backup-file').value='';}
+}
+function exportCSV(){
+    const rows=filteredRows(null);
+    const quote=text=>'"'+String(text).replace(/"/g,'""')+'"';
+    const safe=value=>{let text=String(value??'');if(/^[\s]*[=+@-]/.test(text))text="'"+text;return quote(text);};
+    // Only a strictly validated, application-generated date becomes a spreadsheet
+    // text-literal formula. User-controlled text is always sanitized separately.
+    const dateCell=date=>{if(!validDate(date))throw new Error('تاريخ غير صالح في التقرير');return quote('="'+date+'"');};
+    const header=['الاسم / البيان','التاريخ (YYYY-MM-DD)','النوع','المبلغ','العملة','التصنيف','الملاحظات','عدد المرفقات'];
+    const lines=[header.map(safe).join(',')];
+    for(const r of sortedRows(rows)){
+        lines.push([safe(r.title),dateCell(r.date),safe(r.type==='income'?'مدخل':'مصروف'),safe(r.amount),safe(r.currency),safe(categoryName(r.type,r.category)),safe(r.notes),safe(r.photos.length)].join(','));
+    }
+    download('\uFEFF'+lines.join('\r\n'),`daftar-report-${currentMonth}.csv`,'text/csv;charset=utf-8');
+    toast('تم تصدير '+rows.length+' عملية. التاريخ ثابت بصيغة سنة-شهر-يوم.');
+}
+function renderLedgerTable(){const kind=currentRoute==='income'?'income':currentRoute==='expenses'?'expense':null;$('#ledger-table').innerHTML=tableHTML(filteredRows(kind),kind);}
+function showPhoto(id,index){const photo=records.find(r=>r.id===id)?.photos[index];if(!photo)return;const bytes=atob(photo.data.split(',')[1]);const arr=Uint8Array.from(bytes,c=>c.charCodeAt(0));const url=URL.createObjectURL(new Blob([arr],{type:photo.data.slice(5,photo.data.indexOf(';'))}));window.open(url,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(url),60000);}
+function bindEvents(){
+ window.addEventListener('hashchange',route);
+ $('#add-income').addEventListener('click',()=>openEntry('income'));$('#add-expense').addEventListener('click',()=>openEntry('expense'));
+ $('#entry-form').addEventListener('submit',saveEntry);
+ $$('.close-dialog').forEach(button=>button.addEventListener('click',()=>button.closest('dialog').close()));
+ $('#month-filter').value=currentMonth;$('#month-filter').addEventListener('change',e=>{if(validDate(e.target.value+'-01')){currentMonth=e.target.value;render();}else e.target.value=currentMonth;});
+ function shiftMonth(change){const date=new Date(currentMonth+'-15T12:00:00');date.setMonth(date.getMonth()+change);if(date.getFullYear()<1900||date.getFullYear()>9998)return;currentMonth=localDate(date).slice(0,7);$('#month-filter').value=currentMonth;render();}
+ $('#previous-month').addEventListener('click',()=>shiftMonth(-1));$('#next-month').addEventListener('click',()=>shiftMonth(1));
+ $('#mobile-menu').addEventListener('click',()=>{$('#sidebar').classList.toggle('open');$('#sidebar-overlay').classList.toggle('visible');$('#mobile-menu').setAttribute('aria-expanded',String($('#sidebar').classList.contains('open')));});$('#sidebar-overlay').addEventListener('click',closeMenu);
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
+ $('#entry-photos').addEventListener('change',async e=>{const files=[...e.target.files];pendingPhotos=[];$('#form-error').textContent='';const old=records.find(r=>r.id===$('#entry-id').value);try{if(files.length>5)throw new Error('اختر حتى 5 صور جديدة في كل مرة.');if(files.some(f=>!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>4*1024*1024))throw new Error('يجب أن تكون الصور JPG أو PNG أو WebP وأقل من 4 MB لكل صورة.');$('#save-entry').disabled=true;pendingPhotos=await Promise.all(files.map(readPhoto));}catch(error){$('#form-error').textContent=error.message;e.target.value='';}finally{$('#save-entry').disabled=false;$('#photo-preview').innerHTML=[...(old?.photos||[]),...pendingPhotos].map(p=>`<img src="${esc(p.data)}" alt="${esc(p.name)}">`).join('');}});
+ document.addEventListener('click',async e=>{const b=e.target.closest('button,a');if(!b)return;try{if(b.matches('.backup-trigger'))await exportBackup();else if(b.dataset.add)openEntry(b.dataset.add);else if(b.dataset.edit){$('#detail-dialog').close();openEntry('',b.dataset.edit);}else if(b.dataset.detail)detail(b.dataset.detail);else if(b.dataset.delete)await deleteRecord(b.dataset.delete);else if(b.dataset.deleteGroup)await deleteRecord(b.dataset.deleteGroup,true);else if(b.dataset.restore)await restoreRecord(b.dataset.restore);else if(b.id==='delete-entry')await deleteRecord($('#entry-id').value,true);else if(b.dataset.photoRecord){e.preventDefault();showPhoto(b.dataset.photoRecord,Number(b.dataset.photoIndex));}else if(b.id==='export-csv')exportCSV();else if(b.id==='import-backup')$('#backup-file').click();else if(b.id==='persistent-storage'){const retained=await navigator.storage?.persist?.();$('#persistence-status').textContent=retained?'وافق المتصفح على التخزين المستمر. النسخ الاحتياطية تبقى ضرورية.':'لم يمنح المتصفح التخزين المستمر. احفظ نسخًا احتياطية منتظمة.';}else if(b.dataset.categoryEdit){const type=b.dataset.type;const c=settings.categories[type].find(c=>c.id===b.dataset.categoryEdit);const name=prompt('الاسم الجديد للتصنيف:',c.name);if(name===null)return;if(!name.trim()||name.trim().length>50)return toast('أدخل اسمًا بين 1 و50 حرفًا.');if(settings.categories[type].some(x=>x.id!==c.id&&x.name===name.trim()))return toast('يوجد تصنيف بهذا الاسم.');const next=structuredClone(settings);next.categories[type].find(x=>x.id===c.id).name=name.trim();await updateSettings(next,'تعديل تصنيف: '+c.name);}}catch(error){toast('تعذر حفظ التغيير: '+error.message);}});
+ document.addEventListener('change',e=>{if(e.target.id==='chart-currency'){chartCurrency=e.target.value;render();}if(e.target.id==='list-currency'){listCurrency=e.target.value;renderLedgerTable();}if(e.target.id==='list-category'){listCategory=e.target.value;renderLedgerTable();}});
+ document.addEventListener('input',e=>{if(e.target.id==='record-search'){listSearch=e.target.value;renderLedgerTable();}});
+ document.addEventListener('submit',async e=>{const form=e.target;if(!['identity-form','currencies-form'].includes(form.id)&&!form.matches('.category-form'))return;e.preventDefault();const button=$('button[type="submit"]',form);button.disabled=true;try{const values=new FormData(form),next=structuredClone(settings);let label='تعديل إعدادات مساحة العمل';if(form.id==='identity-form'){next.name=values.get('name').trim();next.description=values.get('description').trim();if(!next.name)throw new Error('اكتب اسمًا لمساحة العمل.');}else if(form.id==='currencies-form'){next.currencies.forEach(c=>{c.name=values.get(c.code+'-name').trim();c.symbol=values.get(c.code+'-symbol').trim();if(!c.name||!c.symbol)throw new Error('أكمل أسماء العملات ورموزها.');});label='تعديل أسماء العملات';}else{const name=values.get('categoryName').trim(),type=form.dataset.type;if(!name)throw new Error('اكتب اسم التصنيف.');if(next.categories[type].some(c=>c.name===name))throw new Error('هذا التصنيف موجود بالفعل.');next.categories[type].push({id:uid(),name});label='إضافة تصنيف: '+name;}await updateSettings(next,label);}catch(error){toast(error.message);button.disabled=false;}});
+ $('#backup-file').addEventListener('change',e=>importBackup(e.target.files[0]));
+ // Reload committed data when returning from another browser tab.
+ document.addEventListener('visibilitychange',async()=>{if(document.visibilityState==='visible'&&db&&!$('dialog[open]')){try{await refreshData();render();}catch{toast('تعذر تحديث البيانات. أعد تحميل الصفحة.');}}});
+}
+async function init(){paintIcons();try{db=await openDatabase();db.onversionchange=()=>{db.close();toast('تم تحديث التخزين. أعد تحميل الصفحة.');};await refreshData();bindEvents();route();}catch(error){$('#view-content').innerHTML=`<div class="error-panel"><h2>تعذر فتح التخزين المحلي</h2><p>اسمح بتخزين بيانات المواقع واستخدم نافذة عادية بدل التصفح الخاص، ثم أعد تحميل الصفحة. لن ندّعي حفظ أي بيانات عندما يكون التخزين غير متاح.</p><p>${esc(error.message)}</p></div>`;$('#storage-status').textContent='التخزين غير متاح';$('#add-income').disabled=true;$('#add-expense').disabled=true;}}
+init();
+</script></body></html>

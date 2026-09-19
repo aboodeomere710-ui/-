@@ -1,0 +1,135 @@
+/* Color-only adaptation of maarefmarket/maarefmarket2.
+   Reference: css/style.css at cead415e1c8c9a8d857f0d739594c45fec49bcdc.
+   No layout, typography, content, storage or accounting behavior is changed. */
+:root, :root[data-theme="light"] {
+  --brand: #2B5FB3;
+  --brand-deep: #1F4A8F;
+  --brand-soft: #E3ECFA;
+  --accent: #F39C1F;
+  --accent-soft: #FDE7C4;
+  --accent-deep: #9A5C06;
+  --surface: #FFFFFF;
+  --elevated: #EAF0FA;
+  --bg: #F4F7FC;
+  --line: #DCE4F2;
+  --text: #1B2333;
+  --muted: #66738A;
+  --on-brand: #FFFFFF;
+  --green: var(--brand);
+  --green-dark: #1F4A8F;
+  --mint: var(--brand-soft);
+  --orange: var(--accent);
+  --red: #DC2626;
+  --paint-negative: #C52222;
+  --paint-positive: #187341;
+  --paint-positive-bg: #EAF6EF;
+  --paint-danger-bg: #FDECEC;
+  --paint-danger-line: #EBC7C7;
+  --sidebar-bg: #1F4A8F;
+  --sidebar-surface: #28579C;
+  --sidebar-active: #3266B8;
+  --sidebar-text: #DBE8FC;
+  --sidebar-muted: #B9CDEE;
+  --paint-shadow: rgba(43,95,179,.12);
+}
+:root[data-theme="dark"] {
+  --brand: #6A9BE8;
+  --brand-deep: #8AB2F0;
+  --brand-soft: #1F2E4D;
+  --accent: #F7AE45;
+  --accent-soft: #3A2C12;
+  --accent-deep: #F7AE45;
+  --surface: #161F32;
+  --elevated: #1C2740;
+  --bg: #0E1523;
+  --line: #2A3752;
+  --text: #E8EEF8;
+  --muted: #97A5BF;
+  --on-brand: #0E1523;
+  --green: var(--brand);
+  --green-dark: #131F36;
+  --mint: var(--brand-soft);
+  --orange: var(--accent);
+  --red: #FCA5A5;
+  --paint-negative: #FCA5A5;
+  --paint-positive: #8BDBA7;
+  --paint-positive-bg: #19372C;
+  --paint-danger-bg: #3D242C;
+  --paint-danger-line: #63404A;
+  --sidebar-bg: #131F36;
+  --sidebar-surface: #1C2D4B;
+  --sidebar-active: #253D65;
+  --sidebar-text: #E1EAFB;
+  --sidebar-muted: #A4B8D9;
+  --paint-shadow: rgba(0,0,0,.35);
+}
+:root body { background-color:var(--bg);color:var(--text) }
+:root ::selection { background:var(--accent);color:#1B2333 }
+:root :is(button,a,input,select,textarea):focus-visible { outline-color:var(--accent) }
+:root .sidebar { background:var(--sidebar-bg);color:var(--sidebar-text) }
+:root .sidebar .brand strong { color:#FFFFFF }
+:root .brand-symbol { border-color:var(--accent);color:var(--accent);background:rgba(255,255,255,.04) }
+:root .sidebar :is(.brand small,.workspace small,.workspace-lock,.nav-label,.sidebar-footer) { color:var(--sidebar-muted) }
+:root .workspace { background:var(--sidebar-surface);border-color:rgba(255,255,255,.12) }
+:root .workspace-avatar { background:var(--sidebar-active);color:#FFE0AC }
+:root .sidebar nav>a { color:var(--sidebar-text) }
+:root .sidebar nav>a:hover { background:var(--sidebar-surface) }
+:root .sidebar nav>a.active { background:var(--sidebar-active);color:#FFFFFF;box-shadow:inset -3px 0 var(--accent) }
+:root .sidebar nav>a.active svg { color:var(--accent) }
+:root .nav-pill { background:var(--sidebar-surface);color:var(--sidebar-text) }
+:root .backup-card { background:linear-gradient(135deg,var(--sidebar-active),var(--sidebar-surface));border-color:rgba(255,255,255,.13) }
+:root .backup-card>span { color:var(--accent) }
+:root .backup-card strong { color:#FFFFFF }
+:root .backup-card p { color:var(--sidebar-muted) }
+:root .backup-card button { background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.22);color:#FFFFFF }
+:root .tiny-logo { border-color:var(--sidebar-muted);color:var(--sidebar-muted) }
+:root .status-dot { background:var(--paint-positive) }
+:root .sidebar .status-dot { background:#88D9AB }
+:root :is(.topbar,.filter-toolbar,.currency-card,.panel,dialog,.secondary,.mini-select,.loading-panel) { background:var(--surface);color:var(--text);border-color:var(--line) }
+:root :is(.breadcrumb strong,.profile-label,.period-label,.panel-title,.record-title,.stat-number,.balance-amount,.settings-panel h2,.settings-panel h3) { color:var(--text) }
+:root :is(.breadcrumb,.muted,.page-heading p,.panel-subtitle,.balance-label,.stat-label,.currency-code,.chart-legend,.chart-caption,.donut-center small,.donut-legend li b,.table-footer,.page-footer,.field-help,.header-datetime,.eyebrow,.record-sub,.optional,.settings-panel>p,.history-item p,.history-item time,.deleted-item small,.chart-grid span,.bar-group>span,.empty-state p,.dialog-footer>span,.download-footer) { color:var(--muted) }
+:root :is(.breadcrumb-slash,.topbar-divider) { color:var(--muted);border-color:var(--line) }
+:root :is(.period-icon,.icon-button,.text-link) { color:var(--brand) }
+:root .header-datetime { border-color:var(--line) }
+:root :is(.month-control,.local-badge,.profile-avatar,.category-chip,.empty-icon,.history-item>span,.income-amounts,.report-summary,.dialog-footer,.deleted-section,th) { background:var(--elevated);border-color:var(--line);color:var(--text) }
+:root .month-control input { color:var(--text) }
+:root :is(.local-badge,.profile-avatar,.empty-icon,.history-item>span,.category-chip) { color:var(--brand) }
+:root :is(label input,label select,label textarea,.settings-panel input,.search-tools input,.search-tools select) { background:var(--bg);color:var(--text);border-color:var(--line) }
+:root :is(input,textarea)::placeholder { color:var(--muted) }
+:root :is(input,select,textarea):focus { border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft) }
+:root .primary { background:var(--brand);border-color:transparent;color:var(--on-brand);box-shadow:0 3px 5px var(--paint-shadow) }
+:root .primary:hover { background:var(--brand-deep) }
+:root .secondary { border-color:var(--line);color:var(--brand) }
+:root .currency-card:first-child { border-top-color:var(--brand) }
+:root .currency-tag { border-color:var(--line);color:var(--muted) }
+:root .currency-mark { background:var(--brand-soft);border-color:var(--line);color:var(--brand) }
+:root .currency-mark.try { background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent-deep) }
+:root .currency-mark.syp { background:var(--elevated);border-color:var(--line);color:var(--brand-deep) }
+:root .balance-amount small { color:var(--muted) }
+:root :is(td,.currency-stats,.currency-stats>div+div,.chart-grid div,.chart-caption,.page-footer,.table-footer,.history-item,.dialog-header,.dialog-footer,.deleted-item,.debt-currency-caption) { border-color:var(--line) }
+:root .positive { color:var(--paint-positive) }
+:root .negative { color:var(--paint-negative) }
+:root .type-chip { background:var(--paint-positive-bg);color:var(--paint-positive) }
+:root .type-chip.expense { background:var(--accent-soft);color:var(--accent-deep) }
+:root :is(.bar,.legend-square) { background:var(--brand) }
+:root :is(.bar.expense,.legend-square.expense) { background:var(--accent) }
+:root .donut { background:var(--elevated) }
+:root .donut:before { background:var(--surface) }
+:root .info-banner { background:var(--brand-soft);border-color:var(--line);color:var(--text) }
+:root .info-banner :is(strong,button,svg) { color:var(--brand) }
+:root .upload-area { background:var(--bg);border-color:var(--brand);color:var(--brand) }
+:root .upload-area strong { color:var(--brand) }
+:root :is(.backup-notice,.reset-notice) { background:var(--accent-soft);border-color:var(--accent);color:var(--accent-deep) }
+:root .error-panel { background:var(--paint-danger-bg);border-color:var(--paint-danger-line);color:var(--paint-negative) }
+:root .danger { background:var(--paint-danger-bg);border-color:var(--paint-danger-line);color:var(--paint-negative) }
+:root .icon-button.danger { background:transparent;color:var(--paint-negative) }
+:root .form-error { color:var(--paint-negative) }
+:root .theme-toggle { color:var(--accent-deep);border-color:var(--line) }
+:root .toast { background:var(--brand);color:var(--on-brand);box-shadow:0 5px 30px var(--paint-shadow) }
+:root dialog { box-shadow:0 30px 120px var(--paint-shadow) }
+:root dialog::backdrop { background:rgba(14,21,35,.62) }
+:root .sidebar-overlay.visible { background:rgba(14,21,35,.62) }
+:root .download-page .brand strong { color:var(--brand) }
+:root .download-page .brand small { color:var(--muted) }
+:root .download-page .brand-symbol { background:var(--sidebar-bg) }
+:root .download-features span { background:var(--brand-soft);color:var(--brand) }

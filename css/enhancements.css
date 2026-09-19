@@ -1,0 +1,37 @@
+/* Targeted additions: night mode, clock, multi-currency entry, recoverable deletion. */
+[hidden]{display:none!important}
+.header-datetime{font-family:Arial,sans-serif;font-size:11px;font-variant-numeric:tabular-nums;color:#6e8275;white-space:nowrap;padding:6px 8px;border:1px solid var(--line);border-radius:6px}
+.theme-toggle{font-size:23px;width:33px;height:33px;border:1px solid var(--line);color:var(--green)}
+.income-amounts{border:1px solid var(--line);border-radius:9px;margin:0;padding:15px;background:#f8fbf6;min-width:0}
+.income-amounts legend{font-size:12px;font-weight:500;padding:0 5px}
+.income-currency-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.income-currency-fields label{min-width:0;font-size:10px}
+.income-currency-fields input{padding:10px 8px;font-size:14px}
+.field-help{font-size:10px;color:var(--muted);margin-top:10px;line-height:1.8}
+.danger{background:#fcf0ed;border-color:#ebc8bf;color:#ad5747}.icon-button.danger{background:transparent;border:0;color:#b36d5d}
+.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.deleted-section{padding:18px 20px;border-bottom:1px solid var(--line);background:#fcfaf7}.deleted-section h3{font-size:13px;margin-bottom:8px}.deleted-section p{font-size:10px;color:var(--muted)}
+.deleted-item{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:11px}.deleted-item:last-child{border:0}.deleted-item small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.deleted-item .button{min-height:32px;padding:6px 10px;font-size:10px}
+.record-batch{font-size:9px;color:var(--muted);display:block}
+:root[data-theme="dark"]{color-scheme:dark;--green:#3d9874;--green-dark:#10251d;--mint:#223d2f;--text:#deebe2;--muted:#a1b5a9;--line:#30483b;--bg:#111e1a;--orange:#d4ab78;--red:#e9a18e}
+[data-theme="dark"] :is(.topbar,.filter-toolbar,.currency-card,.panel,dialog,.secondary,.mini-select,.loading-panel){background:#1b2c24;color:var(--text);border-color:var(--line)}
+[data-theme="dark"] :is(.breadcrumb strong,.profile-label,.period-label,.panel-title,.record-title,.stat-number,.balance-amount,.settings-panel h2,.settings-panel h3){color:#d8e9da}
+[data-theme="dark"] :is(.muted,.page-heading p,.panel-subtitle,.balance-label,.stat-label,.currency-code,.chart-legend,.chart-caption,.donut-center small,.donut-legend li b,.table-footer,.page-footer,.text-link,.field-help,.header-datetime,.eyebrow,.record-sub,.optional,.settings-panel>p,.history-item p,.history-item time,.deleted-item small){color:#a1b5a9}
+[data-theme="dark"] :is(.month-control,.local-badge,.profile-avatar,.category-chip,.empty-icon,.history-item>span,.income-amounts,.report-summary,.dialog-footer,.deleted-section,th){background:#21382a;border-color:var(--line);color:#c2d5bf}
+[data-theme="dark"] .month-control input{color:#c2d5bf}
+[data-theme="dark"] :is(label input,label select,label textarea,.settings-panel input,.search-tools input,.search-tools select){background:#14261d;color:#e0ede0;border-color:#3b5946}
+[data-theme="dark"] :is(input,textarea)::placeholder{color:#92a48e}
+[data-theme="dark"] .currency-mark{background:#294432;border-color:#3e5b44;color:#bbd6a7}
+[data-theme="dark"] .currency-mark.try{background:#3c3426;border-color:#574833;color:#e2c18b}
+[data-theme="dark"] .currency-mark.syp{background:#283942;border-color:#3d5360;color:#b5cddf}
+[data-theme="dark"] .donut{background:#304337}[data-theme="dark"] .donut:before{background:#1b2c24}
+[data-theme="dark"] :is(td,.currency-stats,.currency-stats>div+div,.chart-grid div,.chart-caption,.page-footer,.panel,.table-footer,.history-item){border-color:var(--line)}
+[data-theme="dark"] .positive{color:#9bceaa}[data-theme="dark"] .negative{color:#e2a695}
+[data-theme="dark"] .type-chip{background:#2b4833;color:#b4d6ae}[data-theme="dark"] .type-chip.expense{background:#46372b;color:#e4bc95}
+[data-theme="dark"] .info-banner{background:#253b27;border-color:#3d563a;color:#bcccad}[data-theme="dark"] .info-banner :is(strong,button,svg){color:#c3d8ab}
+[data-theme="dark"] .upload-area{background:#1e3222;border-color:#526e47;color:#b3cba3}[data-theme="dark"] .upload-area strong{color:#c2d8b0}
+[data-theme="dark"] .backup-notice{background:#3b3324;color:#dec39c}[data-theme="dark"] .error-panel{background:#3d2923;border-color:#7a4d3b;color:#f0b69c}
+[data-theme="dark"] .danger{background:#442b27;border-color:#74473e;color:#f0b2a1}[data-theme="dark"] .icon-button.danger{background:transparent;color:#f0b2a1}
+[data-theme="dark"] .theme-toggle{color:#e0c78f}[data-theme="dark"] .form-error{color:#f0ac97}[data-theme="dark"] .toast{background:#327151}
+@media(max-width:1150px){.topbar-end{gap:7px}.topbar .profile-label{display:none}.topbar-divider{display:none}}
+@media(max-width:600px){.topbar{height:auto;min-height:92px;flex-wrap:wrap;gap:7px;padding-top:10px;padding-bottom:10px}.topbar .breadcrumb{width:100%;order:0}.topbar-end{width:100%;justify-content:flex-start;gap:8px}.header-datetime{font-size:11px;padding:5px 7px}.topbar-end .profile-avatar{margin-right:auto}.theme-toggle{height:29px;width:29px;font-size:21px}.income-currency-fields{grid-template-columns:1fr;gap:10px}.income-currency-fields label{font-size:11px}.income-amounts{padding:12px}.dialog-footer>.danger{flex-basis:100%}.detail-actions>.button{flex:1}.deleted-item{gap:7px}.deleted-item>div{min-width:0;overflow-wrap:anywhere}}
