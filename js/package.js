@@ -2,11 +2,10 @@
 // Package clean project sources in-browser. No accounting data is read here.
 window.DaftarPackage = {
     cssFiles:['css/style.css','css/enhancements.css','css/maintenance.css','css/debts.css','css/brand-colors.css'],
-    jsFiles:['js/theme.js','js/package.js','js/maintenance.js','js/debts.js','js/app.js'],
+    jsFiles:['js/theme.js','js/config.js','js/storage.js','js/package.js','js/maintenance.js','js/debts.js','js/app.js'],
     get projectFiles(){
-        return ['index.html','download.html','README.md','GITHUB-PAGES.md',...this.cssFiles,...this.jsFiles,
-            'js/download-page.js','js/vendor/fflate.min.js','js/vendor/fflate-LICENSE.txt',
-            'tests/accounting.html','tests/accounting.js','tests/download.html','tests/download.js'];
+        return ['index.html','download.html','README.md','SETUP.md','netlify.toml',...this.cssFiles,...this.jsFiles,
+            'js/download-page.js','js/vendor/fflate.min.js','js/vendor/fflate-LICENSE.txt'];
     },
     assertHostedSource(){
         if(document.querySelector('meta[name="daftar-standalone"]'))throw new Error('أنت تستخدم الملف المستقل. لتنزيل ملفات المشروع، افتح صفحة التنزيل في نسخة الموقع أو انسخ الأرشيف الأصلي.');
@@ -17,7 +16,7 @@ window.DaftarPackage = {
             const response=await fetch(new URL(path,document.baseURI),{cache:'no-store'});
             if(!response.ok)throw new Error('تعذر تحميل '+path+'؛ تأكد من اتصالك وأعد المحاولة.');
             const source=await response.text();
-            if(!path.endsWith('.html')&&/^\s*(?:<!doctype|<html)/i.test(source))throw new Error('محتوى غير صالح للملف '+path);
+            if(/\.(js|css)$/.test(path)&&/^\s*(?:<!doctype|<html)/i.test(source))throw new Error('محتوى غير صالح للملف '+path);
             return [path,source];
         }));
         return Object.fromEntries(entries);
@@ -67,7 +66,7 @@ window.DaftarPackage = {
         const root='daftar-project/';
         const files=Object.fromEntries(Object.entries(source).map(([path,text])=>[root+path,zip.strToU8(text)]));
         files[root+'daftar-system.html']=zip.strToU8(await this.build(source));
-        files[root+'START-HERE.txt']=zip.strToU8('دفتر — ملفات المشروع الكاملة\n\n1. فك ضغط الأرشيف كاملًا.\n2. افتح daftar-system.html لتجربة النسخة المستقلة في متصفح يدعم IndexedDB.\n3. للتطوير والنشر استخدم index.html ومجلدي css وjs؛ لا ترفع ملف index.html وحده.\n4. افتح README.md لمعرفة الوظائف وطريقة التخزين والاختبارات.\n5. البيانات المالية ليست داخل هذا الأرشيف. صدّر نسخة JSON من لوحة التحكم واستوردها على العنوان أو الجهاز الجديد.\n6. ظهور الألوان للجميع يتطلب نشر الملفات المحدثة على نفس الرابط. ملفات HTML المنزلة والتبويبات المفتوحة لا تتحدث تلقائيًا.\n7. التعديلات الإدارية والبيانات ما زالت محلية، وليست مشتركة أو لحظية بين الزوار.\n8. لا توجد كلمة مرور آمنة أو صلاحيات مستخدمين في هذه النسخة المحلية.\n');
+        files[root+'START-HERE.txt']=zip.strToU8('دفتر — نظام المحاسبة المشترك — ملفات المشروع الكاملة\n\nابدأ من هنا (3 خطوات):\n1. افتح SETUP.md ونفّذ الخطوة 1: إنشاء قاعدة Firebase Realtime Database مجانية (5 دقائق).\n2. الصق رابط القاعدة في ملف js/config.js في السطر firebaseDatabaseUrl.\n3. ارفع كل محتوى هذا المجلد إلى GitHub (بما فيه مجلدي css وjs وملف netlify.toml) وسينشر Netlify تلقائيًا.\n\nبعد ذلك: أي تعديل من أي جهاز يظهر لكل من يملك الرابط.\n\nملاحظات:\n- لا ترفع index.html وحده؛ المجلدان css وjs ضروريان.\n- البيانات المالية ليست داخل هذا الأرشيف؛ لنقل بياناتك القديمة صدّر نسخة JSON من لوحة التحكم القديمة واستوردها في الموقع الجديد.\n- daftar-system.html نسخة مستقلة للتجربة فقط وتحتاج أيضًا رابط Firebase لتعمل.\n- لا توجد كلمة مرور؛ كل من يملك الرابط يستطيع التعديل. شاركه مع من تثق به فقط.\n');
         files[root+'.nojekyll']=new Uint8Array(0);
         const bytes=zip.zipSync(files,{level:6});
         return {bytes,fileCount:Object.keys(files).length};
