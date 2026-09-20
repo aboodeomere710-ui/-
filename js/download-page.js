@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             const result=await DaftarPackage.prepareDownload(kind);
             activeUrl=result.url;link.href=activeUrl;link.download=result.filename;
             link.textContent='تحميل الآن — '+result.filename;
-            details.textContent=`${Math.ceil(result.bytes/1024)} KB · ${result.fileCount} ملف${kind==='zip'?' · جاهز للرفع على GitHub Pages':''}`;
+            details.textContent=`${Math.ceil(result.bytes/1024)} KB · ${result.fileCount} ملف${kind==='zip'?' · جاهز للرفع على GitHub والنشر عبر Netlify':''}`;
             ready.hidden=false;status.dataset.state='ready';
             status.textContent='تم تجهيز الملف بنجاح. اضغط رابط «تحميل الآن» أعلاه لحفظه على جهازك.';
         }catch(error){status.dataset.state='error';status.textContent='تعذر تجهيز الرابط: '+error.message+' اضغط «إعادة تجهيز ZIP» للمحاولة مجددًا.';}

@@ -1,28 +1,29 @@
 'use strict';
 // ════════════════════════════════════════════════════════════════════
-//  طبقة التخزين المشتركة
+//  طبقة التخزين المشتركة — بنفس آلية متجر CampusKart (Netlify Functions + Blobs)
 // ════════════════════════════════════════════════════════════════════
-//  بدل IndexedDB (المحلي لكل متصفح) تُحفظ كل السجلات سحابيًا، فيرى كل من يملك
-//  الرابط نفس البيانات وأي تعديل يظهر للجميع.
+//  بدل IndexedDB (المحلي لكل متصفح) تُحفظ كل السجلات على خادم الموقع نفسه،
+//  فيرى كل من يملك الرابط نفس البيانات وأي تعديل يظهر للجميع.
 //
-//  يدعم الملف مصدرين للبيانات ويختار تلقائيًا:
-//   1) Firebase Realtime Database (REST) — إذا وُضع رابطها في js/config.js.
-//      يعمل على أي استضافة ثابتة: GitHub Pages، Netlify، Vercel…
-//   2) واجهة tables/ الخاصة بمنصة Genspark — عند ترك الرابط فارغًا.
+//  لا يحتاج أي إعداد: ارفع الملفات إلى GitHub → Netlify ينشرها مع الدوال تلقائيًا.
+//
+//  المصدر يُكتشف تلقائيًا:
+//   1) /api/ledger  — Netlify Function (netlify/functions/ledger.js)      ← الإنتاج
+//   2) tables/      — واجهة منصة Genspark (للمعاينة أثناء التطوير فقط)
 //
 //  يوفر للتطبيق نفس الدوال القديمة: openDatabase / getAll / commit
-//  إضافة إلى startLiveSync للتحديث التلقائي من الأجهزة الأخرى.
+//  إضافة إلى storePhotos (رفع الصور) و startLiveSync (تحديث تلقائي من الأجهزة الأخرى).
 
 const SHARED_STORES = ['records', 'history', 'settings', 'debts'];
-const CONFIG = Object.assign({ firebaseDatabaseUrl: '', firebaseRoot: 'daftar', liveSyncSeconds: 15 }, window.DAFTAR_CONFIG || {});
-const LIVE_SYNC_INTERVAL = Math.max(5, Number(CONFIG.liveSyncSeconds) || 15) * 1000;
-let backend = null;       // 'firebase' | 'tables'
+const LIVE_SYNC_INTERVAL = 15000;
+let backend = null;          // 'netlify' | 'tables'
 let liveSyncBusy = false;
 let lastKnownVersion = null;
 
 function friendlyNetworkError() { return new Error('لا يوجد اتصال بالخادم. تحقق من الإنترنت وأعد المحاولة.'); }
+function absolute(path) { return new URL(path, document.baseURI).href; }
 
-// يعيد العنصر إلى شكله الكامل (Firebase يحذف المصفوفات الفارغة والقيم null).
+// يعيد العنصر إلى شكله الكامل بعد القراءة من الخادم.
 function normalizeItem(store, item) {
     if (!item || typeof item !== 'object') return null;
     if (store === 'records') {
@@ -34,63 +35,62 @@ function normalizeItem(store, item) {
         item.amounts = Object.assign({ USD: 0, TRY: 0, SYP: 0 }, item.amounts || {});
     } else if (store === 'settings') {
         if (item.lastBackup === undefined) item.lastBackup = null;
-        if (item.categories) { item.categories.income = item.categories.income || []; item.categories.expense = item.categories.expense || []; }
     }
     return item;
 }
 
-// ────────────────────────── 1) Firebase Realtime Database ──────────────────────────
-const firebaseBackend = {
-    base() { return CONFIG.firebaseDatabaseUrl.replace(/\/+$/, '') + '/' + CONFIG.firebaseRoot.replace(/^\/+|\/+$/g, ''); },
+async function readJson(response) { const text = await response.text(); return text ? JSON.parse(text) : null; }
+
+// ────────────────────────── 1) Netlify Function /api/ledger ──────────────────────────
+const netlifyBackend = {
     async request(path, options = {}) {
         let response;
-        try { response = await fetch(`${this.base()}${path ? '/' + path : ''}.json`, { cache: 'no-store', ...options }); }
+        try { response = await fetch(absolute(path), { cache: 'no-store', ...options, headers: { 'Content-Type': 'application/json', ...(options.headers || {}) } }); }
         catch (_) { throw friendlyNetworkError(); }
-        if (response.status === 401 || response.status === 403) throw new Error('قاعدة البيانات ترفض الوصول. افتح Firebase Console → Realtime Database → Rules واجعل القراءة والكتابة true (راجع SETUP.md).');
-        if (!response.ok) throw new Error(`تعذر الاتصال بقاعدة البيانات (${response.status}).`);
-        const text = await response.text();
-        return text ? JSON.parse(text) : null;
+        const body = await readJson(response).catch(() => null);
+        if (!response.ok) { const error = new Error(body?.error || `تعذر الاتصال بخادم البيانات (${response.status}).`); error.status = response.status; throw error; }
+        return body;
     },
-    async ping() { await this.request('meta'); },
+    async ping() { const meta = await this.request('api/ledger?store=meta'); if (!meta?.ok) throw Object.assign(new Error('استجابة غير متوقعة'), { status: 404 }); return meta; },
     async getAll(store) {
-        const data = await this.request(store);
-        if (!data || typeof data !== 'object') return [];
-        return Object.entries(data).map(([key, item]) => normalizeItem(store, { ...item, id: item?.id || key })).filter(Boolean);
+        const result = await this.request(`api/ledger?store=${store}`);
+        return (Array.isArray(result?.items) ? result.items : []).map(item => normalizeItem(store, item)).filter(Boolean);
     },
     async commit(changes) {
-        // تحديث متعدد المسارات في طلب واحد: كل التغييرات تُحفظ معًا أو لا تُحفظ.
-        const body = {};
-        for (const [store, items] of Object.entries(changes)) {
-            if (!SHARED_STORES.includes(store)) continue;
-            for (const item of items || []) body[`${store}/${encodeKey(item.id)}`] = item;
-        }
-        if (!Object.keys(body).length) return;
-        const version = new Date().toISOString();
-        body['meta/version'] = version;
-        await this.request('', { method: 'PATCH', body: JSON.stringify(body) });
-        lastKnownVersion = version;
+        const payload = {};
+        for (const [store, items] of Object.entries(changes)) if (SHARED_STORES.includes(store) && items?.length) payload[store] = items;
+        if (!Object.keys(payload).length) return;
+        const result = await this.request('api/ledger', { method: 'PATCH', body: JSON.stringify({ changes: payload }) });
+        lastKnownVersion = result?.version || lastKnownVersion;
     },
     async hasRemoteChanges() {
-        const meta = await this.request('meta');
+        const meta = await this.request('api/ledger?store=meta');
         const version = meta?.version || null;
         if (version === lastKnownVersion) return false;
-        lastKnownVersion = version;
-        return true;
+        lastKnownVersion = version; return true;
+    },
+    async storePhotos(photos) {
+        const stored = [];
+        for (const photo of photos) {
+            if (photo.url) { stored.push(photo); continue; }
+            const result = await this.request('api/photo', { method: 'POST', body: JSON.stringify({ name: photo.name, type: photo.type, data: photo.data }) });
+            if (!result?.url) throw new Error('تعذر رفع الصورة ' + photo.name);
+            stored.push({ name: photo.name, type: photo.type, url: result.url });
+        }
+        return stored;
     }
 };
-function encodeKey(id) { return String(id).replace(/[.$#[\]/]/g, '_'); }
 
-// ────────────────────────── 2) واجهة tables/ (منصة Genspark) ──────────────────────────
+// ────────────────────────── 2) واجهة tables/ (معاينة Genspark) ──────────────────────────
 const tablesBackend = {
     rowIds: Object.fromEntries(SHARED_STORES.map(store => [store, new Map()])),
     async request(path, options = {}) {
         let response;
-        try { response = await fetch(new URL('tables/' + path, document.baseURI).href, { cache: 'no-store', ...options, headers: { 'Content-Type': 'application/json' } }); }
+        try { response = await fetch(absolute('tables/' + path), { cache: 'no-store', ...options, headers: { 'Content-Type': 'application/json' } }); }
         catch (_) { throw friendlyNetworkError(); }
         if (!response.ok) { const error = new Error(`تعذر الاتصال بخادم البيانات (${response.status}).`); error.status = response.status; throw error; }
         if (response.status === 204) return null;
-        const text = await response.text();
-        return text ? JSON.parse(text) : null;
+        return readJson(response);
     },
     async ping() { await this.request('settings?page=1&limit=1'); },
     parse(store, row) {
@@ -136,32 +136,34 @@ const tablesBackend = {
         for (const store of stores) { const items = changes[store] || []; for (let i = 0; i < items.length; i += 6) await Promise.all(items.slice(i, i + 6).map(item => this.save(store, item))); }
     },
     currentSignature() { const stamp = list => list.map(x => x.id + ':' + (x.updatedAt || x.at || '')).sort().join('|'); return [stamp(records), stamp(debts), history.length, JSON.stringify(settings)].join('#'); },
-    async hasRemoteChanges() { const before = this.currentSignature(); await refreshData(); return this.currentSignature() !== before; }
+    async hasRemoteChanges() { const before = this.currentSignature(); await refreshData(); return this.currentSignature() !== before; },
+    async storePhotos(photos) { return photos; } // تبقى base64 داخل السجل في وضع المعاينة
 };
 
 // ────────────────────────── الواجهة الموحدة للتطبيق ──────────────────────────
-function activeBackend() { return backend === 'firebase' ? firebaseBackend : tablesBackend; }
+function activeBackend() { return backend === 'netlify' ? netlifyBackend : tablesBackend; }
 
 async function openDatabase() {
-    if (CONFIG.firebaseDatabaseUrl && /^https:\/\//.test(CONFIG.firebaseDatabaseUrl)) {
-        backend = 'firebase';
-        const meta = await firebaseBackend.request('meta');
-        lastKnownVersion = meta?.version || null;
-    } else {
-        backend = 'tables';
-        try { await tablesBackend.ping(); }
-        catch (error) {
-            if (error.status === 404 || error.status === 405) throw new Error('هذه الاستضافة لا توفر خادم بيانات. ضع رابط Firebase Realtime Database في js/config.js (راجع SETUP.md) ثم أعد رفع الملفات.');
-            throw error;
+    try {
+        const meta = await netlifyBackend.ping();
+        backend = 'netlify'; lastKnownVersion = meta.version || null;
+    } catch (error) {
+        if (error.status && error.status !== 404 && error.status !== 405) throw error; // الدالة موجودة لكنها فشلت
+        try { await tablesBackend.ping(); backend = 'tables'; }
+        catch (inner) {
+            if (inner.status === 404 || inner.status === 405 || !error.status) throw new Error('لم يُعثر على خادم البيانات. تأكد أنك رفعت مجلد netlify وملفَي netlify.toml وpackage.json إلى GitHub، وأن الموقع منشور على Netlify (راجع SETUP.md).');
+            throw inner;
         }
     }
     return { shared: true, backend, close() {} };
 }
 async function getAll(store) { return activeBackend().getAll(store); }
 async function commit(changes) { return activeBackend().commit(changes); }
+async function storePhotos(photos) { return activeBackend().storePhotos(photos); }
+function photoSrc(photo) { return photo?.url ? absolute(photo.url.replace(/^\//, '')) : (photo?.data || ''); }
 
 function setStorageStatus(text) { const status = document.getElementById('storage-status'); if (status) status.textContent = text; }
-function connectedLabel() { return backend === 'firebase' ? 'متصل بـ Firebase · البيانات مشتركة ومحدثة' : 'متصل · البيانات مشتركة ومحدثة'; }
+function connectedLabel() { return 'متصل · البيانات مشتركة ومحدثة لكل من يملك الرابط'; }
 
 // مزامنة حية: تتحقق دوريًا من تعديلات قادمة من أجهزة أخرى وتعرضها فورًا.
 function startLiveSync() {
@@ -171,7 +173,7 @@ function startLiveSync() {
         liveSyncBusy = true;
         try {
             const changed = await activeBackend().hasRemoteChanges();
-            if (changed) { if (backend === 'firebase') await refreshData(); render(); toast('تم تحديث البيانات: هناك تعديلات جديدة من جهاز آخر.'); }
+            if (changed) { if (backend === 'netlify') await refreshData(); render(); toast('تم تحديث البيانات: هناك تعديلات جديدة من جهاز آخر.'); }
             setStorageStatus(connectedLabel());
         } catch (_) { setStorageStatus('انقطع الاتصال بالخادم؛ سنعيد المحاولة تلقائيًا'); }
         finally { liveSyncBusy = false; }

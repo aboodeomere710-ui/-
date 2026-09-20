@@ -1,9 +1,26 @@
-# إعدادات Netlify — لا يحتاج المشروع إلى أي خطوة بناء؛ الملفات تُنشر كما هي.
+# ============================================================
+#  دفتر — إعدادات Netlify (نفس آلية متجر CampusKart)
+#  لا يحتاج أي خطوة بناء؛ الملفات تُنشر كما هي مع الدوال.
+# ============================================================
+
 [build]
   publish = "."
-  command = ""
+  functions = "netlify/functions"
 
-# لا تُخزَّن ملفات JS/HTML في الكاش طويلًا حتى تصل التعديلات الجديدة للجميع فورًا.
+[functions]
+  node_bundler = "esbuild"
+
+# ---------- ترويسات أمان لكل الصفحات ----------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+# ---------- لا كاش لملفات التطبيق حتى تصل التعديلات للجميع فورًا ----------
 [[headers]]
   for = "/*.html"
   [headers.values]

@@ -266,59 +266,30 @@ document.addEventListener('DOMContentLoaded', () => {
 <input type="file" id="backup-file" accept="application/json,.json" hidden="">
 <script>'use strict';
 // ════════════════════════════════════════════════════════════════════
-//  إعدادات قاعدة البيانات المشتركة — هذا هو الملف الوحيد الذي تحتاج تعديله
+//  طبقة التخزين المشتركة — بنفس آلية متجر CampusKart (Netlify Functions + Blobs)
 // ════════════════════════════════════════════════════════════════════
+//  بدل IndexedDB (المحلي لكل متصفح) تُحفظ كل السجلات على خادم الموقع نفسه،
+//  فيرى كل من يملك الرابط نفس البيانات وأي تعديل يظهر للجميع.
 //
-//  عند النشر على GitHub Pages أو Netlify (استضافة ملفات ثابتة) لا يوجد خادم
-//  بيانات، لذلك نستخدم Firebase Realtime Database (مجانية) لتُحفظ البيانات
-//  سحابيًا ويراها كل من يملك الرابط.
+//  لا يحتاج أي إعداد: ارفع الملفات إلى GitHub → Netlify ينشرها مع الدوال تلقائيًا.
 //
-//  الخطوات (مفصّلة في SETUP.md):
-//   1. افتح https://console.firebase.google.com وأنشئ مشروعًا جديدًا.
-//   2. من القائمة: Build → Realtime Database → Create Database → اختر أي موقع
-//      → ابدأ في "test mode" (وضع الاختبار).
-//   3. انسخ رابط قاعدة البيانات الظاهر في الأعلى، شكله مثل:
-//        https://اسم-مشروعك-default-rtdb.firebaseio.com
-//      أو https://اسم-مشروعك-default-rtdb.europe-west1.firebasedatabase.app
-//   4. الصق الرابط بين علامتي التنصيص في السطر التالي واحفظ الملف وارفعه.
-//
-//  إذا تركت الرابط فارغًا، سيحاول النظام استخدام واجهة tables/ الخاصة بمنصة
-//  Genspark (تعمل فقط عند النشر من هناك).
-
-window.DAFTAR_CONFIG = {
-    firebaseDatabaseUrl: '',
-
-    // اسم الجذر داخل القاعدة؛ غيّره إذا أردت أكثر من دفتر في قاعدة واحدة.
-    firebaseRoot: 'daftar',
-
-    // كل كم ثانية تتحقق الصفحة من تعديلات جديدة من أجهزة أخرى.
-    liveSyncSeconds: 15
-};
-</script><script>'use strict';
-// ════════════════════════════════════════════════════════════════════
-//  طبقة التخزين المشتركة
-// ════════════════════════════════════════════════════════════════════
-//  بدل IndexedDB (المحلي لكل متصفح) تُحفظ كل السجلات سحابيًا، فيرى كل من يملك
-//  الرابط نفس البيانات وأي تعديل يظهر للجميع.
-//
-//  يدعم الملف مصدرين للبيانات ويختار تلقائيًا:
-//   1) Firebase Realtime Database (REST) — إذا وُضع رابطها في js/config.js.
-//      يعمل على أي استضافة ثابتة: GitHub Pages، Netlify، Vercel…
-//   2) واجهة tables/ الخاصة بمنصة Genspark — عند ترك الرابط فارغًا.
+//  المصدر يُكتشف تلقائيًا:
+//   1) /api/ledger  — Netlify Function (netlify/functions/ledger.js)      ← الإنتاج
+//   2) tables/      — واجهة منصة Genspark (للمعاينة أثناء التطوير فقط)
 //
 //  يوفر للتطبيق نفس الدوال القديمة: openDatabase / getAll / commit
-//  إضافة إلى startLiveSync للتحديث التلقائي من الأجهزة الأخرى.
+//  إضافة إلى storePhotos (رفع الصور) و startLiveSync (تحديث تلقائي من الأجهزة الأخرى).
 
 const SHARED_STORES = ['records', 'history', 'settings', 'debts'];
-const CONFIG = Object.assign({ firebaseDatabaseUrl: '', firebaseRoot: 'daftar', liveSyncSeconds: 15 }, window.DAFTAR_CONFIG || {});
-const LIVE_SYNC_INTERVAL = Math.max(5, Number(CONFIG.liveSyncSeconds) || 15) * 1000;
-let backend = null;       // 'firebase' | 'tables'
+const LIVE_SYNC_INTERVAL = 15000;
+let backend = null;          // 'netlify' | 'tables'
 let liveSyncBusy = false;
 let lastKnownVersion = null;
 
 function friendlyNetworkError() { return new Error('لا يوجد اتصال بالخادم. تحقق من الإنترنت وأعد المحاولة.'); }
+function absolute(path) { return new URL(path, document.baseURI).href; }
 
-// يعيد العنصر إلى شكله الكامل (Firebase يحذف المصفوفات الفارغة والقيم null).
+// يعيد العنصر إلى شكله الكامل بعد القراءة من الخادم.
 function normalizeItem(store, item) {
     if (!item || typeof item !== 'object') return null;
     if (store === 'records') {
@@ -330,63 +301,62 @@ function normalizeItem(store, item) {
         item.amounts = Object.assign({ USD: 0, TRY: 0, SYP: 0 }, item.amounts || {});
     } else if (store === 'settings') {
         if (item.lastBackup === undefined) item.lastBackup = null;
-        if (item.categories) { item.categories.income = item.categories.income || []; item.categories.expense = item.categories.expense || []; }
     }
     return item;
 }
 
-// ────────────────────────── 1) Firebase Realtime Database ──────────────────────────
-const firebaseBackend = {
-    base() { return CONFIG.firebaseDatabaseUrl.replace(/\/+$/, '') + '/' + CONFIG.firebaseRoot.replace(/^\/+|\/+$/g, ''); },
+async function readJson(response) { const text = await response.text(); return text ? JSON.parse(text) : null; }
+
+// ────────────────────────── 1) Netlify Function /api/ledger ──────────────────────────
+const netlifyBackend = {
     async request(path, options = {}) {
         let response;
-        try { response = await fetch(`${this.base()}${path ? '/' + path : ''}.json`, { cache: 'no-store', ...options }); }
+        try { response = await fetch(absolute(path), { cache: 'no-store', ...options, headers: { 'Content-Type': 'application/json', ...(options.headers || {}) } }); }
         catch (_) { throw friendlyNetworkError(); }
-        if (response.status === 401 || response.status === 403) throw new Error('قاعدة البيانات ترفض الوصول. افتح Firebase Console → Realtime Database → Rules واجعل القراءة والكتابة true (راجع SETUP.md).');
-        if (!response.ok) throw new Error(`تعذر الاتصال بقاعدة البيانات (${response.status}).`);
-        const text = await response.text();
-        return text ? JSON.parse(text) : null;
+        const body = await readJson(response).catch(() => null);
+        if (!response.ok) { const error = new Error(body?.error || `تعذر الاتصال بخادم البيانات (${response.status}).`); error.status = response.status; throw error; }
+        return body;
     },
-    async ping() { await this.request('meta'); },
+    async ping() { const meta = await this.request('api/ledger?store=meta'); if (!meta?.ok) throw Object.assign(new Error('استجابة غير متوقعة'), { status: 404 }); return meta; },
     async getAll(store) {
-        const data = await this.request(store);
-        if (!data || typeof data !== 'object') return [];
-        return Object.entries(data).map(([key, item]) => normalizeItem(store, { ...item, id: item?.id || key })).filter(Boolean);
+        const result = await this.request(`api/ledger?store=${store}`);
+        return (Array.isArray(result?.items) ? result.items : []).map(item => normalizeItem(store, item)).filter(Boolean);
     },
     async commit(changes) {
-        // تحديث متعدد المسارات في طلب واحد: كل التغييرات تُحفظ معًا أو لا تُحفظ.
-        const body = {};
-        for (const [store, items] of Object.entries(changes)) {
-            if (!SHARED_STORES.includes(store)) continue;
-            for (const item of items || []) body[`${store}/${encodeKey(item.id)}`] = item;
-        }
-        if (!Object.keys(body).length) return;
-        const version = new Date().toISOString();
-        body['meta/version'] = version;
-        await this.request('', { method: 'PATCH', body: JSON.stringify(body) });
-        lastKnownVersion = version;
+        const payload = {};
+        for (const [store, items] of Object.entries(changes)) if (SHARED_STORES.includes(store) && items?.length) payload[store] = items;
+        if (!Object.keys(payload).length) return;
+        const result = await this.request('api/ledger', { method: 'PATCH', body: JSON.stringify({ changes: payload }) });
+        lastKnownVersion = result?.version || lastKnownVersion;
     },
     async hasRemoteChanges() {
-        const meta = await this.request('meta');
+        const meta = await this.request('api/ledger?store=meta');
         const version = meta?.version || null;
         if (version === lastKnownVersion) return false;
-        lastKnownVersion = version;
-        return true;
+        lastKnownVersion = version; return true;
+    },
+    async storePhotos(photos) {
+        const stored = [];
+        for (const photo of photos) {
+            if (photo.url) { stored.push(photo); continue; }
+            const result = await this.request('api/photo', { method: 'POST', body: JSON.stringify({ name: photo.name, type: photo.type, data: photo.data }) });
+            if (!result?.url) throw new Error('تعذر رفع الصورة ' + photo.name);
+            stored.push({ name: photo.name, type: photo.type, url: result.url });
+        }
+        return stored;
     }
 };
-function encodeKey(id) { return String(id).replace(/[.$#[\]/]/g, '_'); }
 
-// ────────────────────────── 2) واجهة tables/ (منصة Genspark) ──────────────────────────
+// ────────────────────────── 2) واجهة tables/ (معاينة Genspark) ──────────────────────────
 const tablesBackend = {
     rowIds: Object.fromEntries(SHARED_STORES.map(store => [store, new Map()])),
     async request(path, options = {}) {
         let response;
-        try { response = await fetch(new URL('tables/' + path, document.baseURI).href, { cache: 'no-store', ...options, headers: { 'Content-Type': 'application/json' } }); }
+        try { response = await fetch(absolute('tables/' + path), { cache: 'no-store', ...options, headers: { 'Content-Type': 'application/json' } }); }
         catch (_) { throw friendlyNetworkError(); }
         if (!response.ok) { const error = new Error(`تعذر الاتصال بخادم البيانات (${response.status}).`); error.status = response.status; throw error; }
         if (response.status === 204) return null;
-        const text = await response.text();
-        return text ? JSON.parse(text) : null;
+        return readJson(response);
     },
     async ping() { await this.request('settings?page=1&limit=1'); },
     parse(store, row) {
@@ -432,32 +402,34 @@ const tablesBackend = {
         for (const store of stores) { const items = changes[store] || []; for (let i = 0; i < items.length; i += 6) await Promise.all(items.slice(i, i + 6).map(item => this.save(store, item))); }
     },
     currentSignature() { const stamp = list => list.map(x => x.id + ':' + (x.updatedAt || x.at || '')).sort().join('|'); return [stamp(records), stamp(debts), history.length, JSON.stringify(settings)].join('#'); },
-    async hasRemoteChanges() { const before = this.currentSignature(); await refreshData(); return this.currentSignature() !== before; }
+    async hasRemoteChanges() { const before = this.currentSignature(); await refreshData(); return this.currentSignature() !== before; },
+    async storePhotos(photos) { return photos; } // تبقى base64 داخل السجل في وضع المعاينة
 };
 
 // ────────────────────────── الواجهة الموحدة للتطبيق ──────────────────────────
-function activeBackend() { return backend === 'firebase' ? firebaseBackend : tablesBackend; }
+function activeBackend() { return backend === 'netlify' ? netlifyBackend : tablesBackend; }
 
 async function openDatabase() {
-    if (CONFIG.firebaseDatabaseUrl && /^https:\/\//.test(CONFIG.firebaseDatabaseUrl)) {
-        backend = 'firebase';
-        const meta = await firebaseBackend.request('meta');
-        lastKnownVersion = meta?.version || null;
-    } else {
-        backend = 'tables';
-        try { await tablesBackend.ping(); }
-        catch (error) {
-            if (error.status === 404 || error.status === 405) throw new Error('هذه الاستضافة لا توفر خادم بيانات. ضع رابط Firebase Realtime Database في js/config.js (راجع SETUP.md) ثم أعد رفع الملفات.');
-            throw error;
+    try {
+        const meta = await netlifyBackend.ping();
+        backend = 'netlify'; lastKnownVersion = meta.version || null;
+    } catch (error) {
+        if (error.status && error.status !== 404 && error.status !== 405) throw error; // الدالة موجودة لكنها فشلت
+        try { await tablesBackend.ping(); backend = 'tables'; }
+        catch (inner) {
+            if (inner.status === 404 || inner.status === 405 || !error.status) throw new Error('لم يُعثر على خادم البيانات. تأكد أنك رفعت مجلد netlify وملفَي netlify.toml وpackage.json إلى GitHub، وأن الموقع منشور على Netlify (راجع SETUP.md).');
+            throw inner;
         }
     }
     return { shared: true, backend, close() {} };
 }
 async function getAll(store) { return activeBackend().getAll(store); }
 async function commit(changes) { return activeBackend().commit(changes); }
+async function storePhotos(photos) { return activeBackend().storePhotos(photos); }
+function photoSrc(photo) { return photo?.url ? absolute(photo.url.replace(/^\//, '')) : (photo?.data || ''); }
 
 function setStorageStatus(text) { const status = document.getElementById('storage-status'); if (status) status.textContent = text; }
-function connectedLabel() { return backend === 'firebase' ? 'متصل بـ Firebase · البيانات مشتركة ومحدثة' : 'متصل · البيانات مشتركة ومحدثة'; }
+function connectedLabel() { return 'متصل · البيانات مشتركة ومحدثة لكل من يملك الرابط'; }
 
 // مزامنة حية: تتحقق دوريًا من تعديلات قادمة من أجهزة أخرى وتعرضها فورًا.
 function startLiveSync() {
@@ -467,7 +439,7 @@ function startLiveSync() {
         liveSyncBusy = true;
         try {
             const changed = await activeBackend().hasRemoteChanges();
-            if (changed) { if (backend === 'firebase') await refreshData(); render(); toast('تم تحديث البيانات: هناك تعديلات جديدة من جهاز آخر.'); }
+            if (changed) { if (backend === 'netlify') await refreshData(); render(); toast('تم تحديث البيانات: هناك تعديلات جديدة من جهاز آخر.'); }
             setStorageStatus(connectedLabel());
         } catch (_) { setStorageStatus('انقطع الاتصال بالخادم؛ سنعيد المحاولة تلقائيًا'); }
         finally { liveSyncBusy = false; }
@@ -479,9 +451,10 @@ function startLiveSync() {
 // Package clean project sources in-browser. No accounting data is read here.
 window.DaftarPackage = {
     cssFiles:['css/style.css','css/enhancements.css','css/maintenance.css','css/debts.css','css/brand-colors.css'],
-    jsFiles:['js/theme.js','js/config.js','js/storage.js','js/package.js','js/maintenance.js','js/debts.js','js/app.js'],
+    jsFiles:['js/theme.js','js/storage.js','js/package.js','js/maintenance.js','js/debts.js','js/app.js'],
     get projectFiles(){
-        return ['index.html','download.html','README.md','SETUP.md','netlify.toml',...this.cssFiles,...this.jsFiles,
+        return ['index.html','download.html','README.md','SETUP.md','netlify.toml','package.json',
+            'netlify/functions/ledger.js','netlify/functions/photo.js',...this.cssFiles,...this.jsFiles,
             'js/download-page.js','js/vendor/fflate.min.js','js/vendor/fflate-LICENSE.txt'];
     },
     assertHostedSource(){
@@ -493,7 +466,7 @@ window.DaftarPackage = {
             const response=await fetch(new URL(path,document.baseURI),{cache:'no-store'});
             if(!response.ok)throw new Error('تعذر تحميل '+path+'؛ تأكد من اتصالك وأعد المحاولة.');
             const source=await response.text();
-            if(/\.(js|css)$/.test(path)&&/^\s*(?:<!doctype|<html)/i.test(source))throw new Error('محتوى غير صالح للملف '+path);
+            if(/\.(js|css|json|toml|md)$/.test(path)&&/^\s*(?:<!doctype|<html)/i.test(source))throw new Error('محتوى غير صالح للملف '+path);
             return [path,source];
         }));
         return Object.fromEntries(entries);
@@ -543,7 +516,7 @@ window.DaftarPackage = {
         const root='daftar-project/';
         const files=Object.fromEntries(Object.entries(source).map(([path,text])=>[root+path,zip.strToU8(text)]));
         files[root+'daftar-system.html']=zip.strToU8(await this.build(source));
-        files[root+'START-HERE.txt']=zip.strToU8('دفتر — نظام المحاسبة المشترك — ملفات المشروع الكاملة\n\nابدأ من هنا (3 خطوات):\n1. افتح SETUP.md ونفّذ الخطوة 1: إنشاء قاعدة Firebase Realtime Database مجانية (5 دقائق).\n2. الصق رابط القاعدة في ملف js/config.js في السطر firebaseDatabaseUrl.\n3. ارفع كل محتوى هذا المجلد إلى GitHub (بما فيه مجلدي css وjs وملف netlify.toml) وسينشر Netlify تلقائيًا.\n\nبعد ذلك: أي تعديل من أي جهاز يظهر لكل من يملك الرابط.\n\nملاحظات:\n- لا ترفع index.html وحده؛ المجلدان css وjs ضروريان.\n- البيانات المالية ليست داخل هذا الأرشيف؛ لنقل بياناتك القديمة صدّر نسخة JSON من لوحة التحكم القديمة واستوردها في الموقع الجديد.\n- daftar-system.html نسخة مستقلة للتجربة فقط وتحتاج أيضًا رابط Firebase لتعمل.\n- لا توجد كلمة مرور؛ كل من يملك الرابط يستطيع التعديل. شاركه مع من تثق به فقط.\n');
+        files[root+'START-HERE.txt']=zip.strToU8('دفتر — نظام المحاسبة المشترك — ملفات المشروع الكاملة\n(نفس آلية متجر CampusKart: Netlify Functions + Blobs — بدون أي إعداد)\n\nكل ما عليك فعله:\n1. ارفع كل محتوى هذا المجلد إلى مستودع GitHub (بما فيه المجلدات css وjs وnetlify وملفا netlify.toml وpackage.json).\n2. اربط المستودع بموقع على Netlify (أو إن كان مربوطًا فسينشر تلقائيًا).\n3. افتح الرابط. انتهى!\n\nأي تعديل من أي جهاز يظهر لكل من يملك الرابط خلال ثوانٍ.\n\nملاحظات:\n- لا ترفع index.html وحده؛ المجلدات css وjs وnetlify ضرورية.\n- لا توجد متغيرات بيئة ولا كلمة مرور؛ كل من يملك الرابط يستطيع التعديل. شاركه مع من تثق به فقط.\n- لنقل بياناتك القديمة: صدّر نسخة JSON من لوحة التحكم القديمة واستوردها في الموقع الجديد.\n- daftar-system.html نسخة مستقلة للتجربة فقط ولا تتصل بالخادم.\n- التفاصيل في SETUP.md.\n');
         files[root+'.nojekyll']=new Uint8Array(0);
         const bytes=zip.zipSync(files,{level:6});
         return {bytes,fileCount:Object.keys(files).length};
@@ -835,10 +808,10 @@ function openEntry(type,id){
     $('#delete-entry').textContent=income?'حذف عملية الإدخال كاملة':'حذف المصروف';
     pendingPhotos=[];
     $('#form-error').textContent='';
-    $('#photo-preview').innerHTML=(record?.photos||[]).map(p=>`<img src="${esc(p.data)}" alt="${esc(p.name)}">`).join('');
+    $('#photo-preview').innerHTML=(record?.photos||[]).map(p=>`<img src="${esc(photoSrc(p))}" alt="${esc(p.name)}">`).join('');
     $('#entry-dialog').showModal();
 }
-function detail(id){const r=records.find(x=>x.id===id);if(!r)return;$('#detail-content').innerHTML=`<dl class="detail-grid"><div><dt>البيان</dt><dd>${esc(displayTitle(r))}</dd></div><div><dt>المبلغ</dt><dd class="money">${money(r.amount)} ${r.currency}</dd></div><div><dt>التاريخ</dt><dd>${dateLabel(r.date)}</dd></div><div><dt>النوع والتصنيف</dt><dd>${r.type==='income'?'مدخل':'مصروف'} · ${esc(categoryName(r.type,r.category))}</dd></div><div class="full-width"><dt>ملاحظات</dt><dd class="notes-display">${esc(r.notes)||'لا توجد ملاحظات'}</dd></div></dl><p class="muted" style="font-size:10px">أُضيفت ${timeLabel(r.createdAt)} · آخر تعديل ${timeLabel(r.updatedAt)}</p><div class="attachment-gallery">${(r.photos||[]).map((p,i)=>`<a href="#" data-photo-record="${esc(r.id)}" data-photo-index="${i}" aria-label="فتح ${esc(p.name)}"><img src="${esc(p.data)}" alt="${esc(p.name)}"></a>`).join('')}</div><button class="button primary" style="margin-top:22px" data-edit="${esc(r.id)}">${icon('edit')} تعديل العملية</button><div class="detail-actions"><button class="button danger" data-delete="${esc(r.id)}">${icon('trash')} حذف هذا المبلغ</button>${r.type==='income'&&r.batchId?`<button class="button danger" data-delete-group="${esc(r.id)}">حذف عملية الإدخال كاملة (${entryGroup(r).length} مبالغ)</button>`:''}</div>`;$('#detail-dialog').showModal();}
+function detail(id){const r=records.find(x=>x.id===id);if(!r)return;$('#detail-content').innerHTML=`<dl class="detail-grid"><div><dt>البيان</dt><dd>${esc(displayTitle(r))}</dd></div><div><dt>المبلغ</dt><dd class="money">${money(r.amount)} ${r.currency}</dd></div><div><dt>التاريخ</dt><dd>${dateLabel(r.date)}</dd></div><div><dt>النوع والتصنيف</dt><dd>${r.type==='income'?'مدخل':'مصروف'} · ${esc(categoryName(r.type,r.category))}</dd></div><div class="full-width"><dt>ملاحظات</dt><dd class="notes-display">${esc(r.notes)||'لا توجد ملاحظات'}</dd></div></dl><p class="muted" style="font-size:10px">أُضيفت ${timeLabel(r.createdAt)} · آخر تعديل ${timeLabel(r.updatedAt)}</p><div class="attachment-gallery">${(r.photos||[]).map((p,i)=>`<a href="#" data-photo-record="${esc(r.id)}" data-photo-index="${i}" aria-label="فتح ${esc(p.name)}"><img src="${esc(photoSrc(p))}" alt="${esc(p.name)}" loading="lazy"></a>`).join('')}</div><button class="button primary" style="margin-top:22px" data-edit="${esc(r.id)}">${icon('edit')} تعديل العملية</button><div class="detail-actions"><button class="button danger" data-delete="${esc(r.id)}">${icon('trash')} حذف هذا المبلغ</button>${r.type==='income'&&r.batchId?`<button class="button danger" data-delete-group="${esc(r.id)}">حذف عملية الإدخال كاملة (${entryGroup(r).length} مبالغ)</button>`:''}</div>`;$('#detail-dialog').showModal();}
 function readPhoto(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve({name:file.name,data:reader.result,type:file.type});reader.onerror=()=>reject(new Error('تعذر قراءة الصورة'));reader.readAsDataURL(file);});}
 function validDate(date){return typeof date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(date)&&Number.isFinite(Date.parse(date))&&new Date(date+'T12:00:00Z').toISOString().slice(0,10)===date&&Number(date.slice(0,4))>=1900&&Number(date.slice(0,4))<=9998;}
 async function saveEntry(event){
@@ -862,10 +835,12 @@ async function saveEntry(event){
         const removed=type==='income'?group.filter(r=>!populated.some(v=>v.currency===r.currency)):[];
         if(removed.length&&!confirm(`سيتم حذف ${removed.length} مبلغ من الحسابات: ${removed.map(r=>r.currency).join('، ')}. يمكن استعادتها من سجل التعديلات. هل تتابع؟`))return;
         const now=new Date().toISOString(),batchId=type==='income'?(old?.batchId||uid()):undefined;
+        // الصور الجديدة تُرفع إلى الخادم أولًا وتُحفظ كروابط داخل السجل
+        const newPhotos=type==='expense'&&pendingPhotos.length?await storePhotos(pendingPhotos):[];
         const updated=[],changes=[];
         for(const value of populated){
             const prior=type==='income'?group.find(r=>r.currency===value.currency):old;
-            const record={...(prior||{}),id:prior?.id||uid(),type,title,amount:Math.round(value.amount*100)/100,currency:value.currency,date,category,notes,photos:type==='expense'?[...(prior?.photos||[]),...pendingPhotos]:(prior?.photos||[]),createdAt:prior?.createdAt||now,updatedAt:now};
+            const record={...(prior||{}),id:prior?.id||uid(),type,title,amount:Math.round(value.amount*100)/100,currency:value.currency,date,category,notes,photos:type==='expense'?[...(prior?.photos||[]),...newPhotos]:(prior?.photos||[]),createdAt:prior?.createdAt||now,updatedAt:now};
             if(batchId)record.batchId=batchId;
             updated.push(record);
             changes.push({id:uid(),action:prior?'edit':'create',at:now,recordId:record.id,label:(prior?'تعديل: ':'إضافة: ')+displayTitle(record)+' · '+record.currency,before:prior||null,after:record});
@@ -911,7 +886,7 @@ function deletedHTML(){
 async function updateSettings(next,label){const old=structuredClone(settings);await commit({settings:[next],history:[{id:uid(),action:'settings',at:new Date().toISOString(),label,before:old}]});await refreshData();render();toast('تم حفظ الإعدادات');}
 function download(content,name,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
 async function exportBackup(){try{await refreshData();const now=new Date().toISOString();const backup={format:'daftar-backup',version:3,exportedAt:now,settings,records,debts,history};download(JSON.stringify(backup),`daftar-backup-${localDate()}-${Date.now()}.json`,'application/json');await commit({settings:[{...settings,lastBackup:now}]});await refreshData();if(currentRoute==='settings')render();toast('تم بدء تنزيل النسخة. تأكد من حفظ الملف في مكان آمن.');}catch(error){toast('تعذر تصدير النسخة: '+error.message);}}
-function validatePhoto(p){return p&&typeof p.name==='string'&&typeof p.data==='string'&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=\r\n]+$/.test(p.data)&&p.data.length<5700000;}
+function validatePhoto(p){if(!p||typeof p.name!=='string')return false;if(typeof p.url==='string')return /^\/api\/photo\/[\w\-]{6,60}\.(jpg|png|webp)$/.test(p.url);return typeof p.data==='string'&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=\r\n]+$/.test(p.data)&&p.data.length<5700000;}
 function validateRecord(r){return r&&typeof r.id==='string'&&r.id.length<100&&['income','expense'].includes(r.type)&&typeof r.title==='string'&&r.title.length<=120&&(r.batchId===undefined||(typeof r.batchId==='string'&&r.batchId.length>0&&r.batchId.length<100&&r.type==='income'))&&(r.deletedAt===undefined||(typeof r.deletedAt==='string'&&Number.isFinite(Date.parse(r.deletedAt))))&&(r.resetId===undefined||(typeof r.resetId==='string'&&r.resetId.length>0&&r.resetId.length<100))&&typeof r.amount==='number'&&r.amount>0&&r.amount<=9999999999&&Math.abs(r.amount*100-Math.round(r.amount*100))<.0001&&['USD','TRY','SYP'].includes(r.currency)&&validDate(r.date)&&typeof r.category==='string'&&typeof r.notes==='string'&&r.notes.length<=2000&&Array.isArray(r.photos)&&r.photos.every(validatePhoto)&&typeof r.createdAt==='string'&&Number.isFinite(Date.parse(r.createdAt))&&typeof r.updatedAt==='string'&&Number.isFinite(Date.parse(r.updatedAt));}
 function validateSettings(s){return s&&s.id==='main'&&typeof s.name==='string'&&s.name.trim()&&s.name.length<=35&&typeof s.description==='string'&&s.description.length<=160&&(!s.lastBackup||Number.isFinite(Date.parse(s.lastBackup)))&&Array.isArray(s.currencies)&&s.currencies.length===3&&['USD','TRY','SYP'].every(code=>s.currencies.filter(c=>c.code===code).length===1)&&s.currencies.every(c=>typeof c.name==='string'&&c.name.trim()&&c.name.length<=40&&typeof c.symbol==='string'&&c.symbol.length<=5&&c.className===c.code.toLowerCase())&&s.categories&&['income','expense'].every(type=>Array.isArray(s.categories[type])&&s.categories[type].length&&new Set(s.categories[type].map(c=>c.id)).size===s.categories[type].length&&s.categories[type].every(c=>typeof c.id==='string'&&c.id.length<100&&typeof c.name==='string'&&c.name.trim()&&c.name.length<=50));}
 function validateBackup(data){if(data?.format!=='daftar-backup'||![1,2,3].includes(data.version)||!validateSettings(data.settings)||!Array.isArray(data.records)||!data.records.every(validateRecord)||new Set(data.records.map(r=>r.id)).size!==data.records.length||!Array.isArray(data.history)||new Set(data.history.map(h=>h?.id)).size!==data.history.length)throw new Error('ملف النسخة غير صالح أو ليس من هذا النظام.');if((data.version===3||data.debts!==undefined)&&(!Array.isArray(data.debts)||!data.debts.every(validateDebt)||new Set(data.debts.map(d=>d.id)).size!==data.debts.length))throw new Error('بيانات الديون في النسخة غير صالحة.');for(const h of data.history){if(!h||typeof h.id!=='string'||h.id.length>100||typeof h.at!=='string'||!Number.isFinite(Date.parse(h.at))||typeof h.label!=='string'||(h.recordId!==undefined&&typeof h.recordId!=='string')||!['create','edit','settings','import','backup','delete','restore'].includes(h.action)||(h.before&&!(h.before.type==='debt'?validateDebt(h.before):h.before.type?validateRecord(h.before):validateSettings(h.before)))||(h.after&&!(h.after.type==='debt'?validateDebt(h.after):validateRecord(h.after))))throw new Error('سجل التعديلات في النسخة غير صالح.');}const activeGroups=new Set();for(const r of data.records){if(!data.settings.categories[r.type].some(c=>c.id===r.category))throw new Error('تصنيف مفقود في النسخة.');if(r.batchId&&!r.deletedAt){const key=r.batchId+'|'+r.currency;if(activeGroups.has(key))throw new Error('مبلغ مكرر لنفس العملة في عملية إدخال واحدة.');activeGroups.add(key);}}}
@@ -955,7 +930,7 @@ function exportCSV(){
     toast('تم تصدير '+rows.length+' عملية. التاريخ ثابت بصيغة سنة-شهر-يوم.');
 }
 function renderLedgerTable(){const kind=currentRoute==='income'?'income':currentRoute==='expenses'?'expense':null;$('#ledger-table').innerHTML=tableHTML(filteredRows(kind),kind);}
-function showPhoto(id,index){const photo=records.find(r=>r.id===id)?.photos[index];if(!photo)return;const bytes=atob(photo.data.split(',')[1]);const arr=Uint8Array.from(bytes,c=>c.charCodeAt(0));const url=URL.createObjectURL(new Blob([arr],{type:photo.data.slice(5,photo.data.indexOf(';'))}));window.open(url,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(url),60000);}
+function showPhoto(id,index){const photo=records.find(r=>r.id===id)?.photos[index];if(!photo)return;if(photo.url){window.open(photoSrc(photo),'_blank','noopener');return;}const bytes=atob(photo.data.split(',')[1]);const arr=Uint8Array.from(bytes,c=>c.charCodeAt(0));const url=URL.createObjectURL(new Blob([arr],{type:photo.data.slice(5,photo.data.indexOf(';'))}));window.open(url,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(url),60000);}
 function bindEvents(){
  window.addEventListener('hashchange',route);
  $('#add-income').addEventListener('click',()=>openEntry('income'));$('#add-expense').addEventListener('click',()=>openEntry('expense'));
@@ -966,7 +941,7 @@ function bindEvents(){
  $('#previous-month').addEventListener('click',()=>shiftMonth(-1));$('#next-month').addEventListener('click',()=>shiftMonth(1));
  $('#mobile-menu').addEventListener('click',()=>{$('#sidebar').classList.toggle('open');$('#sidebar-overlay').classList.toggle('visible');$('#mobile-menu').setAttribute('aria-expanded',String($('#sidebar').classList.contains('open')));});$('#sidebar-overlay').addEventListener('click',closeMenu);
  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
- $('#entry-photos').addEventListener('change',async e=>{const files=[...e.target.files];pendingPhotos=[];$('#form-error').textContent='';const old=records.find(r=>r.id===$('#entry-id').value);try{if(files.length>5)throw new Error('اختر حتى 5 صور جديدة في كل مرة.');if(files.some(f=>!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>4*1024*1024))throw new Error('يجب أن تكون الصور JPG أو PNG أو WebP وأقل من 4 MB لكل صورة.');$('#save-entry').disabled=true;pendingPhotos=await Promise.all(files.map(readPhoto));}catch(error){$('#form-error').textContent=error.message;e.target.value='';}finally{$('#save-entry').disabled=false;$('#photo-preview').innerHTML=[...(old?.photos||[]),...pendingPhotos].map(p=>`<img src="${esc(p.data)}" alt="${esc(p.name)}">`).join('');}});
+ $('#entry-photos').addEventListener('change',async e=>{const files=[...e.target.files];pendingPhotos=[];$('#form-error').textContent='';const old=records.find(r=>r.id===$('#entry-id').value);try{if(files.length>5)throw new Error('اختر حتى 5 صور جديدة في كل مرة.');if(files.some(f=>!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>4*1024*1024))throw new Error('يجب أن تكون الصور JPG أو PNG أو WebP وأقل من 4 MB لكل صورة.');$('#save-entry').disabled=true;pendingPhotos=await Promise.all(files.map(readPhoto));}catch(error){$('#form-error').textContent=error.message;e.target.value='';}finally{$('#save-entry').disabled=false;$('#photo-preview').innerHTML=[...(old?.photos||[]),...pendingPhotos].map(p=>`<img src="${esc(photoSrc(p))}" alt="${esc(p.name)}">`).join('');}});
  document.addEventListener('click',async e=>{const b=e.target.closest('button,a');if(!b)return;try{if(b.matches('.backup-trigger'))await exportBackup();else if(b.dataset.add)openEntry(b.dataset.add);else if(b.dataset.edit){$('#detail-dialog').close();openEntry('',b.dataset.edit);}else if(b.dataset.detail)detail(b.dataset.detail);else if(b.dataset.delete)await deleteRecord(b.dataset.delete);else if(b.dataset.deleteGroup)await deleteRecord(b.dataset.deleteGroup,true);else if(b.dataset.restore)await restoreRecord(b.dataset.restore);else if(b.id==='delete-entry')await deleteRecord($('#entry-id').value,true);else if(b.dataset.photoRecord){e.preventDefault();showPhoto(b.dataset.photoRecord,Number(b.dataset.photoIndex));}else if(b.id==='export-csv')exportCSV();else if(b.id==='import-backup')$('#backup-file').click();else if(b.dataset.categoryEdit){const type=b.dataset.type;const c=settings.categories[type].find(c=>c.id===b.dataset.categoryEdit);const name=prompt('الاسم الجديد للتصنيف:',c.name);if(name===null)return;if(!name.trim()||name.trim().length>50)return toast('أدخل اسمًا بين 1 و50 حرفًا.');if(settings.categories[type].some(x=>x.id!==c.id&&x.name===name.trim()))return toast('يوجد تصنيف بهذا الاسم.');const next=structuredClone(settings);next.categories[type].find(x=>x.id===c.id).name=name.trim();await updateSettings(next,'تعديل تصنيف: '+c.name);}}catch(error){toast('تعذر حفظ التغيير: '+error.message);}});
  document.addEventListener('change',e=>{if(e.target.id==='chart-currency'){chartCurrency=e.target.value;render();}if(e.target.id==='list-currency'){listCurrency=e.target.value;renderLedgerTable();}if(e.target.id==='list-category'){listCategory=e.target.value;renderLedgerTable();}});
  document.addEventListener('input',e=>{if(e.target.id==='record-search'){listSearch=e.target.value;renderLedgerTable();}});

@@ -2,9 +2,10 @@
 // Package clean project sources in-browser. No accounting data is read here.
 window.DaftarPackage = {
     cssFiles:['css/style.css','css/enhancements.css','css/maintenance.css','css/debts.css','css/brand-colors.css'],
-    jsFiles:['js/theme.js','js/config.js','js/storage.js','js/package.js','js/maintenance.js','js/debts.js','js/app.js'],
+    jsFiles:['js/theme.js','js/storage.js','js/package.js','js/maintenance.js','js/debts.js','js/app.js'],
     get projectFiles(){
-        return ['index.html','download.html','README.md','SETUP.md','netlify.toml',...this.cssFiles,...this.jsFiles,
+        return ['index.html','download.html','README.md','SETUP.md','netlify.toml','package.json',
+            'netlify/functions/ledger.js','netlify/functions/photo.js',...this.cssFiles,...this.jsFiles,
             'js/download-page.js','js/vendor/fflate.min.js','js/vendor/fflate-LICENSE.txt'];
     },
     assertHostedSource(){
@@ -16,7 +17,7 @@ window.DaftarPackage = {
             const response=await fetch(new URL(path,document.baseURI),{cache:'no-store'});
             if(!response.ok)throw new Error('تعذر تحميل '+path+'؛ تأكد من اتصالك وأعد المحاولة.');
             const source=await response.text();
-            if(/\.(js|css)$/.test(path)&&/^\s*(?:<!doctype|<html)/i.test(source))throw new Error('محتوى غير صالح للملف '+path);
+            if(/\.(js|css|json|toml|md)$/.test(path)&&/^\s*(?:<!doctype|<html)/i.test(source))throw new Error('محتوى غير صالح للملف '+path);
             return [path,source];
         }));
         return Object.fromEntries(entries);
@@ -66,7 +67,7 @@ window.DaftarPackage = {
         const root='daftar-project/';
         const files=Object.fromEntries(Object.entries(source).map(([path,text])=>[root+path,zip.strToU8(text)]));
         files[root+'daftar-system.html']=zip.strToU8(await this.build(source));
-        files[root+'START-HERE.txt']=zip.strToU8('دفتر — نظام المحاسبة المشترك — ملفات المشروع الكاملة\n\nابدأ من هنا (3 خطوات):\n1. افتح SETUP.md ونفّذ الخطوة 1: إنشاء قاعدة Firebase Realtime Database مجانية (5 دقائق).\n2. الصق رابط القاعدة في ملف js/config.js في السطر firebaseDatabaseUrl.\n3. ارفع كل محتوى هذا المجلد إلى GitHub (بما فيه مجلدي css وjs وملف netlify.toml) وسينشر Netlify تلقائيًا.\n\nبعد ذلك: أي تعديل من أي جهاز يظهر لكل من يملك الرابط.\n\nملاحظات:\n- لا ترفع index.html وحده؛ المجلدان css وjs ضروريان.\n- البيانات المالية ليست داخل هذا الأرشيف؛ لنقل بياناتك القديمة صدّر نسخة JSON من لوحة التحكم القديمة واستوردها في الموقع الجديد.\n- daftar-system.html نسخة مستقلة للتجربة فقط وتحتاج أيضًا رابط Firebase لتعمل.\n- لا توجد كلمة مرور؛ كل من يملك الرابط يستطيع التعديل. شاركه مع من تثق به فقط.\n');
+        files[root+'START-HERE.txt']=zip.strToU8('دفتر — نظام المحاسبة المشترك — ملفات المشروع الكاملة\n(نفس آلية متجر CampusKart: Netlify Functions + Blobs — بدون أي إعداد)\n\nكل ما عليك فعله:\n1. ارفع كل محتوى هذا المجلد إلى مستودع GitHub (بما فيه المجلدات css وjs وnetlify وملفا netlify.toml وpackage.json).\n2. اربط المستودع بموقع على Netlify (أو إن كان مربوطًا فسينشر تلقائيًا).\n3. افتح الرابط. انتهى!\n\nأي تعديل من أي جهاز يظهر لكل من يملك الرابط خلال ثوانٍ.\n\nملاحظات:\n- لا ترفع index.html وحده؛ المجلدات css وjs وnetlify ضرورية.\n- لا توجد متغيرات بيئة ولا كلمة مرور؛ كل من يملك الرابط يستطيع التعديل. شاركه مع من تثق به فقط.\n- لنقل بياناتك القديمة: صدّر نسخة JSON من لوحة التحكم القديمة واستوردها في الموقع الجديد.\n- daftar-system.html نسخة مستقلة للتجربة فقط ولا تتصل بالخادم.\n- التفاصيل في SETUP.md.\n');
         files[root+'.nojekyll']=new Uint8Array(0);
         const bytes=zip.zipSync(files,{level:6});
         return {bytes,fileCount:Object.keys(files).length};
