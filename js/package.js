@@ -1,7 +1,7 @@
 'use strict';
 // Package clean project sources in-browser. No accounting data is read here.
 window.DaftarPackage = {
-    cssFiles:['css/style.css','css/enhancements.css','css/maintenance.css','css/debts.css','css/brand-colors.css','css/accounts.css'],
+    cssFiles:['css/style.css','css/enhancements.css','css/maintenance.css','css/debts.css','css/brand-colors.css','css/accounts.css','css/pending.css'],
     jsFiles:['js/theme.js','js/storage.js','js/calc.js','js/package.js','js/maintenance.js','js/debts.js','js/app.js'],
     get projectFiles(){
         return ['index.html','download.html','README.md','SETUP.md','netlify.toml','package.json',

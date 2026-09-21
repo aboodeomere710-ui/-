@@ -221,6 +221,33 @@ input[data-calc]{font-family:Arial,sans-serif;letter-spacing:.3px}
   .account-breakdown .stat-number{margin-right:auto}
   .account-breakdown small{width:100%;text-align:left}
 }
+
+/* ── شريط التعديلات المعلّقة (تُرفع عند الضغط على الزر) ── */
+.pending-bar{position:sticky;top:12px;z-index:20;display:flex;align-items:center;gap:14px;background:#fff7e8;border:1px solid #f1d9a8;border-right:4px solid #F39C1F;border-radius:10px;padding:13px 16px;margin-bottom:22px;box-shadow:0 8px 24px #f39c1f1f}
+.pending-bar[hidden]{display:none}
+.pending-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:9px;background:#F39C1F;color:#fff;flex-shrink:0}
+.pending-icon svg{width:18px;height:18px}
+.pending-text{flex:1;min-width:0}
+.pending-text strong{display:block;font-size:12px;font-weight:600;color:#7a4d05}
+.pending-text b{font-family:Arial;font-size:13px;background:#F39C1F;color:#fff;border-radius:5px;padding:0 6px;margin:0 2px}
+.pending-text small{display:block;font-size:10px;color:#9a6a1c;margin-top:3px;line-height:1.7}
+.pending-actions{display:flex;gap:8px;flex-shrink:0}
+#push-changes{background:#F39C1F;box-shadow:0 3px 8px #f39c1f40;min-width:150px}
+#push-changes:disabled{opacity:.6;cursor:wait}
+#push-changes[data-busy]::after{content:'…'}
+#discard-changes{color:#8b5a10;border-color:#e9d3a9;background:#fffdf8}
+@keyframes pending-pulse{0%,100%{box-shadow:0 8px 24px #f39c1f1f}50%{box-shadow:0 8px 28px #f39c1f4a}}
+body.has-pending .pending-bar{animation:pending-pulse 2.4s ease-in-out infinite}
+body.has-pending .local-badge{background:#fff3df;color:#9a6a1c}
+[data-theme="dark"] .pending-bar{background:#3a2d17;border-color:#5d4622}
+[data-theme="dark"] .pending-text strong{color:#f5d9a8}
+[data-theme="dark"] .pending-text small{color:#d8b986}
+[data-theme="dark"] #discard-changes{background:#2c2415;color:#e5c58c;border-color:#5d4622}
+@media(max-width:700px){
+  .pending-bar{flex-wrap:wrap;top:8px;padding:12px}
+  .pending-actions{width:100%;display:grid;grid-template-columns:1fr 1.4fr}
+  .pending-actions .button{width:100%;min-width:0}
+}
 </style><script>'use strict';
 // UI preference only. Financial records remain in IndexedDB.
 (function () {
@@ -278,6 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="app-shell">
 <header class="topbar"><div class="breadcrumb"><button class="icon-button mobile-menu" id="mobile-menu" aria-label="فتح القائمة"><span data-icon="menu"></span></button><span>مساحة العمل</span><span class="breadcrumb-slash">/</span><strong id="breadcrumb-title">نظرة عامة</strong></div><div class="topbar-end"><span class="local-badge"><i class="status-dot"></i> تخزين مشترك</span><time id="header-datetime" class="header-datetime" dir="ltr" aria-label="التاريخ والوقت المحلي"></time><button id="theme-toggle" class="icon-button theme-toggle" aria-label="تفعيل الوضع الليلي" title="تفعيل الوضع الليلي" aria-pressed="false"><span>☾</span></button><span class="topbar-divider"></span><span class="profile-avatar">م</span><span class="profile-label">مدير الحسابات</span></div></header>
 <main id="main-content">
+<section id="pending-bar" class="pending-bar" role="status" aria-live="polite" hidden=""><span class="pending-icon" data-icon="upload"></span><div class="pending-text"><strong>لديك <b id="pending-count">0</b> تغييرًا محفوظًا على هذا الجهاز فقط</strong><small>لن يراها الآخرون حتى تضغط «رفع التعديلات». يمكنك المتابعة وإجراء تعديلات أخرى ثم رفعها معًا.</small></div><div class="pending-actions"><button type="button" class="button secondary" id="discard-changes">إلغاء التعديلات</button><button type="button" class="button primary" id="push-changes"><span data-icon="upload"></span> رفع التعديلات</button></div></section>
 <section class="page-heading"><div><div class="eyebrow">وضوح أكثر. إدارة أفضل.</div><h1 id="page-title">نظرة عامة على حساباتك</h1><p id="page-description">كل ما تحتاج معرفته عن حركة أموالك، في لمحة واحدة.</p></div><div class="heading-actions"><button class="button primary" id="add-debt" data-debt-add="" hidden=""><span data-icon="plus"></span> إضافة دين</button><button class="button secondary" id="add-expense"><span data-icon="minus"></span> إضافة مصروف</button><button class="button primary" id="add-income"><span data-icon="plus"></span> إضافة مدخل</button></div></section>
 <section class="filter-toolbar" id="filter-toolbar"><div class="period-label"><span class="period-icon" data-icon="calendar"></span><strong>الفترة المحاسبية</strong><span class="muted desktop-only">اعرض ملخص حساباتك حسب الشهر</span></div><div class="month-control"><button id="previous-month" class="icon-button" aria-label="الشهر السابق"><span data-icon="chevron-right"></span></button><input id="month-filter" type="month" aria-label="الشهر المحاسبي"><button id="next-month" class="icon-button" aria-label="الشهر التالي"><span data-icon="chevron-left"></span></button></div></section>
 <div id="view-content" aria-live="polite"><div class="loading-panel">جارٍ فتح دفتر حساباتك…</div></div>
@@ -449,9 +477,93 @@ async function openDatabase() {
     }
     return { shared: true, backend, close() {} };
 }
-async function getAll(store) { return activeBackend().getAll(store); }
-async function commit(changes) { return activeBackend().commit(changes); }
-async function storePhotos(photos) { return activeBackend().storePhotos(photos); }
+// ────────────────────────── التعديلات المعلّقة (تُرفع عند الضغط على الزر) ──────────────────────────
+// كل حفظ من الواجهة يذهب إلى قائمة انتظار محلية (localStorage) ويظهر فورًا على هذا الجهاز فقط.
+// عند الضغط على «رفع التعديلات» تُرسل كل التغييرات معًا إلى الخادم فيراها الجميع.
+const PENDING_KEY = 'daftar-pending-changes';
+const pending = { records: new Map(), history: new Map(), settings: new Map(), debts: new Map(), photos: [] };
+function loadPending() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(PENDING_KEY) || 'null');
+        if (!saved) return;
+        for (const store of SHARED_STORES) for (const item of saved[store] || []) pending[store].set(item.id, item);
+        pending.photos = Array.isArray(saved.photos) ? saved.photos : [];
+    } catch (_) {}
+}
+function persistPending() {
+    try {
+        const out = { photos: pending.photos };
+        for (const store of SHARED_STORES) out[store] = [...pending[store].values()];
+        localStorage.setItem(PENDING_KEY, JSON.stringify(out));
+    } catch (error) {
+        if (error?.name === 'QuotaExceededError') toast('ذاكرة المتصفح ممتلئة بالتعديلات المعلّقة. ارفع التعديلات الآن.');
+    }
+}
+function hasPending() { return SHARED_STORES.some(s => pending[s].size > 0); }
+loadPending();
+
+async function getAll(store) {
+    const items = await activeBackend().getAll(store);
+    if (!pending[store].size) return items;
+    const map = new Map(items.map(item => [item.id, item]));
+    for (const [id, item] of pending[store]) map.set(id, normalizeItem(store, structuredClone(item)));
+    return [...map.values()];
+}
+async function commit(changes) {
+    for (const [store, items] of Object.entries(changes)) {
+        if (!SHARED_STORES.includes(store)) continue;
+        for (const item of items || []) pending[store].set(item.id, structuredClone(item));
+    }
+    persistPending();
+    updatePendingBar();
+}
+// الصور الجديدة تبقى base64 داخل السجل المحلي حتى لحظة الرفع، ثم تُرفع للخادم وتُستبدل بروابط.
+async function storePhotos(photos) { return photos.map(p => p.url ? p : { name: p.name, type: p.type, data: p.data }); }
+
+async function pushPending() {
+    if (!hasPending()) { toast('لا توجد تعديلات معلّقة.'); return false; }
+    const button = document.getElementById('push-changes');
+    if (button) { button.disabled = true; button.dataset.busy = '1'; }
+    try {
+        // 1) رفع الصور الجديدة (base64) واستبدالها بروابط
+        const backendApi = activeBackend();
+        for (const record of pending.records.values()) {
+            if (!Array.isArray(record.photos) || !record.photos.some(p => p.data && !p.url)) continue;
+            record.photos = await backendApi.storePhotos(record.photos);
+        }
+        // 2) رفع كل التغييرات في طلب واحد
+        const changes = {};
+        for (const store of SHARED_STORES) if (pending[store].size) changes[store] = [...pending[store].values()];
+        await backendApi.commit(changes);
+        const count = Object.values(changes).reduce((n, list) => n + list.length, 0);
+        for (const store of SHARED_STORES) pending[store].clear();
+        persistPending();
+        await refreshData(); render(); updatePendingBar();
+        toast(`تم رفع ${count} تغييرًا. أصبحت التعديلات ظاهرة لكل من يملك الرابط.`);
+        return true;
+    } catch (error) {
+        toast('تعذر رفع التعديلات: ' + (error.message || 'خطأ غير معروف') + ' — ما زالت محفوظة على جهازك.');
+        return false;
+    } finally { if (button) { button.disabled = false; delete button.dataset.busy; } }
+}
+async function discardPending() {
+    if (!hasPending()) return;
+    const n = SHARED_STORES.reduce((s, k) => s + pending[k].size, 0);
+    if (!confirm(`إلغاء ${n} تغييرًا معلّقًا والعودة إلى النسخة المحفوظة على الخادم؟`)) return;
+    for (const store of SHARED_STORES) pending[store].clear();
+    persistPending();
+    await refreshData(); render(); updatePendingBar();
+    toast('تم إلغاء التعديلات المعلّقة.');
+}
+function updatePendingBar() {
+    const bar = document.getElementById('pending-bar'); if (!bar) return;
+    const n = SHARED_STORES.filter(s => s !== 'history').reduce((s, k) => s + pending[k].size, 0);
+    bar.hidden = n === 0;
+    const label = document.getElementById('pending-count'); if (label) label.textContent = n;
+    const button = document.getElementById('push-changes'); if (button && !button.dataset.busy) button.disabled = n === 0;
+    document.body.classList.toggle('has-pending', n > 0);
+}
+window.addEventListener('beforeunload', e => { if (hasPending()) { e.preventDefault(); e.returnValue = ''; } });
 function photoSrc(photo) { return photo?.url ? absolute(photo.url.replace(/^\//, '')) : (photo?.data || ''); }
 
 function setStorageStatus(text) { const status = document.getElementById('storage-status'); if (status) status.textContent = text; }
@@ -460,13 +572,16 @@ function connectedLabel() { return 'متصل · البيانات مشتركة و
 // مزامنة حية: تتحقق دوريًا من تعديلات قادمة من أجهزة أخرى وتعرضها فورًا.
 function startLiveSync() {
     setStorageStatus(connectedLabel());
+    updatePendingBar();
+    document.getElementById('push-changes')?.addEventListener('click', pushPending);
+    document.getElementById('discard-changes')?.addEventListener('click', discardPending);
     const tick = async () => {
         if (liveSyncBusy || !db || document.visibilityState !== 'visible' || document.querySelector('dialog[open]')) return;
         liveSyncBusy = true;
         try {
             const changed = await activeBackend().hasRemoteChanges();
-            if (changed) { if (backend === 'netlify') await refreshData(); render(); toast('تم تحديث البيانات: هناك تعديلات جديدة من جهاز آخر.'); }
-            setStorageStatus(connectedLabel());
+            if (changed) { if (backend === 'netlify') await refreshData(); render(); toast(hasPending() ? 'وصلت تعديلات من جهاز آخر؛ تعديلاتك المعلّقة ما زالت محفوظة ولم تُرفع بعد.' : 'تم تحديث البيانات: هناك تعديلات جديدة من جهاز آخر.'); }
+            setStorageStatus(hasPending() ? 'لديك تعديلات غير مرفوعة · اضغط «رفع التعديلات» لتظهر للجميع' : connectedLabel());
         } catch (_) { setStorageStatus('انقطع الاتصال بالخادم؛ سنعيد المحاولة تلقائيًا'); }
         finally { liveSyncBusy = false; }
     };
@@ -530,7 +645,7 @@ document.addEventListener('focusout',e=>{
 </script><script>'use strict';
 // Package clean project sources in-browser. No accounting data is read here.
 window.DaftarPackage = {
-    cssFiles:['css/style.css','css/enhancements.css','css/maintenance.css','css/debts.css','css/brand-colors.css','css/accounts.css'],
+    cssFiles:['css/style.css','css/enhancements.css','css/maintenance.css','css/debts.css','css/brand-colors.css','css/accounts.css','css/pending.css'],
     jsFiles:['js/theme.js','js/storage.js','js/calc.js','js/package.js','js/maintenance.js','js/debts.js','js/app.js'],
     get projectFiles(){
         return ['index.html','download.html','README.md','SETUP.md','netlify.toml','package.json',
@@ -667,7 +782,7 @@ async function submitReset(event){
         const updated=targets.map(r=>({...r,deletedAt:at,updatedAt:at,resetId}));
         const changes=targets.map((r,i)=>({id:uid(),action:'delete',at,recordId:r.id,resetId,label:'تصفير '+typeLabel+' — '+periodLabel+' · '+r.currency,before:r,after:updated[i]}));
         await commit({records:updated,history:changes});
-        await refreshData();$('#reset-dialog').close();render();toast('تم التصفير. يمكنك استعادة المجموعة من سجل التعديلات.');
+        await refreshData();$('#reset-dialog').close();render();toast('تم التصفير محليًا. يمكنك استعادة المجموعة من سجل التعديلات، واضغط «رفع التعديلات» للنشر.');
     }catch(error){$('#reset-error').textContent=error.name==='QuotaExceededError'?'لم يتم التصفير: مساحة التخزين غير كافية لحفظ السجل.':error.message;}
     finally{resetBusy=false;$('#reset-submit').disabled=!resetPreview||!resetTargets(resetPreview.options).length;}
 }
@@ -685,7 +800,7 @@ async function restoreResetGroup(id){
     validateBackup({format:'daftar-backup',version:2,settings,records:[...merged.values()],history:[]});
     if(!confirm(`استعادة ${targets.length} مبلغ من مجموعة التصفير إلى تواريخها وعملاتها الأصلية؟`))return;
     await commit({records:next,history:targets.map((r,i)=>({id:uid(),action:'restore',at:next[i].updatedAt,recordId:r.id,label:'استعادة مجموعة تصفير · '+r.currency,before:r,after:next[i]}))});
-    await refreshData();render();toast('تمت استعادة مجموعة التصفير.');
+    await refreshData();render();toast('تمت استعادة مجموعة التصفير محليًا. اضغط «رفع التعديلات» ليراها الجميع.');
 }
 document.addEventListener('DOMContentLoaded',()=>{
     $('#reset-form').addEventListener('submit',submitReset);
@@ -757,7 +872,7 @@ async function saveDebt(event){
         const item={id:id||uid(),type:'debt',name,date,notes,amounts,createdAt:old?.createdAt||now,updatedAt:now};
         if(!validateDebt(item))throw new Error('راجع بيانات الدين وحاول مرة أخرى.');
         await commit({debts:[item],history:[{id:uid(),action:old?'edit':'create',at:now,recordId:item.id,label:(old?'تعديل دين: ':'إضافة دين: ')+name,before:old||null,after:item}]});
-        await refreshData();$('#debt-dialog').close();debtSearch='';render();toast(old?'تم تعديل الدين وحفظ نسخته السابقة.':'تم حفظ الدين بالعملات المحددة.');
+        await refreshData();$('#debt-dialog').close();debtSearch='';render();toast((old?'تم تعديل الدين محليًا.':'تم حفظ الدين محليًا.')+' اضغط «رفع التعديلات» ليراه الجميع.');
     }catch(error){$('#debt-error').textContent=error.name==='QuotaExceededError'?'تعذر الحفظ: مساحة التخزين غير كافية. لم يتم تعديل الدين.':error.message;}
     finally{debtSaving=false;$('#save-debt').disabled=false;}
 }
@@ -767,14 +882,14 @@ async function deleteDebt(id){
     if(!confirm(`حذف دين ${old.name}؟\n${amounts}\nسيُستبعد من إجمالي الديون، مع إمكانية استعادته من سجل التعديلات.`))return;
     const now=new Date().toISOString(),item={...old,deletedAt:now,updatedAt:now};
     await commit({debts:[item],history:[{id:uid(),action:'delete',at:now,recordId:id,label:'حذف دين: '+old.name,before:old,after:item}]});
-    await refreshData();$('#debt-dialog').close();render();toast('تم حذف الدين من الإجماليات. يمكنك استعادته من سجل التعديلات.');
+    await refreshData();$('#debt-dialog').close();render();toast('تم حذف الدين محليًا. يمكنك استعادته من سجل التعديلات، واضغط «رفع التعديلات» للنشر.');
 }
 async function restoreDebt(id){
     await refreshData();const old=debts.find(d=>d.id===id&&d.deletedAt);if(!old)return;
     if(!confirm('استعادة دين '+old.name+' بمبالغه الأصلية؟'))return;
     const now=new Date().toISOString(),item={...old,updatedAt:now};delete item.deletedAt;
     await commit({debts:[item],history:[{id:uid(),action:'restore',at:now,recordId:id,label:'استعادة دين: '+old.name,before:old,after:item}]});
-    await refreshData();render();toast('تمت استعادة الدين.');
+    await refreshData();render();toast('تمت استعادة الدين محليًا. اضغط «رفع التعديلات» ليراه الجميع.');
 }
 function deletedDebtsHTML(){
     const rows=sortedRows(debts.filter(d=>d.deletedAt));if(!rows.length)return '';
@@ -857,7 +972,7 @@ function filteredRows(kind){return monthlyRecords().filter(r=>(!kind||r.type===k
 function ledgerHTML(kind){const categoryOptions=kind?settings.categories[kind]:[...settings.categories.income,...settings.categories.expense];return `${currencyCards(monthlyRecords(),kind)}<section class="panel"><header class="panel-header"><div><h2 class="panel-title">${kind==='income'?'سجل المدخلات':kind==='expense'?'سجل المصروفات':'جميع العمليات الشهرية'}</h2><p class="panel-subtitle">${esc(monthLabel(currentMonth))} · عرض وتعديل كل عملية</p></div>${!kind?`<button class="button secondary" id="export-csv">${icon('download')} تصدير CSV</button>`:''}</header><div class="search-tools"><input type="search" class="search-input" id="record-search" placeholder="ابحث بالبيان أو الملاحظات…" value="${esc(listSearch)}" aria-label="البحث في العمليات"><select id="list-currency" aria-label="تصفية بالعملة">${currencyOptions(listCurrency,true)}</select><select id="list-category" aria-label="تصفية بالتصنيف"><option value="">كل التصنيفات</option>${categoryOptions.map(c=>`<option value="${esc(c.id)}" ${listCategory===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}</select><select id="list-account" aria-label="تصفية بالحساب">${accountOptions(listAccount,true)}</select></div><div id="ledger-table">${tableHTML(filteredRows(kind),kind)}</div>${!kind?'<div class="report-summary">صافي الرصيد = المدخلات − المصروفات للشهر المحدد فقط. لا تُجمع العملات معًا ولا تُحوّل بينها. ملف CSV يشمل العمليات الظاهرة بعد التصفية، ويثبت التاريخ كنص بصيغة YYYY-MM-DD في Excel لتجنب تبديل اليوم والشهر. المحذوفات والصور غير مشمولة؛ استخدم النسخة الاحتياطية لحفظ كل البيانات.</div>':''}</section>`;}
 function historyHTML(){return `<section class="panel"><header class="panel-header"><div><h2 class="panel-title">ذاكرة دفتر حساباتك</h2><p class="panel-subtitle">كل إضافة وتعديل محفوظان. يمكنك مراجعة القيم السابقة دون حذف أي سجل.</p></div><span class="currency-tag">${history.length} تغيير</span></header>${resetHistoryHTML()}${deletedHTML()}${deletedDebtsHTML()}${history.length?`<div class="history-list">${[...history].sort((a,b)=>b.at.localeCompare(a.at)).map(h=>`<article class="history-item"><span>${icon(h.action==='create'?'plus':h.action==='backup'?'download':'history')}</span><div><h3>${esc(h.label)}</h3><p>${h.recordId?'رقم العملية: '+esc(h.recordId.slice(0,8)):'إدارة مساحة العمل'}</p>${h.before?`<details><summary>عرض البيانات قبل التعديل</summary><pre>${esc(historySummary(h.before))}</pre></details>`:''}</div><time datetime="${esc(h.at)}">${timeLabel(h.at)}</time></article>`).join('')}</div>`:'<div class="empty-state"><div class="empty-icon">'+icon('history')+'</div><h3>كل تعديل له أثر محفوظ</h3><p>ستظهر هنا العمليات والتغييرات عند البدء باستخدام دفتر.</p></div>'}</section>`;}
 function historySummary(obj){if(obj.type==='debt')return debtHistorySummary(obj);if(obj.type)return `${displayTitle(obj)}\n${dateLabel(obj.date)} · ${obj.type==='income'?'مدخل':'مصروف'}\n${money(obj.amount)} ${obj.currency}\n${categoryName(obj.type,obj.category)} · ${accountName(obj.account)}\n${obj.notes||'لا توجد ملاحظات'}\n${obj.photos?.length||0} مرفق (محفوظ في النسخة الاحتياطية)`;return JSON.stringify(obj,null,2);}
-function settingsHTML(){return `<div class="settings-grid">${maintenanceHTML()}<section class="panel settings-panel"><h2>هوية مساحة العمل</h2><p>عدّل اسم دفتر الحسابات والوصف الذي يظهر في الصفحة الرئيسية.</p><form id="identity-form"><label>اسم دفتر الحسابات<input name="name" maxlength="35" required value="${esc(settings.name)}"></label><label>وصف الصفحة الرئيسية<input name="description" maxlength="160" value="${esc(settings.description)}"></label><button class="button primary" type="submit">${icon('check')} حفظ التغييرات</button></form></section><section class="panel settings-panel"><h2>العملات</h2><p>ثلاثة أرصدة مستقلة. يمكنك تعديل أسماء العملات ورموز عرضها دون تغيير العمليات.</p><form id="currencies-form">${settings.currencies.map(c=>`<label>${c.code}<div class="inline-form"><input name="${c.code}-name" aria-label="اسم ${c.code}" maxlength="40" required value="${esc(c.name)}"><input name="${c.code}-symbol" aria-label="رمز ${c.code}" maxlength="5" style="max-width:65px" required value="${esc(c.symbol)}"></div></label>`).join('')}<button class="button primary" type="submit">حفظ العملات</button></form></section><section class="panel settings-panel"><h2>إدارة التصنيفات</h2><p>أضف تصنيفًا جديدًا أو اضغط على تصنيف لتعديل اسمه. تتحدث جميع العمليات المرتبطة به تلقائيًا.</p>${['income','expense'].map(type=>`<h3>${type==='income'?'تصنيفات المدخلات':'تصنيفات المصروفات'}</h3><div class="category-list">${settings.categories[type].map(c=>`<button class="category-chip" data-category-edit="${esc(c.id)}" data-type="${type}">${esc(c.name)} ${icon('edit')}</button>`).join('')}</div><form class="inline-form category-form" data-type="${type}"><input name="categoryName" aria-label="تصنيف جديد ${type==='income'?'للمدخلات':'للمصروفات'}" maxlength="50" required placeholder="اسم التصنيف الجديد"><button class="button secondary" type="submit">${icon('plus')} إضافة</button></form>`).join('')}</section><section class="panel settings-panel"><h2>النسخ الاحتياطي والاستعادة</h2><p>نسخة كاملة تشمل العمليات والصور والتصنيفات والإعدادات وسجل التعديلات، في ملف JSON واحد.</p><div class="backup-notice">البيانات محفوظة على الخادم ومشتركة بين كل من يملك الرابط؛ مسح بيانات المتصفح لا يؤثر عليها. مع ذلك، احتفظ بنسخة احتياطية دورية على قرص خارجي أو مكان آمن.</div><p>آخر نسخة تم تنزيلها: <strong>${settings.lastBackup?timeLabel(settings.lastBackup):'لم تُنشأ نسخة بعد'}</strong></p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="button primary backup-trigger">${icon('download')} تصدير نسخة كاملة</button><button class="button secondary" id="import-backup">${icon('upload')} استيراد نسخة</button></div><p style="margin-top:15px">الاستيراد يدمج السجلات ولا يحذف أي عملية. في حال تطابق رقم العملية، تُحفظ النسخة الحالية في سجل التعديلات قبل استبدالها.</p></section><section class="panel settings-panel settings-full"><h2>حول النظام المشترك</h2><p style="margin:0">يمكن تعديل جميع بيانات العمليات: البيان، المبلغ، العملة، التاريخ، التصنيف، الملاحظات، وإضافة المرفقات. يمكن حذف مبلغ منفرد أو عملية إدخال كاملة بعد التأكيد؛ تبقى نسخة في سجل التعديلات للاستعادة، ولا تُحسب المحذوفات في الأرصدة والتقارير. البيانات محفوظة على الخادم ومشتركة: كل تعديل يظهر لكل من يملك الرابط من أي جهاز، وتتحدث الصفحات المفتوحة تلقائيًا كل بضع ثوانٍ. لوحة التحكم غير محمية بكلمة مرور؛ لا تشارك الرابط إلا مع من تثق به. تعديل تصميم البرنامج أو إضافة خصائص جديدة يحتاج إلى تعديل ملفات الموقع.</p></section></div>`;}
+function settingsHTML(){return `<div class="settings-grid">${maintenanceHTML()}<section class="panel settings-panel"><h2>هوية مساحة العمل</h2><p>عدّل اسم دفتر الحسابات والوصف الذي يظهر في الصفحة الرئيسية.</p><form id="identity-form"><label>اسم دفتر الحسابات<input name="name" maxlength="35" required value="${esc(settings.name)}"></label><label>وصف الصفحة الرئيسية<input name="description" maxlength="160" value="${esc(settings.description)}"></label><button class="button primary" type="submit">${icon('check')} حفظ التغييرات</button></form></section><section class="panel settings-panel"><h2>العملات</h2><p>ثلاثة أرصدة مستقلة. يمكنك تعديل أسماء العملات ورموز عرضها دون تغيير العمليات.</p><form id="currencies-form">${settings.currencies.map(c=>`<label>${c.code}<div class="inline-form"><input name="${c.code}-name" aria-label="اسم ${c.code}" maxlength="40" required value="${esc(c.name)}"><input name="${c.code}-symbol" aria-label="رمز ${c.code}" maxlength="5" style="max-width:65px" required value="${esc(c.symbol)}"></div></label>`).join('')}<button class="button primary" type="submit">حفظ العملات</button></form></section><section class="panel settings-panel"><h2>إدارة التصنيفات</h2><p>أضف تصنيفًا جديدًا أو اضغط على تصنيف لتعديل اسمه. تتحدث جميع العمليات المرتبطة به تلقائيًا.</p>${['income','expense'].map(type=>`<h3>${type==='income'?'تصنيفات المدخلات':'تصنيفات المصروفات'}</h3><div class="category-list">${settings.categories[type].map(c=>`<button class="category-chip" data-category-edit="${esc(c.id)}" data-type="${type}">${esc(c.name)} ${icon('edit')}</button>`).join('')}</div><form class="inline-form category-form" data-type="${type}"><input name="categoryName" aria-label="تصنيف جديد ${type==='income'?'للمدخلات':'للمصروفات'}" maxlength="50" required placeholder="اسم التصنيف الجديد"><button class="button secondary" type="submit">${icon('plus')} إضافة</button></form>`).join('')}</section><section class="panel settings-panel"><h2>النسخ الاحتياطي والاستعادة</h2><p>نسخة كاملة تشمل العمليات والصور والتصنيفات والإعدادات وسجل التعديلات، في ملف JSON واحد.</p><div class="backup-notice">البيانات محفوظة على الخادم ومشتركة بين كل من يملك الرابط؛ مسح بيانات المتصفح لا يؤثر عليها. مع ذلك، احتفظ بنسخة احتياطية دورية على قرص خارجي أو مكان آمن.</div><p>آخر نسخة تم تنزيلها من هذا الجهاز: <strong>${(()=>{let v=null;try{v=localStorage.getItem('daftar-last-backup');}catch(_){}v=v||settings.lastBackup;return v?timeLabel(v):'لم تُنشأ نسخة بعد';})()}</strong></p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="button primary backup-trigger">${icon('download')} تصدير نسخة كاملة</button><button class="button secondary" id="import-backup">${icon('upload')} استيراد نسخة</button></div><p style="margin-top:15px">الاستيراد يدمج السجلات ولا يحذف أي عملية. في حال تطابق رقم العملية، تُحفظ النسخة الحالية في سجل التعديلات قبل استبدالها.</p></section><section class="panel settings-panel settings-full"><h2>حول النظام المشترك</h2><p style="margin:0">يمكن تعديل جميع بيانات العمليات: البيان، المبلغ، العملة، التاريخ، التصنيف، الملاحظات، وإضافة المرفقات. يمكن حذف مبلغ منفرد أو عملية إدخال كاملة بعد التأكيد؛ تبقى نسخة في سجل التعديلات للاستعادة، ولا تُحسب المحذوفات في الأرصدة والتقارير. البيانات محفوظة على الخادم ومشتركة: كل تعديل يظهر لكل من يملك الرابط من أي جهاز، وتتحدث الصفحات المفتوحة تلقائيًا كل بضع ثوانٍ. لوحة التحكم غير محمية بكلمة مرور؛ لا تشارك الرابط إلا مع من تثق به. تعديل تصميم البرنامج أو إضافة خصائص جديدة يحتاج إلى تعديل ملفات الموقع.</p></section></div>`;}
 function render(){const routes={dashboard:['نظرة عامة','نظرة عامة على حساباتك',settings.description],income:['المدخلات','المدخلات اليومية','سجّل إيراداتك، وتابع مجموع مدخلاتك بكل عملة.'],expenses:['المصروفات','المصروفات اليومية','كل مصروف في مكانه. تابع المصاريف وأرفق فواتيرك.'],debts:['الديون','الديون والمبالغ المستحقة','تابع اسم المدين وقيمة كل دين بالعملات الثلاث، مع إمكانية التعديل والحذف.'],reports:['التقارير الشهرية','الصورة الكاملة لشهرك','راجع كل العمليات، والأرصدة، والتفاصيل المالية.'],history:['سجل التعديلات','لا يضيع أي تعديل','تاريخ واضح لكل إضافة أو تغيير في دفتر حساباتك.'],settings:['لوحة التحكم','مساحة عمل على طريقتك','إدارة الأسماء والتصنيفات والعملات والنسخ الاحتياطية.']};const meta=routes[currentRoute]||routes.dashboard;$('#breadcrumb-title').textContent=meta[0];$('#page-title').textContent=meta[1];$('#page-description').textContent=meta[2];$('#filter-toolbar').hidden=['settings','history','debts'].includes(currentRoute);$('#filter-toolbar').style.display=['settings','history','debts'].includes(currentRoute)?'none':'';$$('[data-route]').forEach(a=>{a.classList.toggle('active',a.dataset.route===currentRoute);if(a.dataset.route===currentRoute)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});$('#add-debt').hidden=currentRoute!=='debts';$('#add-income').hidden=currentRoute==='debts';$('#add-expense').hidden=currentRoute==='debts';$('#view-content').innerHTML=currentRoute==='debts'?debtsHTML():currentRoute==='dashboard'?dashboardHTML():currentRoute==='settings'?settingsHTML():currentRoute==='history'?historyHTML():ledgerHTML(currentRoute==='income'?'income':currentRoute==='expenses'?'expense':null);paintIcons();}
 function route(){const requested=location.hash.slice(1);currentRoute=['income','expenses','debts','reports','settings','history'].includes(requested)?requested:'dashboard';listSearch='';listCurrency='';listCategory='';listAccount='';debtSearch='';render();closeMenu();}
 function closeMenu(){$('#sidebar').classList.remove('open');$('#sidebar-overlay').classList.remove('visible');$('#mobile-menu').setAttribute('aria-expanded','false');}
@@ -940,7 +1055,7 @@ async function saveEntry(event){
         }
         await commit({records:updated,history:changes});
         await refreshData();currentMonth=date.slice(0,7);$('#month-filter').value=currentMonth;
-        $('#entry-dialog').close();render();toast('تم حفظ '+populated.length+' مبلغ بنجاح'+(removed.length?' وحفظ المحذوفات للاستعادة':''));
+        $('#entry-dialog').close();render();toast('تم حفظ '+populated.length+' مبلغ محليًا'+(removed.length?' وحفظ المحذوفات للاستعادة':'')+'. اضغط «رفع التعديلات» ليراها الجميع.');
     }catch(error){$('#form-error').textContent=error.name==='QuotaExceededError'?'مساحة التخزين غير كافية. لم تُحفظ العملية. صدّر نسخة احتياطية وحاول دون صور جديدة.':error.message||'تعذر الحفظ. أعد المحاولة.';}
     finally{button.disabled=false;}
 }
@@ -955,7 +1070,7 @@ async function deleteRecord(id,wholeGroup=false){
     const now=new Date().toISOString();
     const updated=targets.map(r=>({...r,deletedAt:now,updatedAt:now}));
     await commit({records:updated,history:targets.map((r,i)=>({id:uid(),action:'delete',at:now,recordId:r.id,label:'حذف: '+displayTitle(r)+' · '+r.currency,before:r,after:updated[i]}))});
-    await refreshData();$('#entry-dialog').close();$('#detail-dialog').close();render();toast('تم الحذف من الحسابات. يمكنك الاستعادة من سجل التعديلات.');
+    await refreshData();$('#entry-dialog').close();$('#detail-dialog').close();render();toast('تم الحذف محليًا. يمكنك الاستعادة من سجل التعديلات، واضغط «رفع التعديلات» للنشر.');
 }
 async function restoreRecord(id){
     await refreshData();
@@ -965,16 +1080,16 @@ async function restoreRecord(id){
     if(!confirm(`استعادة ${money(old.amount)} ${old.currency} إلى الحسابات في تاريخ ${old.date}؟`))return;
     const now=new Date().toISOString(),record={...old,updatedAt:now};delete record.deletedAt;delete record.resetId;
     await commit({records:[record],history:[{id:uid(),action:'restore',at:now,recordId:id,label:'استعادة: '+displayTitle(record)+' · '+record.currency,before:old,after:record}]});
-    await refreshData();render();toast('تمت استعادة المبلغ إلى شهره الأصلي.');
+    await refreshData();render();toast('تمت استعادة المبلغ محليًا. اضغط «رفع التعديلات» ليراها الجميع.');
 }
 function deletedHTML(){
     const deleted=sortedRows(records.filter(r=>r.deletedAt));
     if(!deleted.length)return '';
     return `<section class="deleted-section"><h3>المحذوفات القابلة للاستعادة · ${deleted.length}</h3><p>هذه المبالغ غير مشمولة في الأرصدة أو التقارير. استعد كل مبلغ عند الحاجة.</p>${deleted.map(r=>`<article class="deleted-item"><div>${esc(displayTitle(r))}<small><bdi>${money(r.amount)} ${r.currency}</bdi> · <bdi>${esc(r.date)}</bdi></small></div><button class="button secondary" data-restore="${esc(r.id)}">${icon('history')} استعادة المبلغ</button></article>`).join('')}</section>`;
 }
-async function updateSettings(next,label){const old=structuredClone(settings);await commit({settings:[next],history:[{id:uid(),action:'settings',at:new Date().toISOString(),label,before:old}]});await refreshData();render();toast('تم حفظ الإعدادات');}
+async function updateSettings(next,label){const old=structuredClone(settings);await commit({settings:[next],history:[{id:uid(),action:'settings',at:new Date().toISOString(),label,before:old}]});await refreshData();render();toast('تم حفظ الإعدادات محليًا. اضغط «رفع التعديلات» ليراها الجميع.');}
 function download(content,name,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
-async function exportBackup(){try{await refreshData();const now=new Date().toISOString();const backup={format:'daftar-backup',version:3,exportedAt:now,settings,records,debts,history};download(JSON.stringify(backup),`daftar-backup-${localDate()}-${Date.now()}.json`,'application/json');await commit({settings:[{...settings,lastBackup:now}]});await refreshData();if(currentRoute==='settings')render();toast('تم بدء تنزيل النسخة. تأكد من حفظ الملف في مكان آمن.');}catch(error){toast('تعذر تصدير النسخة: '+error.message);}}
+async function exportBackup(){try{await refreshData();const now=new Date().toISOString();const backup={format:'daftar-backup',version:3,exportedAt:now,settings,records,debts,history};download(JSON.stringify(backup),`daftar-backup-${localDate()}-${Date.now()}.json`,'application/json');try{localStorage.setItem('daftar-last-backup',now);}catch(_){}if(currentRoute==='settings')render();toast('تم بدء تنزيل النسخة (تشمل تعديلاتك المعلّقة). تأكد من حفظ الملف في مكان آمن.');}catch(error){toast('تعذر تصدير النسخة: '+error.message);}}
 function validatePhoto(p){if(!p||typeof p.name!=='string')return false;if(typeof p.url==='string')return /^\/api\/photo\/[\w\-]{6,60}\.(jpg|png|webp)$/.test(p.url);return typeof p.data==='string'&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=\r\n]+$/.test(p.data)&&p.data.length<5700000;}
 function validateRecord(r){return r&&typeof r.id==='string'&&r.id.length<100&&['income','expense'].includes(r.type)&&typeof r.title==='string'&&r.title.length<=120&&(r.batchId===undefined||(typeof r.batchId==='string'&&r.batchId.length>0&&r.batchId.length<100&&r.type==='income'))&&(r.deletedAt===undefined||(typeof r.deletedAt==='string'&&Number.isFinite(Date.parse(r.deletedAt))))&&(r.resetId===undefined||(typeof r.resetId==='string'&&r.resetId.length>0&&r.resetId.length<100))&&typeof r.amount==='number'&&r.amount>0&&r.amount<=9999999999&&Math.abs(r.amount*100-Math.round(r.amount*100))<.0001&&['USD','TRY','SYP'].includes(r.currency)&&validDate(r.date)&&typeof r.category==='string'&&(r.account===undefined||ACCOUNTS.some(a=>a.id===r.account))&&typeof r.notes==='string'&&r.notes.length<=2000&&Array.isArray(r.photos)&&r.photos.every(validatePhoto)&&typeof r.createdAt==='string'&&Number.isFinite(Date.parse(r.createdAt))&&typeof r.updatedAt==='string'&&Number.isFinite(Date.parse(r.updatedAt));}
 function validateSettings(s){return s&&s.id==='main'&&typeof s.name==='string'&&s.name.trim()&&s.name.length<=35&&typeof s.description==='string'&&s.description.length<=160&&(!s.lastBackup||Number.isFinite(Date.parse(s.lastBackup)))&&Array.isArray(s.currencies)&&s.currencies.length===3&&['USD','TRY','SYP'].every(code=>s.currencies.filter(c=>c.code===code).length===1)&&s.currencies.every(c=>typeof c.name==='string'&&c.name.trim()&&c.name.length<=40&&typeof c.symbol==='string'&&c.symbol.length<=5&&c.className===c.code.toLowerCase())&&s.categories&&['income','expense'].every(type=>Array.isArray(s.categories[type])&&s.categories[type].length&&new Set(s.categories[type].map(c=>c.id)).size===s.categories[type].length&&s.categories[type].every(c=>typeof c.id==='string'&&c.id.length<100&&typeof c.name==='string'&&c.name.trim()&&c.name.length<=50));}
@@ -999,7 +1114,7 @@ async function importBackup(file){
         const mergedDebts=new Map(debts.map(d=>[d.id,d]));for(const d of importedDebts)mergedDebts.set(d.id,d);
         validateBackup({format:'daftar-backup',version:3,settings:next,records:[...merged.values()],debts:[...mergedDebts.values()],history:[]});
         await commit({records:data.records,debts:importedDebts,settings:[next],history:newHistory});
-        await refreshData();render();toast('تم دمج النسخة الاحتياطية، بما فيها الديون، دون محو السجلات الأخرى.');
+        await refreshData();render();toast('تم دمج النسخة الاحتياطية محليًا (بما فيها الديون). اضغط «رفع التعديلات» لنشرها للجميع.');
     }catch(error){toast('لم تُستورد البيانات: '+(error.message||'تعذر قراءة الملف'));}
     finally{$('#backup-file').value='';}
 }

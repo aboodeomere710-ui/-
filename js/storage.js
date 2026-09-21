@@ -157,9 +157,93 @@ async function openDatabase() {
     }
     return { shared: true, backend, close() {} };
 }
-async function getAll(store) { return activeBackend().getAll(store); }
-async function commit(changes) { return activeBackend().commit(changes); }
-async function storePhotos(photos) { return activeBackend().storePhotos(photos); }
+// ────────────────────────── التعديلات المعلّقة (تُرفع عند الضغط على الزر) ──────────────────────────
+// كل حفظ من الواجهة يذهب إلى قائمة انتظار محلية (localStorage) ويظهر فورًا على هذا الجهاز فقط.
+// عند الضغط على «رفع التعديلات» تُرسل كل التغييرات معًا إلى الخادم فيراها الجميع.
+const PENDING_KEY = 'daftar-pending-changes';
+const pending = { records: new Map(), history: new Map(), settings: new Map(), debts: new Map(), photos: [] };
+function loadPending() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(PENDING_KEY) || 'null');
+        if (!saved) return;
+        for (const store of SHARED_STORES) for (const item of saved[store] || []) pending[store].set(item.id, item);
+        pending.photos = Array.isArray(saved.photos) ? saved.photos : [];
+    } catch (_) {}
+}
+function persistPending() {
+    try {
+        const out = { photos: pending.photos };
+        for (const store of SHARED_STORES) out[store] = [...pending[store].values()];
+        localStorage.setItem(PENDING_KEY, JSON.stringify(out));
+    } catch (error) {
+        if (error?.name === 'QuotaExceededError') toast('ذاكرة المتصفح ممتلئة بالتعديلات المعلّقة. ارفع التعديلات الآن.');
+    }
+}
+function hasPending() { return SHARED_STORES.some(s => pending[s].size > 0); }
+loadPending();
+
+async function getAll(store) {
+    const items = await activeBackend().getAll(store);
+    if (!pending[store].size) return items;
+    const map = new Map(items.map(item => [item.id, item]));
+    for (const [id, item] of pending[store]) map.set(id, normalizeItem(store, structuredClone(item)));
+    return [...map.values()];
+}
+async function commit(changes) {
+    for (const [store, items] of Object.entries(changes)) {
+        if (!SHARED_STORES.includes(store)) continue;
+        for (const item of items || []) pending[store].set(item.id, structuredClone(item));
+    }
+    persistPending();
+    updatePendingBar();
+}
+// الصور الجديدة تبقى base64 داخل السجل المحلي حتى لحظة الرفع، ثم تُرفع للخادم وتُستبدل بروابط.
+async function storePhotos(photos) { return photos.map(p => p.url ? p : { name: p.name, type: p.type, data: p.data }); }
+
+async function pushPending() {
+    if (!hasPending()) { toast('لا توجد تعديلات معلّقة.'); return false; }
+    const button = document.getElementById('push-changes');
+    if (button) { button.disabled = true; button.dataset.busy = '1'; }
+    try {
+        // 1) رفع الصور الجديدة (base64) واستبدالها بروابط
+        const backendApi = activeBackend();
+        for (const record of pending.records.values()) {
+            if (!Array.isArray(record.photos) || !record.photos.some(p => p.data && !p.url)) continue;
+            record.photos = await backendApi.storePhotos(record.photos);
+        }
+        // 2) رفع كل التغييرات في طلب واحد
+        const changes = {};
+        for (const store of SHARED_STORES) if (pending[store].size) changes[store] = [...pending[store].values()];
+        await backendApi.commit(changes);
+        const count = Object.values(changes).reduce((n, list) => n + list.length, 0);
+        for (const store of SHARED_STORES) pending[store].clear();
+        persistPending();
+        await refreshData(); render(); updatePendingBar();
+        toast(`تم رفع ${count} تغييرًا. أصبحت التعديلات ظاهرة لكل من يملك الرابط.`);
+        return true;
+    } catch (error) {
+        toast('تعذر رفع التعديلات: ' + (error.message || 'خطأ غير معروف') + ' — ما زالت محفوظة على جهازك.');
+        return false;
+    } finally { if (button) { button.disabled = false; delete button.dataset.busy; } }
+}
+async function discardPending() {
+    if (!hasPending()) return;
+    const n = SHARED_STORES.reduce((s, k) => s + pending[k].size, 0);
+    if (!confirm(`إلغاء ${n} تغييرًا معلّقًا والعودة إلى النسخة المحفوظة على الخادم؟`)) return;
+    for (const store of SHARED_STORES) pending[store].clear();
+    persistPending();
+    await refreshData(); render(); updatePendingBar();
+    toast('تم إلغاء التعديلات المعلّقة.');
+}
+function updatePendingBar() {
+    const bar = document.getElementById('pending-bar'); if (!bar) return;
+    const n = SHARED_STORES.filter(s => s !== 'history').reduce((s, k) => s + pending[k].size, 0);
+    bar.hidden = n === 0;
+    const label = document.getElementById('pending-count'); if (label) label.textContent = n;
+    const button = document.getElementById('push-changes'); if (button && !button.dataset.busy) button.disabled = n === 0;
+    document.body.classList.toggle('has-pending', n > 0);
+}
+window.addEventListener('beforeunload', e => { if (hasPending()) { e.preventDefault(); e.returnValue = ''; } });
 function photoSrc(photo) { return photo?.url ? absolute(photo.url.replace(/^\//, '')) : (photo?.data || ''); }
 
 function setStorageStatus(text) { const status = document.getElementById('storage-status'); if (status) status.textContent = text; }
@@ -168,13 +252,16 @@ function connectedLabel() { return 'متصل · البيانات مشتركة و
 // مزامنة حية: تتحقق دوريًا من تعديلات قادمة من أجهزة أخرى وتعرضها فورًا.
 function startLiveSync() {
     setStorageStatus(connectedLabel());
+    updatePendingBar();
+    document.getElementById('push-changes')?.addEventListener('click', pushPending);
+    document.getElementById('discard-changes')?.addEventListener('click', discardPending);
     const tick = async () => {
         if (liveSyncBusy || !db || document.visibilityState !== 'visible' || document.querySelector('dialog[open]')) return;
         liveSyncBusy = true;
         try {
             const changed = await activeBackend().hasRemoteChanges();
-            if (changed) { if (backend === 'netlify') await refreshData(); render(); toast('تم تحديث البيانات: هناك تعديلات جديدة من جهاز آخر.'); }
-            setStorageStatus(connectedLabel());
+            if (changed) { if (backend === 'netlify') await refreshData(); render(); toast(hasPending() ? 'وصلت تعديلات من جهاز آخر؛ تعديلاتك المعلّقة ما زالت محفوظة ولم تُرفع بعد.' : 'تم تحديث البيانات: هناك تعديلات جديدة من جهاز آخر.'); }
+            setStorageStatus(hasPending() ? 'لديك تعديلات غير مرفوعة · اضغط «رفع التعديلات» لتظهر للجميع' : connectedLabel());
         } catch (_) { setStorageStatus('انقطع الاتصال بالخادم؛ سنعيد المحاولة تلقائيًا'); }
         finally { liveSyncBusy = false; }
     };

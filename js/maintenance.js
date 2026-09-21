@@ -53,7 +53,7 @@ async function submitReset(event){
         const updated=targets.map(r=>({...r,deletedAt:at,updatedAt:at,resetId}));
         const changes=targets.map((r,i)=>({id:uid(),action:'delete',at,recordId:r.id,resetId,label:'تصفير '+typeLabel+' — '+periodLabel+' · '+r.currency,before:r,after:updated[i]}));
         await commit({records:updated,history:changes});
-        await refreshData();$('#reset-dialog').close();render();toast('تم التصفير. يمكنك استعادة المجموعة من سجل التعديلات.');
+        await refreshData();$('#reset-dialog').close();render();toast('تم التصفير محليًا. يمكنك استعادة المجموعة من سجل التعديلات، واضغط «رفع التعديلات» للنشر.');
     }catch(error){$('#reset-error').textContent=error.name==='QuotaExceededError'?'لم يتم التصفير: مساحة التخزين غير كافية لحفظ السجل.':error.message;}
     finally{resetBusy=false;$('#reset-submit').disabled=!resetPreview||!resetTargets(resetPreview.options).length;}
 }
@@ -71,7 +71,7 @@ async function restoreResetGroup(id){
     validateBackup({format:'daftar-backup',version:2,settings,records:[...merged.values()],history:[]});
     if(!confirm(`استعادة ${targets.length} مبلغ من مجموعة التصفير إلى تواريخها وعملاتها الأصلية؟`))return;
     await commit({records:next,history:targets.map((r,i)=>({id:uid(),action:'restore',at:next[i].updatedAt,recordId:r.id,label:'استعادة مجموعة تصفير · '+r.currency,before:r,after:next[i]}))});
-    await refreshData();render();toast('تمت استعادة مجموعة التصفير.');
+    await refreshData();render();toast('تمت استعادة مجموعة التصفير محليًا. اضغط «رفع التعديلات» ليراها الجميع.');
 }
 document.addEventListener('DOMContentLoaded',()=>{
     $('#reset-form').addEventListener('submit',submitReset);

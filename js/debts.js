@@ -51,7 +51,7 @@ async function saveDebt(event){
         const item={id:id||uid(),type:'debt',name,date,notes,amounts,createdAt:old?.createdAt||now,updatedAt:now};
         if(!validateDebt(item))throw new Error('راجع بيانات الدين وحاول مرة أخرى.');
         await commit({debts:[item],history:[{id:uid(),action:old?'edit':'create',at:now,recordId:item.id,label:(old?'تعديل دين: ':'إضافة دين: ')+name,before:old||null,after:item}]});
-        await refreshData();$('#debt-dialog').close();debtSearch='';render();toast(old?'تم تعديل الدين وحفظ نسخته السابقة.':'تم حفظ الدين بالعملات المحددة.');
+        await refreshData();$('#debt-dialog').close();debtSearch='';render();toast((old?'تم تعديل الدين محليًا.':'تم حفظ الدين محليًا.')+' اضغط «رفع التعديلات» ليراه الجميع.');
     }catch(error){$('#debt-error').textContent=error.name==='QuotaExceededError'?'تعذر الحفظ: مساحة التخزين غير كافية. لم يتم تعديل الدين.':error.message;}
     finally{debtSaving=false;$('#save-debt').disabled=false;}
 }
@@ -61,14 +61,14 @@ async function deleteDebt(id){
     if(!confirm(`حذف دين ${old.name}؟\n${amounts}\nسيُستبعد من إجمالي الديون، مع إمكانية استعادته من سجل التعديلات.`))return;
     const now=new Date().toISOString(),item={...old,deletedAt:now,updatedAt:now};
     await commit({debts:[item],history:[{id:uid(),action:'delete',at:now,recordId:id,label:'حذف دين: '+old.name,before:old,after:item}]});
-    await refreshData();$('#debt-dialog').close();render();toast('تم حذف الدين من الإجماليات. يمكنك استعادته من سجل التعديلات.');
+    await refreshData();$('#debt-dialog').close();render();toast('تم حذف الدين محليًا. يمكنك استعادته من سجل التعديلات، واضغط «رفع التعديلات» للنشر.');
 }
 async function restoreDebt(id){
     await refreshData();const old=debts.find(d=>d.id===id&&d.deletedAt);if(!old)return;
     if(!confirm('استعادة دين '+old.name+' بمبالغه الأصلية؟'))return;
     const now=new Date().toISOString(),item={...old,updatedAt:now};delete item.deletedAt;
     await commit({debts:[item],history:[{id:uid(),action:'restore',at:now,recordId:id,label:'استعادة دين: '+old.name,before:old,after:item}]});
-    await refreshData();render();toast('تمت استعادة الدين.');
+    await refreshData();render();toast('تمت استعادة الدين محليًا. اضغط «رفع التعديلات» ليراه الجميع.');
 }
 function deletedDebtsHTML(){
     const rows=sortedRows(debts.filter(d=>d.deletedAt));if(!rows.length)return '';
