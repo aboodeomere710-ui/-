@@ -28,7 +28,7 @@ function openDebt(id){
     $('#debt-id').value=old?.id||'';$('#debt-name').value=old?.name||'';
     $('#debt-date').value=old?.date||localDate();$('#debt-notes').value=old?.notes||'';
     $('#debt-dialog-title').textContent=old?'تعديل الدين':'إضافة دين جديد';
-    $('#debt-currency-fields').innerHTML=settings.currencies.map(c=>`<label>${esc(c.name)} · ${c.code}<input id="debt-amount-${c.code}" data-debt-currency="${c.code}" type="number" min="0" max="9999999999" step="0.01" inputmode="decimal" placeholder="0.00" dir="ltr" value="${old?.amounts[c.code]||''}"></label>`).join('');
+    $('#debt-currency-fields').innerHTML=settings.currencies.map(c=>`<label>${esc(c.name)} · ${c.code}<input id="debt-amount-${c.code}" data-debt-currency="${c.code}" ${calcInputAttrs()} placeholder="0.00 أو 100+50" value="${old?.amounts[c.code]||''}"></label>`).join('');
     $('#delete-debt').hidden=!old;$('#debt-error').textContent='';$('#save-debt').disabled=false;
     $('#debt-dialog').showModal();
 }
@@ -40,7 +40,8 @@ async function saveDebt(event){
         const old=debts.find(d=>d.id===id&&!d.deletedAt);
         if(id&&(!old||old.updatedAt!==debtEditStamp))throw new Error('هذا الدين تغير أو حُذف في نافذة أخرى. أغلق النموذج وأعد فتحه للمراجعة.');
         const name=$('#debt-name').value.trim(),date=$('#debt-date').value,notes=$('#debt-notes').value.trim();
-        const amounts=Object.fromEntries(debtCodes.map(code=>[code,Number($('#debt-amount-'+code).value)]));
+        const amounts=Object.fromEntries(debtCodes.map(code=>[code,amountFrom($('#debt-amount-'+code))]));
+        if(debtCodes.some(code=>Number.isNaN(amounts[code])))throw new Error('أحد المبالغ يحتوي عملية حسابية غير صالحة. استخدم الأرقام و + − × ÷ فقط.');
         if(!name||name.length>120)throw new Error('أدخل اسم المدين (حتى 120 حرفًا).');
         if(!validDate(date))throw new Error('أدخل تاريخًا صالحًا.');
         if(!debtCodes.every(code=>validDebtAmount(amounts[code])))throw new Error('أدخل مبالغ غير سالبة وبمنزلتين عشريتين كحد أقصى.');

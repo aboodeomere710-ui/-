@@ -1,0 +1,25 @@
+/* ── الحسابات الرئيسية (شام كاش / كاش) + حاسبة الحقول ── */
+.account-chip{display:inline-block;font-size:9px;font-weight:500;padding:2px 8px;border-radius:4px;line-height:1.7;white-space:nowrap;vertical-align:middle}
+.account-chip.sham{background:#e8effa;color:#2B5FB3;border:1px solid #d3dff3}
+.account-chip.cash{background:#fdf1e2;color:#b5731a;border:1px solid #f3dfc2}
+[data-theme="dark"] .account-chip.sham{background:#22314d;color:#9dbaf0;border-color:#31456b}
+[data-theme="dark"] .account-chip.cash{background:#463522;color:#f0c78f;border-color:#5f4a2f}
+
+.account-breakdown{border-top:1px solid var(--line);margin-top:12px;padding-top:11px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.account-breakdown>div{display:flex;flex-direction:column;gap:5px}
+.account-breakdown>div+div{border-right:1px solid var(--line);padding-right:12px}
+.account-breakdown .stat-number{margin:0;font-size:13px}
+.account-breakdown small{font-family:Arial;direction:ltr;text-align:right;font-size:9px;color:var(--muted)}
+.account-breakdown .account-chip{align-self:flex-start}
+
+.calc-preview{display:block;min-height:14px;font-family:Arial,sans-serif;font-size:10px;color:var(--muted);direction:ltr;text-align:left;margin-top:4px}
+.calc-preview:empty{display:none}
+.calc-preview.invalid{color:#b56a51}
+input[data-calc]{font-family:Arial,sans-serif;letter-spacing:.3px}
+
+@media(max-width:600px){
+  .currency-card .account-breakdown{grid-column:1/-1;margin-top:12px;padding-top:10px}
+  .account-breakdown>div{flex-direction:row;align-items:center;gap:8px;flex-wrap:wrap}
+  .account-breakdown .stat-number{margin-right:auto}
+  .account-breakdown small{width:100%;text-align:left}
+}
